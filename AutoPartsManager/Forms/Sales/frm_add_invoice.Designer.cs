@@ -30,27 +30,27 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_add_invoice));
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
+            this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
+            this.btn_cancel = new DevExpress.XtraEditors.SimpleButton();
+            this.btn_add_invoice = new DevExpress.XtraEditors.SimpleButton();
             this.txt_total = new DevExpress.XtraEditors.TextEdit();
             this.txt_discount = new DevExpress.XtraEditors.TextEdit();
             this.txt_net_amount = new DevExpress.XtraEditors.TextEdit();
             this.chk_cash_or_not = new DevExpress.XtraEditors.CheckEdit();
             this.cmb_client_name = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
             this.lbl_total = new DevExpress.XtraLayout.LayoutControlItem();
             this.lbl_discount = new DevExpress.XtraLayout.LayoutControlItem();
             this.lbl_net = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.btn_add_invoice = new DevExpress.XtraEditors.SimpleButton();
-            this.btn_cancel = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Root)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_total.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_discount.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_net_amount.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chk_cash_or_not.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmb_client_name.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Root)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lbl_total)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lbl_discount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lbl_net)).BeginInit();
@@ -73,6 +73,44 @@
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
             // 
+            // Root
+            // 
+            this.Root.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
+            this.Root.GroupBordersVisible = false;
+            this.Root.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
+            this.lbl_total,
+            this.lbl_discount,
+            this.lbl_net,
+            this.layoutControlItem2,
+            this.layoutControlItem1});
+            this.Root.Name = "Root";
+            this.Root.Size = new System.Drawing.Size(1050, 247);
+            this.Root.TextVisible = false;
+            // 
+            // btn_cancel
+            // 
+            this.btn_cancel.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(67)))), ((int)(((byte)(54)))));
+            this.btn_cancel.Appearance.Options.UseBackColor = true;
+            this.btn_cancel.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_cancel.ImageOptions.Image")));
+            this.btn_cancel.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
+            this.btn_cancel.Location = new System.Drawing.Point(279, 338);
+            this.btn_cancel.Name = "btn_cancel";
+            this.btn_cancel.Size = new System.Drawing.Size(185, 87);
+            this.btn_cancel.TabIndex = 2;
+            this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
+            // 
+            // btn_add_invoice
+            // 
+            this.btn_add_invoice.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(138)))), ((int)(((byte)(71)))));
+            this.btn_add_invoice.Appearance.Options.UseBackColor = true;
+            this.btn_add_invoice.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_add_invoice.ImageOptions.Image")));
+            this.btn_add_invoice.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
+            this.btn_add_invoice.Location = new System.Drawing.Point(71, 338);
+            this.btn_add_invoice.Name = "btn_add_invoice";
+            this.btn_add_invoice.Size = new System.Drawing.Size(185, 87);
+            this.btn_add_invoice.TabIndex = 1;
+            this.btn_add_invoice.Click += new System.EventHandler(this.btn_add_invoice_Click);
+            // 
             // txt_total
             // 
             this.txt_total.Location = new System.Drawing.Point(12, 12);
@@ -82,6 +120,7 @@
             this.txt_total.Properties.Appearance.Options.UseTextOptions = true;
             this.txt_total.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.txt_total.Properties.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            this.txt_total.Properties.ReadOnly = true;
             this.txt_total.Size = new System.Drawing.Size(809, 40);
             this.txt_total.StyleController = this.layoutControl1;
             this.txt_total.TabIndex = 4;
@@ -95,6 +134,7 @@
             this.txt_discount.Properties.Appearance.Options.UseTextOptions = true;
             this.txt_discount.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.txt_discount.Properties.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            this.txt_discount.Properties.ReadOnly = true;
             this.txt_discount.Size = new System.Drawing.Size(809, 40);
             this.txt_discount.StyleController = this.layoutControl1;
             this.txt_discount.TabIndex = 5;
@@ -108,6 +148,7 @@
             this.txt_net_amount.Properties.Appearance.Options.UseTextOptions = true;
             this.txt_net_amount.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.txt_net_amount.Properties.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            this.txt_net_amount.Properties.ReadOnly = true;
             this.txt_net_amount.Size = new System.Drawing.Size(809, 40);
             this.txt_net_amount.StyleController = this.layoutControl1;
             this.txt_net_amount.TabIndex = 6;
@@ -143,20 +184,6 @@
             this.cmb_client_name.Size = new System.Drawing.Size(809, 40);
             this.cmb_client_name.StyleController = this.layoutControl1;
             this.cmb_client_name.TabIndex = 8;
-            // 
-            // Root
-            // 
-            this.Root.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
-            this.Root.GroupBordersVisible = false;
-            this.Root.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
-            this.lbl_total,
-            this.lbl_discount,
-            this.lbl_net,
-            this.layoutControlItem2,
-            this.layoutControlItem1});
-            this.Root.Name = "Root";
-            this.Root.Size = new System.Drawing.Size(1050, 247);
-            this.Root.TextVisible = false;
             // 
             // lbl_total
             // 
@@ -221,30 +248,6 @@
             this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem1.TextVisible = false;
             // 
-            // btn_add_invoice
-            // 
-            this.btn_add_invoice.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(138)))), ((int)(((byte)(71)))));
-            this.btn_add_invoice.Appearance.Options.UseBackColor = true;
-            this.btn_add_invoice.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_add_invoice.ImageOptions.Image")));
-            this.btn_add_invoice.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.btn_add_invoice.Location = new System.Drawing.Point(71, 338);
-            this.btn_add_invoice.Name = "btn_add_invoice";
-            this.btn_add_invoice.Size = new System.Drawing.Size(185, 87);
-            this.btn_add_invoice.TabIndex = 1;
-            this.btn_add_invoice.Click += new System.EventHandler(this.btn_add_invoice_Click);
-            // 
-            // btn_cancel
-            // 
-            this.btn_cancel.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(67)))), ((int)(((byte)(54)))));
-            this.btn_cancel.Appearance.Options.UseBackColor = true;
-            this.btn_cancel.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_cancel.ImageOptions.Image")));
-            this.btn_cancel.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.btn_cancel.Location = new System.Drawing.Point(279, 338);
-            this.btn_cancel.Name = "btn_cancel";
-            this.btn_cancel.Size = new System.Drawing.Size(185, 87);
-            this.btn_cancel.TabIndex = 2;
-            this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
-            // 
             // frm_add_invoice
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
@@ -261,12 +264,12 @@
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frm_add_invoice_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.Root)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_total.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_discount.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_net_amount.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chk_cash_or_not.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmb_client_name.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Root)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lbl_total)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lbl_discount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lbl_net)).EndInit();

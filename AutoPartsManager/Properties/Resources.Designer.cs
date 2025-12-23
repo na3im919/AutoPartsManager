@@ -103,6 +103,16 @@ namespace AutoPartsManager.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap purchasing__1_ {
+            get {
+                object obj = ResourceManager.GetObject("purchasing__1_", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap spare_parts_car_auto_seamless_pattern_8071_29220 {
             get {
                 object obj = ResourceManager.GetObject("spare-parts-car-auto-seamless-pattern_8071-29220", resourceCulture);

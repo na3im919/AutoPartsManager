@@ -1,275 +1,194 @@
 ﻿using AutoPartsManager.Forms.Sales;
 using BL;
 using DevExpress.XtraEditors;
-using Moldels; // تأكد من صحة اسم الـ namespace للـ Models
+using Moldels;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static AutoPartsManager.Forms.frm_discount;
-
 
 namespace AutoPartsManager.Forms
 {
     public partial class frm_sales : XtraForm
     {
-
-        private decimal _currentDiscount = 0m;
+        private decimal _currentDiscountValue;
+        private decimal _currentDiscountPercentage;
         private bool _hasDiscount = false;
-        decimal _currentDiscountValue;  // قيمة الخصم (للمبلغ الثابت)
-        decimal _currentDiscountPercentage; // نسبة الخصم (0 - 100)
-        bool _isPercentageDiscount = false;
-        
+        private bool _isPercentageDiscount = false;
 
+        protected virtual string InvoiceType => "بيع";
+        protected virtual bool AllowDiscount => true;
 
         public frm_sales()
         {
             InitializeComponent();
             this.KeyPreview = true;
+
+            this.Focus();
+        }
+
+        // ===== طرق قابلة للوراثة =====
+        protected virtual bool SaveInvoice(cls_ml_Invoices invoice, List<cls_ml_InvoiceDetail> details, out string errorMessage)
+        {
+            return cls_bl_Invoices.AddInvoice(invoice, details, out errorMessage);
+        }
+
+        protected virtual void ConfigureFormForType()
+        {
+            // الافتراضي (Sales)
+        }
+
+        protected virtual void UpdateStockAfterSave(List<cls_ml_InvoiceDetail> details)
+        {
+            // البيع: يتم إنقاص الكمية داخل BL
+        }
+
+        protected virtual cls_ml_Invoices PrepareInvoice(int ClientID, string PaymentMethod, decimal discount)
+        {
+            return new cls_ml_Invoices
+            {
+                Date = DateTime.Now,
+                TotalAmount = GetCurrentGrandTotal(),
+                DiscountAmount = discount,
+                ClientID = ClientID,
+                InvoiceType = InvoiceType,
+                PaymentMethod = PaymentMethod
+            };
+        }
+
+        protected virtual List<cls_ml_InvoiceDetail> PrepareInvoicesDetails()
+        {
+            List<cls_ml_InvoiceDetail> invoiceDetails = new List<cls_ml_InvoiceDetail>();
+            foreach (DataGridViewRow row in dgv_invoice_list.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                invoiceDetails.Add(new cls_ml_InvoiceDetail
+                {
+                    ProductID = Convert.ToInt32(row.Cells["ID"].Value),
+                    Quantity = Convert.ToInt32(row.Cells["Quantity"].Value),
+                    UnitPrice = Convert.ToDecimal(row.Cells["Price"].Value)
+                });
+            }
+            return invoiceDetails;
+        }
+
+        public void ResetForm()
+        {
+            txtSearch.Text = string.Empty;
+            dgv_suggest.Visible = false;
         }
 
 
+
+        // ===== إعداد DataGridViews =====
         private void SetupSuggestionDataGridView()
         {
             dgv_suggest.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dgv_suggest.RowHeadersVisible = false;
             dgv_suggest.ColumnHeadersVisible = false;
             dgv_suggest.ReadOnly = true;
-            dgv_suggest.AllowUserToAddRows = false;
-            dgv_suggest.AllowUserToDeleteRows = false;
             dgv_suggest.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgv_suggest.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dgv_suggest.AutoGenerateColumns = false;
-            dgv_suggest.DefaultCellStyle.Font = new Font("Segoe UI", 12, FontStyle.Regular);
-            dgv_suggest.Width = txtSearch.Width * 2;
+            dgv_suggest.Columns.Clear();
 
+            dgv_suggest.Columns.Add(new DataGridViewTextBoxColumn { Name = "ID", DataPropertyName = "ID", HeaderText = "ID", AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells });
+            dgv_suggest.Columns.Add(new DataGridViewTextBoxColumn { Name = "ProductName", DataPropertyName = "ProductName", HeaderText = "اسم المنتج", AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
+            dgv_suggest.Columns.Add(new DataGridViewTextBoxColumn { Name = "Price", DataPropertyName = "Price", HeaderText = "السعر", AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells, DefaultCellStyle = { Alignment = DataGridViewContentAlignment.MiddleRight } });
 
-            //عمود id المنتج
-            DataGridViewTextBoxColumn productIDColumn = new DataGridViewTextBoxColumn();
-            productIDColumn.DataPropertyName = "ID"; // *** تم التغيير من "ProductName" إلى "Name" ***
-            productIDColumn.HeaderText = "ID";
-            productIDColumn.Name = "ID";
-            //productIDColumn.Visible = false;
-            productIDColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dgv_suggest.Columns.Add(productIDColumn);
-
-
-
-            // عمود اسم المنتج
-            DataGridViewTextBoxColumn productNameColumn = new DataGridViewTextBoxColumn();
-            productNameColumn.DataPropertyName = "ProductName"; // *** تم التغيير من "ProductName" إلى "Name" ***
-            productNameColumn.HeaderText = "اسم المنتج";
-            productNameColumn.Name = "ProductName";
-            productNameColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dgv_suggest.Columns.Add(productNameColumn);
-
-            // عمود السعر
-            DataGridViewTextBoxColumn priceColumn = new DataGridViewTextBoxColumn();
-            priceColumn.DataPropertyName = "Price"; // *** تم التغيير من "Price" إلى "Price" (لكن للتأكيد) ***
-            priceColumn.HeaderText = "السعر";
-            priceColumn.Name = "Price";
-            priceColumn.Width = 100;
-            priceColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            priceColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dgv_suggest.Columns.Add(priceColumn);
-
-            // ضبط الألوان
-            dgv_suggest.BackgroundColor = ColorTranslator.FromHtml("#FFFFFF");
-            dgv_suggest.DefaultCellStyle.BackColor = ColorTranslator.FromHtml("#FFFFFF");
-            dgv_suggest.DefaultCellStyle.ForeColor = ColorTranslator.FromHtml("#343A40");
-            dgv_suggest.DefaultCellStyle.SelectionBackColor = ColorTranslator.FromHtml("#4682B4");
+            dgv_suggest.BackgroundColor = Color.White;
+            dgv_suggest.DefaultCellStyle.BackColor = Color.White;
+            dgv_suggest.DefaultCellStyle.ForeColor = Color.FromArgb(52, 58, 64);
+            dgv_suggest.DefaultCellStyle.SelectionBackColor = Color.FromArgb(70, 130, 180);
             dgv_suggest.DefaultCellStyle.SelectionForeColor = Color.White;
 
-            // ضبط موقع dgv_suggest تحت txtSearchProduct
-            // تأكد من أن dgv_suggest و txtSearchProduct يقعان في نفس الحاوية
             dgv_suggest.Location = new Point(txtSearch.Left, txtSearch.Bottom);
             dgv_suggest.Width = txtSearch.Width;
             dgv_suggest.Height = 200;
+            dgv_suggest.Visible = false;
         }
 
         private void SetupDataGridView()
         {
-
-
-
-            // 1. إخفاء جميع الحدود الافتراضية
             dgv_invoice_list.CellBorderStyle = DataGridViewCellBorderStyle.None;
-            dgv_invoice_list.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dgv_invoice_list.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-
-            // 2. إخفاء رؤوس الصفوف إذا لم تكن بحاجة لها (العمود الأقصى يساراً الذي يحوي أرقام الصفوف)
             dgv_invoice_list.RowHeadersVisible = false;
-
-            // 3. تأكد من أن الخلفية ليست شفافة لتجنب مشاكل الرسم
-            //dgv_invoice_list.DefaultCellStyle.BackColor = Color.FromArgb(45, 45, 48); // أو أي لون خلفية لخلايا البيانات
-            //dgv_invoice_list.DefaultCellStyle.ForeColor = Color.White; // أو أي لون خلفية لخلايا البيانات
-
-            dgv_invoice_list.ColumnHeadersDefaultCellStyle.BackColor = Color.LightGray; // لون خلفية لرؤوس الأعمدة
+            dgv_invoice_list.ColumnHeadersDefaultCellStyle.BackColor = Color.LightGray;
             dgv_invoice_list.Font = new Font("Segoe UI", 12, FontStyle.Regular);
-            foreach (DataGridViewColumn col in dgv_invoice_list.Columns)
-            {
-                col.DefaultCellStyle.Font = new Font("Segoe UI", 18, FontStyle.Regular);
-            }
-
-
         }
 
-        private void ApplyDiscountAndCalculateTotal()
+        // ===== خصم =====
+        protected void ApplyDiscountAndCalculateTotal()
         {
-            decimal grandTotal = GetCurrentGrandTotal();
-            decimal discountAmount = 0m;
+            decimal total = GetCurrentGrandTotal();
+            decimal discountAmount = 0;
 
             if (_hasDiscount)
             {
-                if (_isPercentageDiscount)
-                {
-                    // نحسب الخصم دائمًا بناءً على المجموع الحالي
-                    discountAmount = grandTotal * (_currentDiscountPercentage / 100);
-                }
-                else
-                {
-                    // الخصم ثابت
-                    discountAmount = _currentDiscountValue;
-                }
-
-                // لا يتجاوز المجموع
-                if (discountAmount > grandTotal)
-                    discountAmount = grandTotal;
+                discountAmount = _isPercentageDiscount ? total * (_currentDiscountPercentage / 100) : _currentDiscountValue;
+                if (discountAmount > total) discountAmount = total;
             }
 
             lbl_discount.Text = discountAmount.ToString("N2") + " DZD";
-            lbl_total.Text = (grandTotal - discountAmount).ToString("N2") + " DZD";
+            lbl_total.Text = (total - discountAmount).ToString("N2") + " DZD";
         }
-
-        private cls_ml_Invoices PrepareInvoice(int ClientID, string PaymentMethod, decimal discount)
-        {
-            cls_ml_Invoices invoice = new cls_ml_Invoices();
-            invoice.Date = DateTime.Now;
-            invoice.TotalAmount = GetCurrentGrandTotal();
-            invoice.DiscountAmount = discount;
-            invoice.ClientID = ClientID;
-            invoice.InvoiceType = "بيع";
-            invoice.PaymentMethod = PaymentMethod;
-
-            return invoice;
-        }
-
-        private List<cls_ml_InvoiceDetail> PrepareInvoicesDetails()
-        {
-            List<cls_ml_InvoiceDetail> invoiceDetails = new List<cls_ml_InvoiceDetail>();
-
-            foreach (DataGridViewRow row in dgv_invoice_list.Rows)
-            {
-                if (row.IsNewRow) continue; // تجاهل الصف الفارغ
-
-                cls_ml_InvoiceDetail invoiceDetail = new cls_ml_InvoiceDetail();
-
-                invoiceDetail.ProductID = Convert.ToInt32(row.Cells["ID"].Value);
-                invoiceDetail.Quantity = Convert.ToInt32(row.Cells["Quantity"].Value);
-                invoiceDetail.UnitPrice = Convert.ToDecimal(row.Cells["Price"].Value);
-
-                invoiceDetails.Add(invoiceDetail);
-            }
-
-            return invoiceDetails;
-        }
-
-
 
         private void CancelDiscount()
         {
-            if (!_hasDiscount)
-                return;
-
-            _currentDiscount = 0;
             _hasDiscount = false;
-
-            decimal grandTotal = GetCurrentGrandTotal();
-
+            _currentDiscountValue = 0;
+            _currentDiscountPercentage = 0;
             lbl_discount.Text = "0.00 DZD";
-            lbl_total.Text = grandTotal.ToString("N2") + " DZD";
+            lbl_total.Text = GetCurrentGrandTotal().ToString("N2") + " DZD";
         }
 
-        private  decimal GetCurrentGrandTotal()
+        // ===== العمليات على الفاتورة =====
+        protected decimal GetCurrentGrandTotal()
         {
             decimal total = 0;
-
             foreach (DataGridViewRow row in dgv_invoice_list.Rows)
             {
                 if (row.Cells["Total"].Value != null)
-                {
-                    decimal rowTotal;
-                    if (decimal.TryParse(row.Cells["Total"].Value.ToString(), out rowTotal))
-                    {
-                        total += rowTotal;
-                    }
-                }
+                    total += Convert.ToDecimal(row.Cells["Total"].Value);
             }
-
             return total;
         }
 
-        private void DeleteSelectedProductFromInvoice()
+        protected void DeleteSelectedProductFromInvoice()
         {
-            if (dgv_invoice_list.SelectedRows.Count == 0)
-                return;
-
-            // حذف الصف المحدد
+            if (dgv_invoice_list.SelectedRows.Count == 0) return;
             dgv_invoice_list.Rows.Remove(dgv_invoice_list.SelectedRows[0]);
-
-            // إعادة حساب المجموع الكلي بعد الحذف
             ApplyDiscountAndCalculateTotal();
         }
 
-        private void ClearInvoiceList()
+        protected void ClearInvoiceList()
         {
             dgv_invoice_list.Rows.Clear();
             CancelDiscount();
-            // تصفير الإجمالي
-            lbl_total.Text = "0.00 DZD";
         }
 
-
-        private void AddSelectedProductToInvoice()
+        protected virtual void AddSelectedProductToInvoice()
         {
-            if (dgv_suggest.SelectedRows.Count == 0)
-                return;
+            if (dgv_suggest.SelectedRows.Count == 0) return;
 
-            var selectedRow = dgv_suggest.SelectedRows[0];
-            int productId = Convert.ToInt32(selectedRow.Cells["ID"].Value);
-            string productName = selectedRow.Cells["ProductName"].Value.ToString();
-            decimal price = Convert.ToDecimal(selectedRow.Cells["Price"].Value);
+            var row = dgv_suggest.SelectedRows[0];
+            int productId = Convert.ToInt32(row.Cells["ID"].Value);
+            string productName = row.Cells["ProductName"].Value.ToString();
+            decimal price = Convert.ToDecimal(row.Cells["Price"].Value);
 
-            // جلب الكمية المتاحة من قاعدة البيانات
             string error;
             int availableQty = cls_bl_Products.GetAvailableQuantity(productId, out error);
-            if (!string.IsNullOrEmpty(error))
-            {
-                MessageBox.Show("حدث خطأ أثناء جلب الكمية: " + error);
-                return;
-            }
+            if (!string.IsNullOrEmpty(error)) { MessageBox.Show(error); return; }
 
-            // التحقق إذا كان المنتج موجود مسبقًا في dgv_invoice_list
-            foreach (DataGridViewRow row in dgv_invoice_list.Rows)
+            foreach (DataGridViewRow invoiceRow in dgv_invoice_list.Rows)
             {
-                if (Convert.ToInt32(row.Cells["ID"].Value) == productId)
+                if (Convert.ToInt32(invoiceRow.Cells["ID"].Value) == productId)
                 {
-                    int currentQty = Convert.ToInt32(row.Cells["Quantity"].Value);
-
-                    if (currentQty >= availableQty)
-                    {
-                        MessageBox.Show($"وصلت إلى الحد الأقصى المتاح من هذا المنتج!\nالكمية المتاحة: {availableQty}",
-                                        "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        dgv_suggest.Visible = false;
-                        txtSearch.Clear();
-                        return;
-                    }
-
-                    row.Cells["Quantity"].Value = currentQty + 1;
-                    row.Cells["Total"].Value = (currentQty + 1) * price;
+                    int currentQty = Convert.ToInt32(invoiceRow.Cells["Quantity"].Value);
+                    if (currentQty >= availableQty) { MessageBox.Show($"وصلت إلى الحد الأقصى: {availableQty}"); return; }
+                    invoiceRow.Cells["Quantity"].Value = currentQty + 1;
+                    invoiceRow.Cells["Total"].Value = (currentQty + 1) * price;
                     ApplyDiscountAndCalculateTotal();
                     txtSearch.Clear();
                     dgv_suggest.Visible = false;
@@ -277,18 +196,222 @@ namespace AutoPartsManager.Forms
                 }
             }
 
-            // إذا لم يكن موجود، أضفه كصف جديد
-            if (availableQty <= 0)
-            {
-                MessageBox.Show("لا توجد كمية متاحة من هذا المنتج!");
-                return;
-            }
+            if (availableQty <= 0) { MessageBox.Show("لا توجد كمية متاحة!"); return; }
 
             dgv_invoice_list.Rows.Add(productId, productName, 1, price, price);
             txtSearch.Clear();
             dgv_suggest.Visible = false;
-
             ApplyDiscountAndCalculateTotal();
+        }
+
+        // ===== Event Handlers للأزرار =====
+        private void btn_add_invoice_Click(object sender, EventArgs e)
+        {
+            if (dgv_invoice_list.Rows.Count <= 0) return;
+
+            frm_add_invoice invoiceForm = new frm_add_invoice(GetCurrentGrandTotal(), decimal.Parse(lbl_discount.Text.Split(' ')[0]));
+            invoiceForm.ShowDialog();
+            if (!invoiceForm.IsApproved) return;
+
+            cls_ml_Invoices invoice = PrepareInvoice(invoiceForm.ClientID, invoiceForm.PaymentMethod, decimal.Parse(lbl_discount.Text.Split(' ')[0]));
+            List<cls_ml_InvoiceDetail> details = PrepareInvoicesDetails();
+
+            string error;
+            if (SaveInvoice(invoice, details, out error))
+            {
+                XtraMessageBox.Show("تمت إضافة الفاتورة بنجاح");
+                ClearInvoiceList();
+            }
+            else
+            {
+                XtraMessageBox.Show("فشل في إضافة الفاتورة\n" + error);
+            }
+        }
+
+        private void btn_delete_product_Click(object sender, EventArgs e) => DeleteSelectedProductFromInvoice();
+        private void btn_clear_invoice_Click(object sender, EventArgs e) => ClearInvoiceList();
+        private void btn_discount_Click(object sender, EventArgs e)
+        {
+            frm_discount discountForm = new frm_discount { GrandTotal = GetCurrentGrandTotal() };
+            discountForm.ShowDialog();
+            if (!discountForm.IsConfirmed) { CancelDiscount(); return; }
+
+            _hasDiscount = true;
+            if (discountForm.SelectedDiscountType == frm_discount.DiscountType.Percentage)
+            {
+                _isPercentageDiscount = true;
+                _currentDiscountPercentage = discountForm.DiscountValue;
+            }
+            else
+            {
+                _isPercentageDiscount = false;
+                _currentDiscountValue = discountForm.DiscountValue;
+            }
+            ApplyDiscountAndCalculateTotal();
+        }
+
+        private void btn_edit_quantity_Click(object sender, EventArgs e)
+        {
+            if (dgv_invoice_list.SelectedRows.Count == 0) return;
+
+            DataGridViewRow row = dgv_invoice_list.SelectedRows[0];
+            int productId = Convert.ToInt32(row.Cells["ID"].Value);
+            int currentQty = Convert.ToInt32(row.Cells["Quantity"].Value);
+            string error;
+            int maxQty = cls_bl_Products.GetAvailableQuantity(productId, out error);
+            if (!string.IsNullOrEmpty(error)) { MessageBox.Show(error); return; }
+
+            frm_quantity qForm = new frm_quantity { CurrentQuantity = currentQty, MaxQuantity = maxQty };
+            qForm.ShowDialog();
+            if (!qForm.IsConfirmed) return;
+
+            int newQty = qForm.NewQuantity;
+            if (newQty > maxQty) { MessageBox.Show($"وصلت إلى الحد الأقصى: {maxQty}"); return; }
+
+            row.Cells["Quantity"].Value = newQty;
+            row.Cells["Total"].Value = newQty * Convert.ToDecimal(row.Cells["Price"].Value);
+            ApplyDiscountAndCalculateTotal();
+        }
+
+        // ===== Key Events =====
+        private void frm_sales_KeyDown(object sender, KeyEventArgs e)
+        {
+
+            // ===== Delete Product Shortcut =====
+            if (e.KeyCode == Keys.Delete)
+            {
+                // إذا المؤشر داخل مربع البحث لا نحذف
+                //if (txtSearch.Focused)
+                //    return;
+
+                // إذا يوجد صف محدد في الفاتورة
+                if (dgv_invoice_list.Focused || dgv_invoice_list.SelectedRows.Count > 0)
+                {
+                    DeleteSelectedProductFromInvoice();
+
+                    e.Handled = true;
+                    e.SuppressKeyPress = true;
+                    return;
+                }
+            }
+
+            // ===== Add Invoice F10 =====
+            if (e.KeyCode == Keys.F10)
+            {
+                // تحقق أن الفوكس ليس داخل txtSearch
+                //if (txtSearch.Focused)
+                //    return;
+                btn_add_invoice_Click(null, null); // نعيد استخدام كود زر إضافة الفاتورة
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                return;
+            }
+
+
+
+            // ===== Clear Invoice (Ctrl + C) =====
+            if (e.Control && e.KeyCode == Keys.C)
+            {
+                // لا نمسح إذا المستخدم يكتب في البحث
+                //if (txtSearch.Focused)
+                //    return;
+
+                ClearInvoiceList();
+
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                return;
+            }
+
+            // ===== Edit Quantity (F4) =====
+            if (e.KeyCode == Keys.F4)
+            {
+                // تحقق أن الفوكس ليس داخل txtSearch
+                //if (txtSearch.Focused)
+                //    return;
+
+                // تحقق أن هناك صف محدد في dgv_invoice_list
+                if (dgv_invoice_list.SelectedRows.Count > 0)
+                {
+                    btn_edit_quantity_Click(null, null); // نعيد استخدام كود زر تعديل الكمية
+                    e.Handled = true;
+                    e.SuppressKeyPress = true;
+                    return;
+                }
+            }
+
+
+
+            // ===== Discount (F3) =====
+            if (e.KeyCode == Keys.F3)
+            {
+                // لا نفتح الخصم إذا المستخدم يكتب في البحث
+                if (dgv_invoice_list.Rows.Count <= 0)
+                {
+                     return;
+                }
+
+                btn_discount_Click(null, null);
+
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                return;
+            }
+
+
+            // لا تتدخل إذا المستخدم يكتب داخل txtSearch
+            if (txtSearch.Focused)
+                return;
+
+            // تجاهل الاختصارات (Ctrl / Alt)
+            if (e.Control || e.Alt)
+                return;
+
+            // حروف وأرقام
+            if ((e.KeyCode >= Keys.A && e.KeyCode <= Keys.Z) ||
+                (e.KeyCode >= Keys.D0 && e.KeyCode <= Keys.D9) ||
+                (e.KeyCode >= Keys.NumPad0 && e.KeyCode <= Keys.NumPad9))
+            {
+                txtSearch.Focus();
+
+                char c = Convert.ToChar(e.KeyCode);
+
+                // تحويل صحيح للأرقام والحروف
+                if (e.KeyCode >= Keys.D0 && e.KeyCode <= Keys.D9)
+                    c = (char)('0' + (e.KeyCode - Keys.D0));
+                else if (e.KeyCode >= Keys.NumPad0 && e.KeyCode <= Keys.NumPad9)
+                    c = (char)('0' + (e.KeyCode - Keys.NumPad0));
+
+                txtSearch.AppendText(c.ToString());
+
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                return;
+            }
+
+            // Backspace من أي مكان
+            if (e.KeyCode == Keys.Back)
+            {
+                txtSearch.Focus();
+                if (txtSearch.Text.Length > 0)
+                {
+                    txtSearch.Text = txtSearch.Text.Substring(0, txtSearch.Text.Length - 1);
+                    txtSearch.SelectionStart = txtSearch.Text.Length;
+                }
+
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+
+
+
+
+
+        }
+        private void frm_sales_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (this.ActiveControl == txtSearch) return;
+            if (!char.IsLetterOrDigit(e.KeyChar) && e.KeyChar != ' ' && e.KeyChar != (char)Keys.Back) e.Handled = true;
         }
 
         private void txtSearch_TextChanged(object sender, EventArgs e)
@@ -417,292 +540,15 @@ namespace AutoPartsManager.Forms
             txtSearch.Focus();
             ApplyDiscountAndCalculateTotal();
             lbl_discount.Text = lbl_discount.Text + " DZD";
+            ConfigureFormForType();
+  
 
-            SetupSuggestionDataGridView();
+        SetupSuggestionDataGridView();
             SetupDataGridView();
-        }
-
-        private void btn_delete_product_Click(object sender, EventArgs e)
-        {
-            DeleteSelectedProductFromInvoice();
-            ApplyDiscountAndCalculateTotal();
-        }
-
-        private void btn_clear_invoice_Click(object sender, EventArgs e)
-        {
-            ClearInvoiceList();
-        }
-
-        private void btn_discount_Click(object sender, EventArgs e)
-        {
-            decimal grandTotal = GetCurrentGrandTotal();
-            if (grandTotal <= 0)
-                return;
-
-            frm_discount frm = new frm_discount();
-            frm.GrandTotal = GetCurrentGrandTotal();
-            frm.ShowDialog();
-
-            if (frm.IsCanceled)
-            {
-                CancelDiscount();
-                return;
-            }
-
-            if (frm.IsConfirmed)
-            {
-                _hasDiscount = true;
-
-                if (frm.SelectedDiscountType == frm_discount.DiscountType.Percentage)
-                {
-                    _isPercentageDiscount = true;
-                    _currentDiscountPercentage = frm.DiscountValue; // القيمة كنسبة مئوية
-                }
-                else
-                {
-                    _isPercentageDiscount = false;
-                    _currentDiscountValue = frm.DiscountValue; // القيمة ثابتة
-                }
-
-                ApplyDiscountAndCalculateTotal();
-            }
-
+            btn_discount.Visible = AllowDiscount;
         }
 
 
 
-        
-
-        private void frm_sales_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            // إذا كان المستخدم يكتب أصلًا داخل txtSearch → لا تتدخل
-            if (this.ActiveControl == txtSearch)
-                return;
-
-            // السماح فقط بالحروف والأرقام
-            if (char.IsLetterOrDigit(e.KeyChar) || e.KeyChar == ' ')
-            {
-                txtSearch.Focus();
-                // لا تكتب الحرف يدويًا ❌
-                // النظام سيكتبه تلقائيًا
-                e.Handled = false;
-            }
-        }
-
-
-        private void frm_sales_KeyDown(object sender, KeyEventArgs e)
-        {
-
-            // ===== Delete Product Shortcut =====
-            if (e.KeyCode == Keys.Delete)
-            {
-                // إذا المؤشر داخل مربع البحث لا نحذف
-                //if (txtSearch.Focused)
-                //    return;
-
-                // إذا يوجد صف محدد في الفاتورة
-                if (dgv_invoice_list.Focused || dgv_invoice_list.SelectedRows.Count > 0)
-                {
-                    DeleteSelectedProductFromInvoice();
-
-                    e.Handled = true;
-                    e.SuppressKeyPress = true;
-                    return;
-                }
-            }
-
-            // ===== Add Invoice F10 =====
-            if (e.KeyCode == Keys.F10)
-            {
-                // تحقق أن الفوكس ليس داخل txtSearch
-                //if (txtSearch.Focused)
-                //    return;
-                btn_add_invoice_Click(null, null); // نعيد استخدام كود زر إضافة الفاتورة
-                e.Handled = true;
-                e.SuppressKeyPress = true;
-                return;
-            }
-
-
-
-            // ===== Clear Invoice (Ctrl + C) =====
-            if (e.Control && e.KeyCode == Keys.C)
-            {
-                // لا نمسح إذا المستخدم يكتب في البحث
-                //if (txtSearch.Focused)
-                //    return;
-
-                ClearInvoiceList();
-
-                e.Handled = true;
-                e.SuppressKeyPress = true;
-                return;
-            }
-
-            // ===== Edit Quantity (F4) =====
-            if (e.KeyCode == Keys.F4)
-            {
-                // تحقق أن الفوكس ليس داخل txtSearch
-                //if (txtSearch.Focused)
-                //    return;
-
-                // تحقق أن هناك صف محدد في dgv_invoice_list
-                if (dgv_invoice_list.SelectedRows.Count > 0)
-                {
-                    btn_edit_quantity_Click(null, null); // نعيد استخدام كود زر تعديل الكمية
-                    e.Handled = true;
-                    e.SuppressKeyPress = true;
-                    return;
-                }
-            }
-
-
-
-            // ===== Discount (F3) =====
-            if (e.KeyCode == Keys.F3)
-            {
-                // لا نفتح الخصم إذا المستخدم يكتب في البحث
-                if (txtSearch.Focused && txtSearch.Text.Length > 0)
-                {
-                    // اختياري: اسمح أو امنع حسب رغبتك
-                    // return;
-                }
-
-                btn_discount_Click(null, null);
-
-                e.Handled = true;
-                e.SuppressKeyPress = true;
-                return;
-            }
-
-
-            // لا تتدخل إذا المستخدم يكتب داخل txtSearch
-            if (txtSearch.Focused)
-                return;
-
-            // تجاهل الاختصارات (Ctrl / Alt)
-            if (e.Control || e.Alt)
-                return;
-
-            // حروف وأرقام
-            if ((e.KeyCode >= Keys.A && e.KeyCode <= Keys.Z) ||
-                (e.KeyCode >= Keys.D0 && e.KeyCode <= Keys.D9) ||
-                (e.KeyCode >= Keys.NumPad0 && e.KeyCode <= Keys.NumPad9))
-            {
-                txtSearch.Focus();
-
-                char c = Convert.ToChar(e.KeyCode);
-
-                // تحويل صحيح للأرقام والحروف
-                if (e.KeyCode >= Keys.D0 && e.KeyCode <= Keys.D9)
-                    c = (char)('0' + (e.KeyCode - Keys.D0));
-                else if (e.KeyCode >= Keys.NumPad0 && e.KeyCode <= Keys.NumPad9)
-                    c = (char)('0' + (e.KeyCode - Keys.NumPad0));
-
-                txtSearch.AppendText(c.ToString());
-
-                e.Handled = true;
-                e.SuppressKeyPress = true;
-                return;
-            }
-
-            // Backspace من أي مكان
-            if (e.KeyCode == Keys.Back)
-            {
-                txtSearch.Focus();
-                if (txtSearch.Text.Length > 0)
-                {
-                    txtSearch.Text = txtSearch.Text.Substring(0, txtSearch.Text.Length - 1);
-                    txtSearch.SelectionStart = txtSearch.Text.Length;
-                }
-
-                e.Handled = true;
-                e.SuppressKeyPress = true;
-            }
-
-
-
-          
-
-        }
-
-        private void btn_edit_quantity_Click(object sender, EventArgs e)
-        {
-            if (dgv_invoice_list.SelectedRows.Count == 0)
-                return;
-
-            DataGridViewRow selectedRow = dgv_invoice_list.SelectedRows[0];
-            int productId = Convert.ToInt32(selectedRow.Cells["ID"].Value);
-            int currentQty = Convert.ToInt32(selectedRow.Cells["Quantity"].Value);
-
-            // جلب الكمية المتاحة من قاعدة البيانات
-            string error;
-            int availableQty = cls_bl_Products.GetAvailableQuantity(productId, out error);
-            if (!string.IsNullOrEmpty(error))
-            {
-                MessageBox.Show("حدث خطأ أثناء جلب الكمية: " + error);
-                return;
-            }
-
-            frm_quantity qForm = new frm_quantity();
-            qForm.CurrentQuantity = currentQty;
-            qForm.MaxQuantity = availableQty; // نرسل الكمية المتاحة إلى frm_quantity
-            qForm.ShowDialog();
-
-            if (qForm.IsConfirmed)
-            {
-                int newQty = qForm.NewQuantity;
-
-                if (newQty > availableQty)
-                {
-                    MessageBox.Show($"وصلت إلى الحد الأقصى المتاح من هذا المنتج!\nالكمية المتاحة: {availableQty}",
-                                    "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return; // يبقى قيمة textbox كما هي
-                }
-
-                // تحديث الكمية في DataGridView
-                selectedRow.Cells["Quantity"].Value = newQty;
-
-                // تحديث المجموع الجزئي للصف
-                decimal price = Convert.ToDecimal(selectedRow.Cells["Price"].Value);
-                selectedRow.Cells["Total"].Value = newQty * price;
-
-                // تحديث المجموع الكلي
-                ApplyDiscountAndCalculateTotal();
-            }
-        }
-
-        private void btn_add_invoice_Click(object sender, EventArgs e)
-        {
-            if (dgv_invoice_list.Rows.Count <= 0)
-                return;
-            string error_message = string.Empty;
-            decimal grandTotal = GetCurrentGrandTotal();
-            decimal.TryParse(lbl_discount.Text.Split(' ')[0], out decimal discount);
-
-            frm_add_invoice invoice = new frm_add_invoice(grandTotal, discount);
-            invoice.ShowDialog();
-            if (invoice.IsApproved == false)
-                return;
-
-            cls_ml_Invoices Invoice =  PrepareInvoice(invoice.ClientID, invoice.PaymentMethod, discount);
-            List<cls_ml_InvoiceDetail> InvoicesDetails = PrepareInvoicesDetails();
-
-            if (cls_bl_Invoices.AddInvoice(Invoice, InvoicesDetails, out error_message))
-            {
-                XtraMessageBox.Show("تمت إضافة فاتورة بيع بنجاح", "إضافة فاتورة", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                ClearInvoiceList();
-            }
-            else
-            {
-                XtraMessageBox.Show("فشل في إضافة فاتورة بيع", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                if (!string.IsNullOrEmpty(error_message))
-                {
-                    XtraMessageBox.Show(error_message, "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-
-
-        }
     }
 }

@@ -118,6 +118,19 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="btn_cancel.ImageOptions.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAB
+        1wAAAdcBjJIIaAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAGMSURBVHhe7ZpL
+        SsRAGITnDILuFT2KDwS9ixsfG/GsLryA+Fo5VWCBhNhJJum/02198G0ykO6qdDI9ZDbGGGOMMcYYY8xk
+        DuAdfIInPBDEIbyHN3CPB0rA8C/w+8c3eAlzcwpfocZ9hkVK4BXQJOQnzFkCw7/D7rhcCeFw2XcnQnOV
+        cAb7wtMHGA7veS77vgktXUIqPOdwBItwDj9g38S+4DWcSyo8x7iCRclZAsOnzl08vMhRQjXhxZIlVBde
+        LFHC0DlWG17MKaH68GKXEpoJL6aU0Fx4MaaEC9hkeMEdIXeGfQF5PPVZxI+rEFIroc8mrnyXsSU0GV4M
+        ldB0eJJ64FE9GJtkKLxssoSx4WVTJfzrr8Exm5wxm6UqmbLDa66EKeFFMyXsEl5UX8Kc8KLaEpYIL6or
+        YcnwopoScoQXqy8hZ3ix2hIiX42ldpOcwzEMJ/rlaKqERxhOidfjf5VwC8PZhyX+IMExft96nAPnUgQO
+        zPa5BCPvQz5/OCbHLhbeGGOMMcYYY0ydbDZbp8vOQFTZBFsAAAAASUVORK5CYII=
+</value>
+  </data>
   <data name="btn_add_invoice.ImageOptions.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAB
@@ -158,19 +171,6 @@
         X7Fr8Jk+W7ZdlsiRqJEUWtqlaE2PCDZiMR9oXGxKZkgrg6ZMnF1XvPUrRDrW8+cIDMTwdJZgCIx/jYvX
         kUitO4cYdqICJDhyWhozN9JuZTtOe1qsA9C3ie/xN/RnKvyS8D9EupwbHDXqf3MshcZ0e+K3AAAAAElF
         TkSuQmCC
-</value>
-  </data>
-  <data name="btn_cancel.ImageOptions.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAB
-        1wAAAdcBjJIIaAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAGMSURBVHhe7ZpL
-        SsRAGITnDILuFT2KDwS9ixsfG/GsLryA+Fo5VWCBhNhJJum/02198G0ykO6qdDI9ZDbGGGOMMcYYY8xk
-        DuAdfIInPBDEIbyHN3CPB0rA8C/w+8c3eAlzcwpfocZ9hkVK4BXQJOQnzFkCw7/D7rhcCeFw2XcnQnOV
-        cAb7wtMHGA7veS77vgktXUIqPOdwBItwDj9g38S+4DWcSyo8x7iCRclZAsOnzl08vMhRQjXhxZIlVBde
-        LFHC0DlWG17MKaH68GKXEpoJL6aU0Fx4MaaEC9hkeMEdIXeGfQF5PPVZxI+rEFIroc8mrnyXsSU0GV4M
-        ldB0eJJ64FE9GJtkKLxssoSx4WVTJfzrr8Exm5wxm6UqmbLDa66EKeFFMyXsEl5UX8Kc8KLaEpYIL6or
-        YcnwopoScoQXqy8hZ3ix2hIiX42ldpOcwzEMJ/rlaKqERxhOidfjf5VwC8PZhyX+IMExft96nAPnUgQO
-        zPa5BCPvQz5/OCbHLhbeGGOMMcYYY0ydbDZbp8vOQFTZBFsAAAAASUVORK5CYII=
 </value>
   </data>
 </root>

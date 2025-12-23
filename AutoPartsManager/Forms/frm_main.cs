@@ -34,46 +34,77 @@ namespace AutoPartsManager
 
             OpenFormsFrom(frm);
         }
-        public void OpenFormsFrom(string Name)
+        public void OpenFormsFrom(string formName)
         {
-           
-            // تحقق مما إذا كان الفورم مفتوحًا بالفعل
-            if (OpenedForms.ContainsKey(Name))
+            if (OpenedForms.ContainsKey(formName))
             {
-                // إذا كان مفتوحًا، فقط قم بعرضه
-                Form existingForm = OpenedForms[Name];
-                existingForm.BringToFront(); // إحضاره إلى المقدمة
+                Form existingForm = OpenedForms[formName];
+
+                // إخفاء كل الفورمات الأخرى
+                foreach (Control ctrl in fluentDesignFormContainer1.Controls)
+                {
+                    ctrl.Visible = false;
+                }
+
+                // إذا لم يكن موجودًا داخل الـ container، أضفه
+                if (!fluentDesignFormContainer1.Controls.Contains(existingForm))
+                {
+                    fluentDesignFormContainer1.Controls.Add(existingForm);
+                    existingForm.Dock = DockStyle.Fill;
+                }
+
+                existingForm.Visible = true;
+                existingForm.BringToFront();
+
+                // إذا كان الفورم يحتوي على دالة ResetForm (مثل frm_sales)
+                MethodInfo resetMethod = existingForm.GetType().GetMethod("ResetForm");
+                if (resetMethod != null)
+                {
+                    resetMethod.Invoke(existingForm, null);
+                }
+
+
+                // ✅ اجعل الفورم الحالي في التركيز
+                existingForm.Focus();
             }
             else
             {
-                // إذا لم يكن مفتوحًا، قم بإنشائه كما فعلت سابقًا
-                var ins = Assembly.GetExecutingAssembly().GetTypes().FirstOrDefault(x => x.Name == Name);
-                if (ins != null)
+                var type = Assembly.GetExecutingAssembly().GetTypes().FirstOrDefault(t => t.Name == formName);
+                if (type != null)
                 {
-                    Form frm = (Form)Activator.CreateInstance(ins);
-                    if (fluentDesignFormContainer1.Controls.Count > 0)
-                        fluentDesignFormContainer1.Controls.Clear();
-
+                    Form frm = (Form)Activator.CreateInstance(type);
+                    frm.TopLevel = false;
                     frm.FormBorderStyle = FormBorderStyle.None;
                     frm.Dock = DockStyle.Fill;
-                    frm.TopLevel = false;
-                    this.fluentDesignFormContainer1.Controls.Add(frm);
-                    this.fluentDesignFormContainer1.Tag = frm;
 
-                    // أضف الفورم الجديد إلى القاموس قبل عرضه
-                    OpenedForms.Add(Name, frm);
+                    // إخفاء كل الفورمات الأخرى
+                    foreach (Control ctrl in fluentDesignFormContainer1.Controls)
+                    {
+                        ctrl.Visible = false;
+                    }
+
+                    fluentDesignFormContainer1.Controls.Add(frm);
+                    fluentDesignFormContainer1.Tag = frm;
+
+                    OpenedForms.Add(formName, frm);
                     frm.Show();
+                    MethodInfo resetMethod = frm.GetType().GetMethod("ResetForm");
+
+                    if (resetMethod != null)
+                    {
+                        resetMethod.Invoke(frm, null);
+                    }
+
+                    // اجعل الفورم الجديد في التركيز
+                    frm.Focus();
                 }
                 else
                 {
-                    XtraMessageBox.Show("النموذج '" + Name + "' غير موجود بعد!", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    XtraMessageBox.Show($"النموذج '{formName}' غير موجود!", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }
 
-        private void accordionControlElement2_Click(object sender, EventArgs e)
-        {
 
-        }
     }
 }

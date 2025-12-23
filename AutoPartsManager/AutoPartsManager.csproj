@@ -72,6 +72,12 @@
     <Compile Include="CustomListBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Forms\Purchases\frm_purchases.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Purchases\frm_purchases.Designer.cs">
+      <DependentUpon>frm_purchases.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Sales\frm_add_invoice.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -104,6 +110,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\Purchases\frm_purchases.resx">
+      <DependentUpon>frm_purchases.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Sales\frm_add_invoice.resx">
       <DependentUpon>frm_add_invoice.cs</DependentUpon>
     </EmbeddedResource>
@@ -168,6 +177,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\percentage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\purchasing %281%29.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
