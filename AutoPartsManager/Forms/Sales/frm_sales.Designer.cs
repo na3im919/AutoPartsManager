@@ -31,7 +31,6 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_sales));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -57,12 +56,12 @@
             this.btn_add_invoice = new DevExpress.XtraEditors.SimpleButton();
             this.behaviorManager1 = new DevExpress.Utils.Behaviors.BehaviorManager(this.components);
             this.dgv_invoice_list = new System.Windows.Forms.DataGridView();
-            this.dgv_suggest = new System.Windows.Forms.DataGridView();
             this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ProductName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_suggest = new System.Windows.Forms.DataGridView();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.svgImageBox1)).BeginInit();
             this.panel2.SuspendLayout();
@@ -234,7 +233,7 @@
             this.btn_edit_quantity.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_edit_quantity.Appearance.Options.UseBackColor = true;
             this.btn_edit_quantity.Appearance.Options.UseFont = true;
-            this.btn_edit_quantity.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton4.ImageOptions.Image")));
+            this.btn_edit_quantity.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_edit_quantity.ImageOptions.Image")));
             this.btn_edit_quantity.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.TopCenter;
             this.btn_edit_quantity.Location = new System.Drawing.Point(6, 22);
             this.btn_edit_quantity.Name = "btn_edit_quantity";
@@ -303,6 +302,7 @@
             this.btn_add_invoice.Size = new System.Drawing.Size(345, 145);
             this.btn_add_invoice.TabIndex = 0;
             this.btn_add_invoice.Text = "دفع";
+            this.btn_add_invoice.Click += new System.EventHandler(this.btn_add_invoice_Click);
             // 
             // dgv_invoice_list
             // 
@@ -332,32 +332,6 @@
             this.dgv_invoice_list.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv_invoice_list.Size = new System.Drawing.Size(698, 745);
             this.dgv_invoice_list.TabIndex = 3;
-            // 
-            // dgv_suggest
-            // 
-            this.dgv_suggest.AllowUserToAddRows = false;
-            this.dgv_suggest.AllowUserToDeleteRows = false;
-            this.dgv_suggest.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgv_suggest.BackgroundColor = System.Drawing.SystemColors.Window;
-            this.dgv_suggest.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dgv_suggest.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_suggest.DefaultCellStyle = dataGridViewCellStyle6;
-            this.dgv_suggest.Location = new System.Drawing.Point(318, 108);
-            this.dgv_suggest.Name = "dgv_suggest";
-            this.dgv_suggest.ReadOnly = true;
-            this.dgv_suggest.RowHeadersWidth = 62;
-            this.dgv_suggest.RowTemplate.Height = 28;
-            this.dgv_suggest.Size = new System.Drawing.Size(865, 182);
-            this.dgv_suggest.TabIndex = 4;
-            this.dgv_suggest.Visible = false;
-            this.dgv_suggest.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_suggest_CellClick);
             // 
             // ID
             // 
@@ -404,6 +378,24 @@
             this.Total.MinimumWidth = 8;
             this.Total.Name = "Total";
             this.Total.ReadOnly = true;
+            // 
+            // dgv_suggest
+            // 
+            this.dgv_suggest.AllowUserToAddRows = false;
+            this.dgv_suggest.AllowUserToDeleteRows = false;
+            this.dgv_suggest.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgv_suggest.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.dgv_suggest.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgv_suggest.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_suggest.Location = new System.Drawing.Point(318, 108);
+            this.dgv_suggest.Name = "dgv_suggest";
+            this.dgv_suggest.ReadOnly = true;
+            this.dgv_suggest.RowHeadersWidth = 62;
+            this.dgv_suggest.RowTemplate.Height = 28;
+            this.dgv_suggest.Size = new System.Drawing.Size(865, 182);
+            this.dgv_suggest.TabIndex = 4;
+            this.dgv_suggest.Visible = false;
+            this.dgv_suggest.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_suggest_CellClick);
             // 
             // frm_sales
             // 

@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="cls_ml_Clients.cs" />
     <Compile Include="cls_ml_Invoices.cs" />
     <Compile Include="cls_ml_Products.cs" />
     <Compile Include="cls_ml_InvoiceDetail.cs" />

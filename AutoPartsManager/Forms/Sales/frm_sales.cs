@@ -1,4 +1,5 @@
-﻿using BL;
+﻿using AutoPartsManager.Forms.Sales;
+using BL;
 using DevExpress.XtraEditors;
 using Moldels; // تأكد من صحة اسم الـ namespace للـ Models
 using System;
@@ -143,6 +144,38 @@ namespace AutoPartsManager.Forms
             lbl_total.Text = (grandTotal - discountAmount).ToString("N2") + " DZD";
         }
 
+        private cls_ml_Invoices PrepareInvoice(int ClientID, string PaymentMethod, decimal discount)
+        {
+            cls_ml_Invoices invoice = new cls_ml_Invoices();
+            invoice.Date = DateTime.Now;
+            invoice.TotalAmount = GetCurrentGrandTotal();
+            invoice.DiscountAmount = discount;
+            invoice.ClientID = ClientID;
+            invoice.InvoiceType = "بيع";
+            invoice.PaymentMethod = PaymentMethod;
+
+            return invoice;
+        }
+
+        private List<cls_ml_InvoiceDetail> PrepareInvoicesDetails()
+        {
+            List<cls_ml_InvoiceDetail> invoiceDetails = new List<cls_ml_InvoiceDetail>();
+
+            foreach (DataGridViewRow row in dgv_invoice_list.Rows)
+            {
+                if (row.IsNewRow) continue; // تجاهل الصف الفارغ
+
+                cls_ml_InvoiceDetail invoiceDetail = new cls_ml_InvoiceDetail();
+
+                invoiceDetail.ProductID = Convert.ToInt32(row.Cells["ID"].Value);
+                invoiceDetail.Quantity = Convert.ToInt32(row.Cells["Quantity"].Value);
+                invoiceDetail.UnitPrice = Convert.ToDecimal(row.Cells["Price"].Value);
+
+                invoiceDetails.Add(invoiceDetail);
+            }
+
+            return invoiceDetails;
+        }
 
 
 
@@ -160,7 +193,7 @@ namespace AutoPartsManager.Forms
             lbl_total.Text = grandTotal.ToString("N2") + " DZD";
         }
 
-        private decimal GetCurrentGrandTotal()
+        private  decimal GetCurrentGrandTotal()
         {
             decimal total = 0;
 
@@ -625,5 +658,34 @@ namespace AutoPartsManager.Forms
             }
         }
 
+        private void btn_add_invoice_Click(object sender, EventArgs e)
+        {
+            if (dgv_invoice_list.Rows.Count <= 0)
+                return;
+            string error_message = string.Empty;
+            decimal grandTotal = GetCurrentGrandTotal();
+            decimal.TryParse(lbl_discount.Text.Split(' ')[0], out decimal discount);
+
+            frm_add_invoice invoice = new frm_add_invoice(grandTotal, discount);
+            invoice.ShowDialog();
+
+            cls_ml_Invoices Invoice =  PrepareInvoice(invoice.ClientID, invoice.PaymentMethod, discount);
+            List<cls_ml_InvoiceDetail> InvoicesDetails = PrepareInvoicesDetails();
+
+            if (cls_bl_Invoices.AddInvoice(Invoice, InvoicesDetails, out error_message))
+            {
+                XtraMessageBox.Show("تمت إضافة فاتورة بيع بنجاح", "إضافة فاتورة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                XtraMessageBox.Show("فشل في إضافة فاتورة بيع", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (!string.IsNullOrEmpty(error_message))
+                {
+                    XtraMessageBox.Show(error_message, "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
+
+        }
     }
 }
