@@ -16,7 +16,7 @@ namespace DAL
             error_message = string.Empty;
             List<cls_ml_Products> products = new List<cls_ml_Products>();
 
-            string query = "SELECT * FROM Products WHERE isActive = 1 AND (Reference LIKE @Keyword OR ProductName LIKE @Keyword OR ProductBrand LIKE @Keyword)";
+            string query = "SELECT * FROM Products WHERE isActive = 1 AND (Reference LIKE @Keyword OR ProductName LIKE @Keyword OR ProductBrand LIKE @Keyword) AND Quantity > 0";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -98,5 +98,29 @@ namespace DAL
 
             return availableQuantity;
         }
+
+        public static void DecreaseProductQuantity(
+    int productId,
+    int quantity,
+    SqlConnection con,
+    SqlTransaction transaction)
+        {
+            string query = @"
+        UPDATE Products
+        SET Quantity = Quantity - @Qty
+        WHERE ID = @ProductID AND Quantity >= @Qty";
+
+            using (SqlCommand cmd = new SqlCommand(query, con, transaction))
+            {
+                cmd.Parameters.AddWithValue("@Qty", quantity);
+                cmd.Parameters.AddWithValue("@ProductID", productId);
+
+                int affectedRows = cmd.ExecuteNonQuery();
+
+                if (affectedRows == 0)
+                    throw new Exception("الكمية غير كافية للمنتج");
+            }
+        }
+
     }
 }

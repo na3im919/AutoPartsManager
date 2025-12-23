@@ -33,29 +33,29 @@
             this.txt_total = new DevExpress.XtraEditors.TextEdit();
             this.txt_discount = new DevExpress.XtraEditors.TextEdit();
             this.txt_net_amount = new DevExpress.XtraEditors.TextEdit();
+            this.chk_cash_or_not = new DevExpress.XtraEditors.CheckEdit();
+            this.cmb_client_name = new DevExpress.XtraEditors.ComboBoxEdit();
             this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
             this.lbl_total = new DevExpress.XtraLayout.LayoutControlItem();
             this.lbl_discount = new DevExpress.XtraLayout.LayoutControlItem();
             this.lbl_net = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
             this.btn_add_invoice = new DevExpress.XtraEditors.SimpleButton();
             this.btn_cancel = new DevExpress.XtraEditors.SimpleButton();
-            this.chk_cash_or_not = new DevExpress.XtraEditors.CheckEdit();
-            this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.cmb_client_name = new DevExpress.XtraEditors.ComboBoxEdit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txt_total.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_discount.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_net_amount.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chk_cash_or_not.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmb_client_name.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Root)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lbl_total)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lbl_discount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lbl_net)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chk_cash_or_not.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cmb_client_name.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
             this.SuspendLayout();
             // 
             // layoutControl1
@@ -112,6 +112,38 @@
             this.txt_net_amount.StyleController = this.layoutControl1;
             this.txt_net_amount.TabIndex = 6;
             // 
+            // chk_cash_or_not
+            // 
+            this.chk_cash_or_not.Location = new System.Drawing.Point(12, 188);
+            this.chk_cash_or_not.Name = "chk_cash_or_not";
+            this.chk_cash_or_not.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chk_cash_or_not.Properties.Appearance.Options.UseFont = true;
+            this.chk_cash_or_not.Properties.Caption = "دفع مؤجل؟";
+            this.chk_cash_or_not.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.chk_cash_or_not.Size = new System.Drawing.Size(1026, 33);
+            this.chk_cash_or_not.StyleController = this.layoutControl1;
+            this.chk_cash_or_not.TabIndex = 9;
+            this.chk_cash_or_not.CheckedChanged += new System.EventHandler(this.chk_cash_or_not_CheckedChanged);
+            // 
+            // cmb_client_name
+            // 
+            this.cmb_client_name.Location = new System.Drawing.Point(12, 144);
+            this.cmb_client_name.Name = "cmb_client_name";
+            this.cmb_client_name.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmb_client_name.Properties.Appearance.Options.UseFont = true;
+            this.cmb_client_name.Properties.Appearance.Options.UseTextOptions = true;
+            this.cmb_client_name.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.cmb_client_name.Properties.AppearanceDropDown.Font = new System.Drawing.Font("Tahoma", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmb_client_name.Properties.AppearanceDropDown.Options.UseFont = true;
+            this.cmb_client_name.Properties.AppearanceDropDown.Options.UseTextOptions = true;
+            this.cmb_client_name.Properties.AppearanceDropDown.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.cmb_client_name.Properties.AppearanceDropDown.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            this.cmb_client_name.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cmb_client_name.Size = new System.Drawing.Size(809, 40);
+            this.cmb_client_name.StyleController = this.layoutControl1;
+            this.cmb_client_name.TabIndex = 8;
+            // 
             // Root
             // 
             this.Root.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
@@ -166,6 +198,29 @@
             this.lbl_net.TextLocation = DevExpress.Utils.Locations.Right;
             this.lbl_net.TextSize = new System.Drawing.Size(205, 34);
             // 
+            // layoutControlItem2
+            // 
+            this.layoutControlItem2.AppearanceItemCaption.Font = new System.Drawing.Font("Tahoma", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.layoutControlItem2.AppearanceItemCaption.Options.UseFont = true;
+            this.layoutControlItem2.AppearanceItemCaption.Options.UseTextOptions = true;
+            this.layoutControlItem2.AppearanceItemCaption.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.layoutControlItem2.Control = this.cmb_client_name;
+            this.layoutControlItem2.Location = new System.Drawing.Point(0, 132);
+            this.layoutControlItem2.Name = "layoutControlItem2";
+            this.layoutControlItem2.Size = new System.Drawing.Size(1030, 44);
+            this.layoutControlItem2.Text = "إسم الزبون";
+            this.layoutControlItem2.TextLocation = DevExpress.Utils.Locations.Right;
+            this.layoutControlItem2.TextSize = new System.Drawing.Size(205, 34);
+            // 
+            // layoutControlItem1
+            // 
+            this.layoutControlItem1.Control = this.chk_cash_or_not;
+            this.layoutControlItem1.Location = new System.Drawing.Point(0, 176);
+            this.layoutControlItem1.Name = "layoutControlItem1";
+            this.layoutControlItem1.Size = new System.Drawing.Size(1030, 51);
+            this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
+            this.layoutControlItem1.TextVisible = false;
+            // 
             // btn_add_invoice
             // 
             this.btn_add_invoice.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(138)))), ((int)(((byte)(71)))));
@@ -190,56 +245,6 @@
             this.btn_cancel.TabIndex = 2;
             this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
             // 
-            // chk_cash_or_not
-            // 
-            this.chk_cash_or_not.Location = new System.Drawing.Point(12, 188);
-            this.chk_cash_or_not.Name = "chk_cash_or_not";
-            this.chk_cash_or_not.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chk_cash_or_not.Properties.Appearance.Options.UseFont = true;
-            this.chk_cash_or_not.Properties.Caption = "دفع مؤجل؟";
-            this.chk_cash_or_not.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.chk_cash_or_not.Size = new System.Drawing.Size(1026, 33);
-            this.chk_cash_or_not.StyleController = this.layoutControl1;
-            this.chk_cash_or_not.TabIndex = 9;
-            this.chk_cash_or_not.CheckedChanged += new System.EventHandler(this.chk_cash_or_not_CheckedChanged);
-            // 
-            // layoutControlItem1
-            // 
-            this.layoutControlItem1.Control = this.chk_cash_or_not;
-            this.layoutControlItem1.Location = new System.Drawing.Point(0, 176);
-            this.layoutControlItem1.Name = "layoutControlItem1";
-            this.layoutControlItem1.Size = new System.Drawing.Size(1030, 51);
-            this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem1.TextVisible = false;
-            // 
-            // layoutControlItem2
-            // 
-            this.layoutControlItem2.AppearanceItemCaption.Font = new System.Drawing.Font("Tahoma", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.layoutControlItem2.AppearanceItemCaption.Options.UseFont = true;
-            this.layoutControlItem2.AppearanceItemCaption.Options.UseTextOptions = true;
-            this.layoutControlItem2.AppearanceItemCaption.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.layoutControlItem2.Control = this.cmb_client_name;
-            this.layoutControlItem2.Location = new System.Drawing.Point(0, 132);
-            this.layoutControlItem2.Name = "layoutControlItem2";
-            this.layoutControlItem2.Size = new System.Drawing.Size(1030, 44);
-            this.layoutControlItem2.Text = "إسم الزبون";
-            this.layoutControlItem2.TextLocation = DevExpress.Utils.Locations.Right;
-            this.layoutControlItem2.TextSize = new System.Drawing.Size(205, 34);
-            // 
-            // cmb_client_name
-            // 
-            this.cmb_client_name.Location = new System.Drawing.Point(12, 144);
-            this.cmb_client_name.Name = "cmb_client_name";
-            this.cmb_client_name.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmb_client_name.Properties.Appearance.Options.UseFont = true;
-            this.cmb_client_name.Properties.Appearance.Options.UseTextOptions = true;
-            this.cmb_client_name.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.cmb_client_name.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cmb_client_name.Size = new System.Drawing.Size(809, 40);
-            this.cmb_client_name.StyleController = this.layoutControl1;
-            this.cmb_client_name.TabIndex = 8;
-            // 
             // frm_add_invoice
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
@@ -252,19 +257,21 @@
             this.Name = "frm_add_invoice";
             this.Text = "frm_add_invoice";
             this.Load += new System.EventHandler(this.frm_add_invoice_Load);
+            this.Shown += new System.EventHandler(this.frm_add_invoice_Shown);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frm_add_invoice_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.txt_total.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_discount.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_net_amount.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chk_cash_or_not.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmb_client_name.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Root)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lbl_total)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lbl_discount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lbl_net)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chk_cash_or_not.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cmb_client_name.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
             this.ResumeLayout(false);
 
         }

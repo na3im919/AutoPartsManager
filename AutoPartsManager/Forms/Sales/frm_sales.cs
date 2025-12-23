@@ -511,6 +511,20 @@ namespace AutoPartsManager.Forms
                 }
             }
 
+            // ===== Add Invoice F10 =====
+            if (e.KeyCode == Keys.F10)
+            {
+                // تحقق أن الفوكس ليس داخل txtSearch
+                //if (txtSearch.Focused)
+                //    return;
+                btn_add_invoice_Click(null, null); // نعيد استخدام كود زر إضافة الفاتورة
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                return;
+            }
+
+
+
             // ===== Clear Invoice (Ctrl + C) =====
             if (e.Control && e.KeyCode == Keys.C)
             {
@@ -668,6 +682,8 @@ namespace AutoPartsManager.Forms
 
             frm_add_invoice invoice = new frm_add_invoice(grandTotal, discount);
             invoice.ShowDialog();
+            if (invoice.IsApproved == false)
+                return;
 
             cls_ml_Invoices Invoice =  PrepareInvoice(invoice.ClientID, invoice.PaymentMethod, discount);
             List<cls_ml_InvoiceDetail> InvoicesDetails = PrepareInvoicesDetails();
@@ -675,6 +691,7 @@ namespace AutoPartsManager.Forms
             if (cls_bl_Invoices.AddInvoice(Invoice, InvoicesDetails, out error_message))
             {
                 XtraMessageBox.Show("تمت إضافة فاتورة بيع بنجاح", "إضافة فاتورة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ClearInvoiceList();
             }
             else
             {

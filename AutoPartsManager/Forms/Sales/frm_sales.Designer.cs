@@ -28,13 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_sales));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle45 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle41 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle42 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle43 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle44 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.svgImageBox1 = new DevExpress.XtraEditors.SvgImageBox();
@@ -54,7 +53,6 @@
             this.btn_clear_invoice = new DevExpress.XtraEditors.SimpleButton();
             this.btn_delete_product = new DevExpress.XtraEditors.SimpleButton();
             this.btn_add_invoice = new DevExpress.XtraEditors.SimpleButton();
-            this.behaviorManager1 = new DevExpress.Utils.Behaviors.BehaviorManager(this.components);
             this.dgv_invoice_list = new System.Windows.Forms.DataGridView();
             this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ProductName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -62,6 +60,8 @@
             this.Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_suggest = new System.Windows.Forms.DataGridView();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.svgImageBox1)).BeginInit();
             this.panel2.SuspendLayout();
@@ -69,9 +69,9 @@
             this.panel5.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.behaviorManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_invoice_list)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_suggest)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -217,14 +217,16 @@
             // 
             // panel4
             // 
+            this.panel4.Controls.Add(this.label1);
+            this.panel4.Controls.Add(this.pictureBox1);
             this.panel4.Controls.Add(this.btn_edit_quantity);
             this.panel4.Controls.Add(this.btn_discount);
             this.panel4.Controls.Add(this.btn_clear_invoice);
             this.panel4.Controls.Add(this.btn_delete_product);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel4.Location = new System.Drawing.Point(0, 121);
+            this.panel4.Location = new System.Drawing.Point(0, 5);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(345, 477);
+            this.panel4.Size = new System.Drawing.Size(345, 593);
             this.panel4.TabIndex = 1;
             // 
             // btn_edit_quantity
@@ -235,7 +237,7 @@
             this.btn_edit_quantity.Appearance.Options.UseFont = true;
             this.btn_edit_quantity.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_edit_quantity.ImageOptions.Image")));
             this.btn_edit_quantity.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.TopCenter;
-            this.btn_edit_quantity.Location = new System.Drawing.Point(6, 22);
+            this.btn_edit_quantity.Location = new System.Drawing.Point(5, 233);
             this.btn_edit_quantity.Name = "btn_edit_quantity";
             this.btn_edit_quantity.Size = new System.Drawing.Size(161, 163);
             this.btn_edit_quantity.TabIndex = 8;
@@ -250,7 +252,7 @@
             this.btn_discount.Appearance.Options.UseFont = true;
             this.btn_discount.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_discount.ImageOptions.Image")));
             this.btn_discount.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.TopCenter;
-            this.btn_discount.Location = new System.Drawing.Point(173, 22);
+            this.btn_discount.Location = new System.Drawing.Point(172, 233);
             this.btn_discount.Name = "btn_discount";
             this.btn_discount.Size = new System.Drawing.Size(161, 163);
             this.btn_discount.TabIndex = 7;
@@ -266,7 +268,7 @@
             this.btn_clear_invoice.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_clear_invoice.BackgroundImage")));
             this.btn_clear_invoice.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_clear_invoice.ImageOptions.Image")));
             this.btn_clear_invoice.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.TopCenter;
-            this.btn_clear_invoice.Location = new System.Drawing.Point(6, 191);
+            this.btn_clear_invoice.Location = new System.Drawing.Point(5, 402);
             this.btn_clear_invoice.Name = "btn_clear_invoice";
             this.btn_clear_invoice.Size = new System.Drawing.Size(161, 163);
             this.btn_clear_invoice.TabIndex = 6;
@@ -281,7 +283,7 @@
             this.btn_delete_product.Appearance.Options.UseFont = true;
             this.btn_delete_product.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_delete_product.ImageOptions.Image")));
             this.btn_delete_product.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.TopCenter;
-            this.btn_delete_product.Location = new System.Drawing.Point(173, 191);
+            this.btn_delete_product.Location = new System.Drawing.Point(172, 402);
             this.btn_delete_product.Name = "btn_delete_product";
             this.btn_delete_product.Size = new System.Drawing.Size(161, 163);
             this.btn_delete_product.TabIndex = 5;
@@ -326,8 +328,8 @@
             this.dgv_invoice_list.ReadOnly = true;
             this.dgv_invoice_list.RowHeadersVisible = false;
             this.dgv_invoice_list.RowHeadersWidth = 62;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgv_invoice_list.RowsDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle45.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgv_invoice_list.RowsDefaultCellStyle = dataGridViewCellStyle45;
             this.dgv_invoice_list.RowTemplate.Height = 28;
             this.dgv_invoice_list.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv_invoice_list.Size = new System.Drawing.Size(698, 745);
@@ -344,8 +346,8 @@
             // ProductName
             // 
             this.ProductName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ProductName.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle41.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ProductName.DefaultCellStyle = dataGridViewCellStyle41;
             this.ProductName.HeaderText = "إسم المنتج";
             this.ProductName.MinimumWidth = 8;
             this.ProductName.Name = "ProductName";
@@ -354,8 +356,8 @@
             // 
             // Quantity
             // 
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Quantity.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle42.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Quantity.DefaultCellStyle = dataGridViewCellStyle42;
             this.Quantity.HeaderText = "الكمية";
             this.Quantity.MinimumWidth = 8;
             this.Quantity.Name = "Quantity";
@@ -363,8 +365,8 @@
             // 
             // Price
             // 
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Price.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle43.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Price.DefaultCellStyle = dataGridViewCellStyle43;
             this.Price.HeaderText = "السعر";
             this.Price.MinimumWidth = 8;
             this.Price.Name = "Price";
@@ -372,8 +374,8 @@
             // 
             // Total
             // 
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Total.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle44.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Total.DefaultCellStyle = dataGridViewCellStyle44;
             this.Total.HeaderText = "الإجمالي";
             this.Total.MinimumWidth = 8;
             this.Total.Name = "Total";
@@ -392,10 +394,30 @@
             this.dgv_suggest.ReadOnly = true;
             this.dgv_suggest.RowHeadersWidth = 62;
             this.dgv_suggest.RowTemplate.Height = 28;
-            this.dgv_suggest.Size = new System.Drawing.Size(865, 182);
+            this.dgv_suggest.Size = new System.Drawing.Size(468, 182);
             this.dgv_suggest.TabIndex = 4;
             this.dgv_suggest.Visible = false;
             this.dgv_suggest.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_suggest_CellClick);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(72, 79);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(242, 87);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 9;
+            this.pictureBox1.TabStop = false;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 22F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(116, 169);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(158, 60);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "مبيعات";
             // 
             // frm_sales
             // 
@@ -422,9 +444,10 @@
             this.panel5.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.behaviorManager1)).EndInit();
+            this.panel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_invoice_list)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_suggest)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -441,7 +464,6 @@
         private DevExpress.XtraEditors.SimpleButton btn_clear_invoice;
         private DevExpress.XtraEditors.SimpleButton btn_delete_product;
         private DevExpress.XtraEditors.SimpleButton btn_add_invoice;
-        private DevExpress.Utils.Behaviors.BehaviorManager behaviorManager1;
         private System.Windows.Forms.DataGridView dgv_invoice_list;
         private DevExpress.XtraEditors.SvgImageBox svgImageBox1;
         private System.Windows.Forms.ComboBox comboBox1;
@@ -458,5 +480,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
         private System.Windows.Forms.DataGridViewTextBoxColumn Price;
         private System.Windows.Forms.DataGridViewTextBoxColumn Total;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

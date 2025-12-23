@@ -19,12 +19,16 @@ namespace AutoPartsManager.Forms.Sales
         private decimal _discountAmount;
         public string PaymentMethod { get; set; }
         public int ClientID { get; set; }
+        public bool IsApproved { get; set; }
+
+        private cls_ml_Clients _unknownClient;
 
         public frm_add_invoice(decimal grandTotal, decimal discountAmount)
         {
             InitializeComponent();
             _grandTotal = grandTotal;
             _discountAmount = discountAmount;
+            this.KeyPreview = true;
 
         }
 
@@ -38,12 +42,18 @@ namespace AutoPartsManager.Forms.Sales
             cmb_client_name.Properties.Items.Clear();
 
             foreach (var c in _clients)
+            {
+                if (c.Name == "مجهول")
+                    _unknownClient = c;
+
                 cmb_client_name.Properties.Items.Add(c.Name);
+            }
         }
 
 
         private void btn_cancel_Click(object sender, EventArgs e)
         {
+            IsApproved = false;
             this.Close();
         }
 
@@ -54,7 +64,6 @@ namespace AutoPartsManager.Forms.Sales
             decimal netAmount = _grandTotal - _discountAmount;
             txt_net_amount.Text = netAmount.ToString("C2");
             PaymentMethod = "نقد";
-
             FillClientsComboBoxEdit();
         }
 
@@ -63,19 +72,75 @@ namespace AutoPartsManager.Forms.Sales
             if (chk_cash_or_not.Checked)
             {
                 PaymentMethod = "دفع آجل";
+
+                // إزالة "مجهول"
+                if (_unknownClient != null)
+                {
+                    cmb_client_name.Properties.Items.Remove("مجهول");
+
+                    // لو كان محدد، نلغي التحديد
+                    if (cmb_client_name.Text == "مجهول")
+                        cmb_client_name.SelectedIndex = -1;
+                }
             }
             else
             {
                 PaymentMethod = "نقد";
+
+                // إعادة "مجهول"
+                if (_unknownClient != null &&
+                    !cmb_client_name.Properties.Items.Contains("مجهول"))
+                {
+                    cmb_client_name.Properties.Items.Insert(0, "مجهول");
+                    cmb_client_name.SelectedIndex = 0;
+                }
             }
         }
 
+
         private void btn_add_invoice_Click(object sender, EventArgs e)
         {
-            int index = cmb_client_name.SelectedIndex;
-            int clientId = _clients[index].ID;
-            this.Close();
+            string clientName = cmb_client_name.Text;
 
+            var client = _clients.FirstOrDefault(c => c.Name == clientName);
+
+            if (client == null)
+            {
+                XtraMessageBox.Show("يرجى اختيار عميل صحيح");
+                return;
+            }
+
+            ClientID = client.ID;
+            IsApproved = true;
+            this.Close();
+        }
+
+        private void frm_add_invoice_Shown(object sender, EventArgs e)
+        {
+            cmb_client_name.SelectedIndex = 0;
+
+        }
+
+        private void frm_add_invoice_KeyDown(object sender, KeyEventArgs e)
+        {
+            // ==== Add Invoice Enter ==== //
+            if(e.KeyCode == Keys.Enter)
+            {
+                btn_add_invoice_Click(null, null);
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                return;
+            }
+
+            // ==== Close Invoice Esc ==== //
+            if (e.KeyCode == Keys.Escape)
+            {
+                btn_cancel_Click(null, null);
+                e.Handled = true;
+                e.SuppressKeyPress= true;
+                return;
+
+            }
         }
     }
 }
