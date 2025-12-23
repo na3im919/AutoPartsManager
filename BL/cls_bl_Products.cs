@@ -11,10 +11,12 @@ namespace BL
     public class cls_bl_Products
     {
 
-        public static List<cls_ml_Products> SearchForProducts(string keyword, out string error_message)
+        // في Business Layer
+        public static List<cls_ml_Products> SearchForProducts(string keyword, string invoiceType, out string error_message)
         {
-            return cls_dal_Products.GetProductsByKeyword(keyword, out error_message);
+            return cls_dal_Products.GetProductsByKeyword(keyword, invoiceType, out error_message);
         }
+
 
 
         public static int GetAvailableQuantity(int productId, out string error_message)

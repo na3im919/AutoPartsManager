@@ -17,18 +17,30 @@ namespace AutoPartsManager.Forms.Sales
     {
         private decimal _grandTotal;
         private decimal _discountAmount;
+        private string _invoiceType;
         public string PaymentMethod { get; set; }
         public int ClientID { get; set; }
         public bool IsApproved { get; set; }
 
         private cls_ml_Clients _unknownClient;
 
-        public frm_add_invoice(decimal grandTotal, decimal discountAmount)
+        public frm_add_invoice(decimal grandTotal, decimal discountAmount, string InvoiceType)
         {
             InitializeComponent();
             _grandTotal = grandTotal;
             _discountAmount = discountAmount;
+            _invoiceType = InvoiceType;
             this.KeyPreview = true;
+
+            if(_invoiceType == "بيع")
+            {
+                lbl_discount.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Always;
+            }
+            else
+            {
+                lbl_discount.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never;
+                layoutControlItem2.Text = "إسم المورد";
+            }
 
         }
 

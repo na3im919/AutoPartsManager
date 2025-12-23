@@ -11,12 +11,16 @@ namespace DAL
     public class cls_dal_Products
     {
         static string connectionString = cls_dal_Connections.connectionString;
-        public static List<cls_ml_Products> GetProductsByKeyword(string kw, out string error_message)
+        public static List<cls_ml_Products> GetProductsByKeyword(string kw, string invoiceType, out string error_message)
         {
             error_message = string.Empty;
             List<cls_ml_Products> products = new List<cls_ml_Products>();
 
-            string query = "SELECT * FROM Products WHERE isActive = 1 AND (Reference LIKE @Keyword OR ProductName LIKE @Keyword OR ProductBrand LIKE @Keyword) AND Quantity > 0";
+            // شرط Quantity فقط إذا كانت الفاتورة من نوع بيع
+            string quantityCondition = invoiceType == "بيع" ? "AND Quantity > 0" : "";
+
+            string query = "SELECT * FROM Products WHERE isActive = 1 AND (Reference LIKE @Keyword OR ProductName LIKE @Keyword OR ProductBrand LIKE @Keyword) "
+                           + quantityCondition;
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -31,7 +35,7 @@ namespace DAL
                         {
                             while (reader.Read())
                             {
-                                var prodact = new cls_ml_Products
+                                products.Add(new cls_ml_Products
                                 {
                                     ID = Convert.ToInt32(reader["ID"]),
                                     ProductName = reader["ProductName"].ToString(),
@@ -41,22 +45,13 @@ namespace DAL
                                     Quantity = Convert.ToInt32(reader["Quantity"]),
                                     Cost = Convert.ToDecimal(reader["Cost"]),
                                     isActive = Convert.ToBoolean(reader["isActive"])
-                                };
-
-                                products.Add(prodact);
-
+                                });
                             }
-
-                            reader.Close();
                         }
                     }
                     catch (Exception ex)
                     {
                         error_message = ex.Message;
-                    }
-                    finally
-                    {
-                        connection.Close();
                     }
                 }
             }

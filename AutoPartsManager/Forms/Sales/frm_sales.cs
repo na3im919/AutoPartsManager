@@ -209,7 +209,7 @@ namespace AutoPartsManager.Forms
         {
             if (dgv_invoice_list.Rows.Count <= 0) return;
 
-            frm_add_invoice invoiceForm = new frm_add_invoice(GetCurrentGrandTotal(), decimal.Parse(lbl_discount.Text.Split(' ')[0]));
+            frm_add_invoice invoiceForm = new frm_add_invoice(GetCurrentGrandTotal(), decimal.Parse(lbl_discount.Text.Split(' ')[0]), InvoiceType);
             invoiceForm.ShowDialog();
             if (!invoiceForm.IsApproved) return;
 
@@ -250,7 +250,7 @@ namespace AutoPartsManager.Forms
             ApplyDiscountAndCalculateTotal();
         }
 
-        private void btn_edit_quantity_Click(object sender, EventArgs e)
+        protected virtual void btn_edit_quantity_Click(object sender, EventArgs e)
         {
             if (dgv_invoice_list.SelectedRows.Count == 0) return;
 
@@ -343,7 +343,7 @@ namespace AutoPartsManager.Forms
 
 
             // ===== Discount (F3) =====
-            if (e.KeyCode == Keys.F3)
+            if (e.KeyCode == Keys.F3 && InvoiceType == "بيع")
             {
                 // لا نفتح الخصم إذا المستخدم يكتب في البحث
                 if (dgv_invoice_list.Rows.Count <= 0)
@@ -420,7 +420,7 @@ namespace AutoPartsManager.Forms
             if (searchTerm.Length >= 1)
             {
                 string errorMessage;
-                List<cls_ml_Products> results = cls_bl_Products.SearchForProducts(searchTerm, out errorMessage);
+                List<cls_ml_Products> results = cls_bl_Products.SearchForProducts(searchTerm, InvoiceType, out errorMessage);
 
                 if (string.IsNullOrEmpty(errorMessage))
                 {

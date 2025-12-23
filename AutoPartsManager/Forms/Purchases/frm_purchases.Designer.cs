@@ -54,6 +54,11 @@
             this.btn_discount.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.TopCenter;
             this.btn_discount.Visible = false;
             // 
+            // lbl_discount
+            // 
+            this.lbl_discount.Size = new System.Drawing.Size(248, 43);
+            this.lbl_discount.Text = "0.00 DZD DZD";
+            // 
             // frm_purchases
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
