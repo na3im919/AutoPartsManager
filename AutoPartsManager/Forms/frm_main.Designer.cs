@@ -111,6 +111,7 @@
             this.accordionControlElement3.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("accordionControlElement3.ImageOptions.Image")));
             this.accordionControlElement3.Name = "accordionControlElement3";
             this.accordionControlElement3.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
+            this.accordionControlElement3.Tag = "frm_inventory";
             this.accordionControlElement3.Text = "إدارة المخازن";
             // 
             // accordionControlElement4

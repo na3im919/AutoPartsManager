@@ -68,7 +68,9 @@ namespace AutoPartsManager.Forms.Purchases
             var row = dgv_suggest.SelectedRows[0];
             int productId = Convert.ToInt32(row.Cells["ID"].Value);
             string productName = row.Cells["ProductName"].Value.ToString();
-            decimal price = Convert.ToDecimal(row.Cells["Price"].Value);
+            decimal cost = Convert.ToDecimal(row.Cells["Cost"].Value);
+            string productReference = row.Cells["Reference"].Value.ToString();
+            string productBrand = row.Cells["ProductBrand"].Value.ToString();
 
             // بالنسبة للمشتريات لا نتحقق من الكمية المتاحة
             foreach (DataGridViewRow invoiceRow in dgv_invoice_list.Rows)
@@ -77,7 +79,7 @@ namespace AutoPartsManager.Forms.Purchases
                 {
                     int currentQty = Convert.ToInt32(invoiceRow.Cells["Quantity"].Value);
                     invoiceRow.Cells["Quantity"].Value = currentQty + 1;
-                    invoiceRow.Cells["Total"].Value = (currentQty + 1) * price;
+                    invoiceRow.Cells["Total"].Value = (currentQty + 1) * cost;
                     ApplyDiscountAndCalculateTotal();
                     txtSearch.Clear();
                     dgv_suggest.Visible = false;
@@ -86,7 +88,7 @@ namespace AutoPartsManager.Forms.Purchases
             }
 
             // إضافة المنتج جديد في القائمة
-            dgv_invoice_list.Rows.Add(productId, productName, 1, price, price);
+            dgv_invoice_list.Rows.Add(productId, productReference, productName, productBrand, 1, cost, cost);
             txtSearch.Clear();
             dgv_suggest.Visible = false;
             ApplyDiscountAndCalculateTotal();

@@ -123,6 +123,10 @@ namespace AutoPartsManager.Forms
             dgv_suggest.Columns.Add(new DataGridViewTextBoxColumn { Name = "ID", DataPropertyName = "ID", HeaderText = "ID", AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells });
             dgv_suggest.Columns.Add(new DataGridViewTextBoxColumn { Name = "ProductName", DataPropertyName = "ProductName", HeaderText = "اسم المنتج", AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
             dgv_suggest.Columns.Add(new DataGridViewTextBoxColumn { Name = "Price", DataPropertyName = "Price", HeaderText = "السعر", AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells, DefaultCellStyle = { Alignment = DataGridViewContentAlignment.MiddleRight } });
+            dgv_suggest.Columns.Add(new DataGridViewTextBoxColumn { Name = "Cost", DataPropertyName = "Cost", HeaderText = "سعر الشراء", AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells, DefaultCellStyle = { Alignment = DataGridViewContentAlignment.MiddleRight } });
+            dgv_suggest.Columns.Add(new DataGridViewTextBoxColumn { Name = "Reference", DataPropertyName = "Reference", HeaderText = "كود المنتج", AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells, DefaultCellStyle = { Alignment = DataGridViewContentAlignment.MiddleRight } });
+            dgv_suggest.Columns.Add(new DataGridViewTextBoxColumn { Name = "ProductBrand", DataPropertyName = "ProductBrand", HeaderText = "العلامة التجارية", AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells, DefaultCellStyle = { Alignment = DataGridViewContentAlignment.MiddleRight } });
+
 
             dgv_suggest.BackgroundColor = Color.White;
             dgv_suggest.DefaultCellStyle.BackColor = Color.White;
@@ -141,7 +145,7 @@ namespace AutoPartsManager.Forms
             dgv_invoice_list.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dgv_invoice_list.RowHeadersVisible = false;
             dgv_invoice_list.ColumnHeadersDefaultCellStyle.BackColor = Color.LightGray;
-            dgv_invoice_list.Font = new Font("Segoe UI", 12, FontStyle.Regular);
+            dgv_invoice_list.Font = new Font("Segoe UI", 16, FontStyle.Regular);
            
 
         }
@@ -227,7 +231,7 @@ namespace AutoPartsManager.Forms
 
             if (availableQty <= 0) { MessageBox.Show("لا توجد كمية متاحة!"); return; }
 
-            dgv_invoice_list.Rows.Add(productId, productName, 1, price, price);
+            dgv_invoice_list.Rows.Add(productId, "",  productName, "", 1, price, price);
             txtSearch.Clear();
             dgv_suggest.Visible = false;
             ApplyDiscountAndCalculateTotal();
