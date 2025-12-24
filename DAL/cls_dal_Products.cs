@@ -141,6 +141,62 @@ namespace DAL
             }
         }
 
+        public static int GetProductIdByReference(string reference)
+        {
+            if (string.IsNullOrWhiteSpace(reference))
+                return -1;
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = @"
+            SELECT ID 
+            FROM Products 
+            WHERE Reference = @Reference
+        ";
+
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@Reference", reference);
+
+                    con.Open();
+                    object result = cmd.ExecuteScalar();
+
+                    if (result != null && int.TryParse(result.ToString(), out int productId))
+                        return productId;
+                    else
+                        return -1;
+                }
+            }
+        }
+
+        public static int AddProduct(
+    cls_ml_Products product,
+    SqlConnection con,
+    SqlTransaction tran)
+        {
+            string query = @"
+        INSERT INTO Products
+        (Reference, ProductName, ProductBrand, Cost, Price, Quantity, isActive)
+        OUTPUT INSERTED.ID
+        VALUES
+        (@Reference, @ProductName, @ProductBrand, @Cost, @Price, @Quantity, @isActive)
+    ";
+
+            using (SqlCommand cmd = new SqlCommand(query, con, tran))
+            {
+                cmd.Parameters.AddWithValue("@Reference", product.Reference);
+                cmd.Parameters.AddWithValue("@ProductName", product.ProductName);
+                cmd.Parameters.AddWithValue("@ProductBrand", product.ProductBrand);
+                cmd.Parameters.AddWithValue("@Cost", product.Cost);
+                cmd.Parameters.AddWithValue("@Price", product.Price);
+                cmd.Parameters.AddWithValue("@Quantity", product.Quantity);
+                cmd.Parameters.AddWithValue("@isActive", true);
+
+                object result = cmd.ExecuteScalar();
+                return result != null ? Convert.ToInt32(result) : -1;
+            }
+        }
+
 
     }
 }

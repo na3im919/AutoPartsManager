@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
+using BL;
 
 
 namespace AutoPartsManager.Forms.Purchases
@@ -96,33 +97,40 @@ namespace AutoPartsManager.Forms.Purchases
             using (var workbook = new XLWorkbook(filePath))
             {
                 var ws = workbook.Worksheet(1);
-                var rows = ws.RowsUsed().Skip(1); // تخطي صف العناوين
+                var rows = ws.RowsUsed().Skip(1);
 
                 dgv_invoice_list.Rows.Clear();
 
                 foreach (var row in rows)
                 {
-                    // قراءة القيم من Excel
-                    string productCode = row.Cell(1).GetValue<string>();
-                    string productName = row.Cell(2).GetValue<string>();
+                    string reference = row.Cell(1).GetValue<string>().Trim();
+                    string name = row.Cell(2).GetValue<string>();
                     string brand = row.Cell(3).GetValue<string>();
                     int quantity = row.Cell(4).GetValue<int>();
                     decimal price = row.Cell(5).GetValue<decimal>();
-
                     decimal total = quantity * price;
+
+                    int productId = cls_bl_Products.GetProductIdByReference(reference);
 
                     int rowIndex = dgv_invoice_list.Rows.Add();
 
-                    // تعبئة DataGridView (تأكد أن أسماء الأعمدة صحيحة)
-                    dgv_invoice_list.Rows[rowIndex].Cells["Reference"].Value = productCode;
-                    dgv_invoice_list.Rows[rowIndex].Cells["ProductName"].Value = productName;
-                    dgv_invoice_list.Rows[rowIndex].Cells["ProductBrand"].Value = brand;
-                    dgv_invoice_list.Rows[rowIndex].Cells["Quantity"].Value = quantity;
-                    dgv_invoice_list.Rows[rowIndex].Cells["Price"].Value = price;
-                    dgv_invoice_list.Rows[rowIndex].Cells["Total"].Value = total;
+                    var dgvRow = dgv_invoice_list.Rows[rowIndex];
+
+                    dgvRow.Cells["ID"].Value = productId == -1 ? -1 : productId;
+                    dgvRow.Cells["Reference"].Value = reference;
+                    dgvRow.Cells["ProductName"].Value = name;
+                    dgvRow.Cells["ProductBrand"].Value = brand;
+                    dgvRow.Cells["Quantity"].Value = quantity;
+                    dgvRow.Cells["Price"].Value = price;
+                    dgvRow.Cells["Total"].Value = total;
+
+                    dgvRow.Cells["IsNew"].Value = productId == -1;
+
+                    // تمييز بصري (اختياري)
+                    if (productId == -1)
+                        dgvRow.DefaultCellStyle.BackColor = Color.LightYellow;
                 }
 
-                // تحديث الإجمالي النهائي (خصم + مجموع)
                 ApplyDiscountAndCalculateTotal();
             }
         }

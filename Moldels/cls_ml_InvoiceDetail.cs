@@ -12,8 +12,14 @@ namespace Moldels
         public int InvoiceID { get; set; }
         public int ProductID { get; set; }
         public decimal UnitPrice { get; set; }
+        public decimal Cost { get; set; }
         public int Quantity { get; set; }
 
+        // 🔸 خصائص مساعدة (Runtime Only)
+        public string ProductName { get; set; }
+        public string Reference { get; set; }
+        public string ProductBrand { get; set; }
+        public bool IsNewProduct { get; set; }
         // LineTotal محسوب تلقائيًا
         public decimal LineTotal
         {

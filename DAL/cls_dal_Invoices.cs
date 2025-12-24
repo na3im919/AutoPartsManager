@@ -29,29 +29,29 @@ namespace DAL
                 {
                     // 1️⃣ إضافة الفاتورة
                     string invoiceQuery = @"
-                INSERT INTO Invoices
-                (
-                    ClientID,
-                    SupplierID,
-                    InvoiceType,
-                    Date,
-                    TotalAmount,
-                    DiscountAmount,
-                    NetAmount,
-                    PaymentMethode
-                )
-                VALUES
-                (
-                    @ClientID,
-                    @SupplierID,
-                    @InvoiceType,
-                    @Date,
-                    @TotalAmount,
-                    @DiscountAmount,
-                    @NetAmount,
-                    @PaymentMethod
-                );
-                SELECT SCOPE_IDENTITY();";
+            INSERT INTO Invoices
+            (
+                ClientID,
+                SupplierID,
+                InvoiceType,
+                Date,
+                TotalAmount,
+                DiscountAmount,
+                NetAmount,
+                PaymentMethode
+            )
+            VALUES
+            (
+                @ClientID,
+                @SupplierID,
+                @InvoiceType,
+                @Date,
+                @TotalAmount,
+                @DiscountAmount,
+                @NetAmount,
+                @PaymentMethod
+            );
+            SELECT SCOPE_IDENTITY();";
 
                     int invoiceID;
 
@@ -73,39 +73,37 @@ namespace DAL
                         invoiceID = Convert.ToInt32(cmdInvoice.ExecuteScalar());
                     }
 
-                    // 2️⃣ التفاصيل + تعديل الكمية حسب نوع الفاتورة
+                    // 2️⃣ تفاصيل الفاتورة + تعديل الكمية + دعم المنتجات الجديدة
                     foreach (var detail in details)
                     {
-                        string detailQuery = @"
-                    INSERT INTO InvoicesDetails
-                    (
-                        InvoiceID,
-                        ProductID,
-                        ProductPrice,
-                        Quantity
-                    )
-                    VALUES
-                    (
-                        @InvoiceID,
-                        @ProductID,
-                        @UnitPrice,
-                        @Quantity
-                    );";
+                        int productId = detail.ProductID;
 
-                        using (SqlCommand cmdDetail = new SqlCommand(detailQuery, con, transaction))
+                        // 🔹 إذا المنتج جديد (ProductID = -1) → إضافة المنتج أولاً
+                        if (productId == -1)
                         {
-                            cmdDetail.Parameters.AddWithValue("@InvoiceID", invoiceID);
-                            cmdDetail.Parameters.AddWithValue("@ProductID", detail.ProductID);
-                            cmdDetail.Parameters.AddWithValue("@UnitPrice", detail.UnitPrice);
-                            cmdDetail.Parameters.AddWithValue("@Quantity", detail.Quantity);
-                            cmdDetail.ExecuteNonQuery();
+                            string insertProduct = @"
+                    INSERT INTO Products
+                    (Reference, ProductName, ProductBrand, Cost, Price, isActive)
+                    VALUES (@Reference, @ProductName, @ProductBrand, @Cost, @Price,1);
+                    SELECT SCOPE_IDENTITY();";
+
+                            using (SqlCommand cmdProduct = new SqlCommand(insertProduct, con, transaction))
+                            {
+                                cmdProduct.Parameters.AddWithValue("@Reference", detail.Reference ?? "");
+                                cmdProduct.Parameters.AddWithValue("@ProductName", detail.ProductName ?? "");
+                                cmdProduct.Parameters.AddWithValue("@ProductBrand", detail.ProductBrand ?? "");
+                                cmdProduct.Parameters.AddWithValue("@Cost", detail.Cost);
+                                cmdProduct.Parameters.AddWithValue("@Price", detail.UnitPrice);
+
+                                productId = Convert.ToInt32(cmdProduct.ExecuteScalar());
+                            }
                         }
 
                         // 🔥 تعديل الكمية حسب نوع الفاتورة
                         if (invoice.InvoiceType == "بيع")
                         {
                             cls_dal_Products.DecreaseProductQuantity(
-                                detail.ProductID,
+                                productId,
                                 detail.Quantity,
                                 con,
                                 transaction
@@ -114,11 +112,37 @@ namespace DAL
                         else if (invoice.InvoiceType == "شراء")
                         {
                             cls_dal_Products.IncreaseProductQuantity(
-                                detail.ProductID,
+                                productId,
                                 detail.Quantity,
                                 con,
                                 transaction
                             );
+                        }
+
+                        // 🔹 إضافة التفاصيل إلى InvoicesDetails
+                        string detailQuery = @"
+                INSERT INTO InvoicesDetails
+                (
+                    InvoiceID,
+                    ProductID,
+                    ProductPrice,
+                    Quantity
+                )
+                VALUES
+                (
+                    @InvoiceID,
+                    @ProductID,
+                    @UnitPrice,
+                    @Quantity
+                );";
+
+                        using (SqlCommand cmdDetail = new SqlCommand(detailQuery, con, transaction))
+                        {
+                            cmdDetail.Parameters.AddWithValue("@InvoiceID", invoiceID);
+                            cmdDetail.Parameters.AddWithValue("@ProductID", productId);
+                            cmdDetail.Parameters.AddWithValue("@UnitPrice", detail.UnitPrice);
+                            cmdDetail.Parameters.AddWithValue("@Quantity", detail.Quantity);
+                            cmdDetail.ExecuteNonQuery();
                         }
                     }
 
@@ -133,6 +157,7 @@ namespace DAL
                 }
             }
         }
+
 
 
 

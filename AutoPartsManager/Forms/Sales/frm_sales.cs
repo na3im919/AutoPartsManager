@@ -16,7 +16,7 @@ namespace AutoPartsManager.Forms
         private decimal _currentDiscountPercentage;
         private bool _hasDiscount = false;
         private bool _isPercentageDiscount = false;
-
+        private int NewProductsNumber = 0;
         protected virtual string InvoiceType => "بيع";
         protected virtual bool AllowDiscount => true;
 
@@ -57,21 +57,47 @@ namespace AutoPartsManager.Forms
             };
         }
 
-        protected virtual List<cls_ml_InvoiceDetail> PrepareInvoicesDetails()
+        private List<cls_ml_InvoiceDetail> PrepareInvoicesDetails()
         {
-            List<cls_ml_InvoiceDetail> invoiceDetails = new List<cls_ml_InvoiceDetail>();
+            List<cls_ml_InvoiceDetail> list = new List<cls_ml_InvoiceDetail>();
+
             foreach (DataGridViewRow row in dgv_invoice_list.Rows)
             {
                 if (row.IsNewRow) continue;
 
-                invoiceDetails.Add(new cls_ml_InvoiceDetail
+                decimal unitPrice = 0;
+                decimal cost = 0;
+                
+                bool IsNew = Convert.ToBoolean(row.Cells["IsNew"].Value);
+                if (IsNew)
+                    NewProductsNumber++;
+
+                // تحقق من نوع الفاتورة
+                if (InvoiceType == "بيع")
+                {
+                    unitPrice = Convert.ToDecimal(row.Cells["Price"].Value);
+                }
+                else
+                {
+                    unitPrice = 0;
+                    cost = Convert.ToDecimal(row.Cells["Price"].Value);
+                }
+
+                list.Add(new cls_ml_InvoiceDetail
                 {
                     ProductID = Convert.ToInt32(row.Cells["ID"].Value),
+                    ProductName = row.Cells["ProductName"].Value.ToString(),
+                    Reference = row.Cells["Reference"].Value?.ToString(),
+                    ProductBrand = row.Cells["ProductBrand"].Value.ToString(),
                     Quantity = Convert.ToInt32(row.Cells["Quantity"].Value),
-                    UnitPrice = Convert.ToDecimal(row.Cells["Price"].Value)
+                    UnitPrice = unitPrice,
+                    Cost = cost,
+                    IsNewProduct = IsNew
                 });
             }
-            return invoiceDetails;
+
+
+            return list;
         }
 
         public void ResetForm()
@@ -232,6 +258,8 @@ namespace AutoPartsManager.Forms
             {
                 XtraMessageBox.Show("تمت إضافة الفاتورة بنجاح");
                 ClearInvoiceList();
+                if (NewProductsNumber > 0)
+                    XtraMessageBox.Show($"تمت إضافة {NewProductsNumber} منتجات جديدة يرجى التعديل على أسعار البيع", "منتجات جديدة", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {

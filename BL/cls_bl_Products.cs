@@ -18,6 +18,10 @@ namespace BL
         }
 
 
+        public static int GetProductIdByReference(string reference)
+        {
+            return cls_dal_Products.GetProductIdByReference(reference);
+        }
 
         public static int GetAvailableQuantity(int productId, out string error_message)
         {

@@ -63,6 +63,7 @@
             this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IsNew = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.svgImageBox1)).BeginInit();
             this.panel2.SuspendLayout();
@@ -334,7 +335,8 @@
             this.ProductBrand,
             this.Quantity,
             this.Price,
-            this.Total});
+            this.Total,
+            this.IsNew});
             this.dgv_invoice_list.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_invoice_list.Location = new System.Drawing.Point(0, 108);
             this.dgv_invoice_list.MultiSelect = false;
@@ -429,6 +431,14 @@
             this.Total.Name = "Total";
             this.Total.ReadOnly = true;
             // 
+            // IsNew
+            // 
+            this.IsNew.HeaderText = "";
+            this.IsNew.MinimumWidth = 8;
+            this.IsNew.Name = "IsNew";
+            this.IsNew.ReadOnly = true;
+            this.IsNew.Visible = false;
+            // 
             // frm_sales
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
@@ -493,5 +503,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
         private System.Windows.Forms.DataGridViewTextBoxColumn Price;
         private System.Windows.Forms.DataGridViewTextBoxColumn Total;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IsNew;
     }
 }
