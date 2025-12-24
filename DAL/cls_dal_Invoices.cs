@@ -73,7 +73,7 @@ namespace DAL
                         invoiceID = Convert.ToInt32(cmdInvoice.ExecuteScalar());
                     }
 
-                    // 2️⃣ التفاصيل + إنقاص الكمية
+                    // 2️⃣ التفاصيل + تعديل الكمية حسب نوع الفاتورة
                     foreach (var detail in details)
                     {
                         string detailQuery = @"
@@ -101,13 +101,25 @@ namespace DAL
                             cmdDetail.ExecuteNonQuery();
                         }
 
-                        // 🔥 الاستدعاء الصحيح
-                        cls_dal_Products.DecreaseProductQuantity(
-                            detail.ProductID,
-                            detail.Quantity,
-                            con,
-                            transaction
-                        );
+                        // 🔥 تعديل الكمية حسب نوع الفاتورة
+                        if (invoice.InvoiceType == "بيع")
+                        {
+                            cls_dal_Products.DecreaseProductQuantity(
+                                detail.ProductID,
+                                detail.Quantity,
+                                con,
+                                transaction
+                            );
+                        }
+                        else if (invoice.InvoiceType == "شراء")
+                        {
+                            cls_dal_Products.IncreaseProductQuantity(
+                                detail.ProductID,
+                                detail.Quantity,
+                                con,
+                                transaction
+                            );
+                        }
                     }
 
                     transaction.Commit();
@@ -121,6 +133,7 @@ namespace DAL
                 }
             }
         }
+
 
 
 

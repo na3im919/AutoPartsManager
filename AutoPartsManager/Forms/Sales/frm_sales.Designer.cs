@@ -35,7 +35,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.svgImageBox1 = new DevExpress.XtraEditors.SvgImageBox();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -56,12 +55,14 @@
             this.btn_delete_product = new DevExpress.XtraEditors.SimpleButton();
             this.btn_add_invoice = new DevExpress.XtraEditors.SimpleButton();
             this.dgv_invoice_list = new System.Windows.Forms.DataGridView();
+            this.dgv_suggest = new System.Windows.Forms.DataGridView();
             this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Reference = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ProductName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ProductBrand = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_suggest = new System.Windows.Forms.DataGridView();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.svgImageBox1)).BeginInit();
             this.panel2.SuspendLayout();
@@ -78,7 +79,6 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(91)))), ((int)(((byte)(135)))));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.comboBox1);
             this.panel1.Controls.Add(this.svgImageBox1);
             this.panel1.Controls.Add(this.txtSearch);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -87,17 +87,9 @@
             this.panel1.Size = new System.Drawing.Size(1045, 108);
             this.panel1.TabIndex = 0;
             // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(3, 66);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(238, 27);
-            this.comboBox1.TabIndex = 2;
-            // 
             // svgImageBox1
             // 
-            this.svgImageBox1.Location = new System.Drawing.Point(258, 61);
+            this.svgImageBox1.Location = new System.Drawing.Point(11, 50);
             this.svgImageBox1.Name = "svgImageBox1";
             this.svgImageBox1.Size = new System.Drawing.Size(53, 32);
             this.svgImageBox1.SizeMode = DevExpress.XtraEditors.SvgImageSizeMode.Zoom;
@@ -108,7 +100,7 @@
             // txtSearch
             // 
             this.txtSearch.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSearch.Location = new System.Drawing.Point(317, 66);
+            this.txtSearch.Location = new System.Drawing.Point(70, 55);
             this.txtSearch.Multiline = true;
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(466, 41);
@@ -337,7 +329,9 @@
             this.dgv_invoice_list.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_invoice_list.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ID,
+            this.Reference,
             this.ProductName,
+            this.ProductBrand,
             this.Quantity,
             this.Price,
             this.Total});
@@ -355,6 +349,24 @@
             this.dgv_invoice_list.Size = new System.Drawing.Size(698, 745);
             this.dgv_invoice_list.TabIndex = 3;
             // 
+            // dgv_suggest
+            // 
+            this.dgv_suggest.AllowUserToAddRows = false;
+            this.dgv_suggest.AllowUserToDeleteRows = false;
+            this.dgv_suggest.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgv_suggest.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.dgv_suggest.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgv_suggest.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_suggest.Location = new System.Drawing.Point(318, 108);
+            this.dgv_suggest.Name = "dgv_suggest";
+            this.dgv_suggest.ReadOnly = true;
+            this.dgv_suggest.RowHeadersWidth = 62;
+            this.dgv_suggest.RowTemplate.Height = 28;
+            this.dgv_suggest.Size = new System.Drawing.Size(468, 182);
+            this.dgv_suggest.TabIndex = 4;
+            this.dgv_suggest.Visible = false;
+            this.dgv_suggest.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_suggest_CellClick);
+            // 
             // ID
             // 
             this.ID.HeaderText = "ID";
@@ -362,6 +374,14 @@
             this.ID.Name = "ID";
             this.ID.ReadOnly = true;
             this.ID.Visible = false;
+            // 
+            // Reference
+            // 
+            this.Reference.HeaderText = "كود المنتج";
+            this.Reference.MinimumWidth = 8;
+            this.Reference.Name = "Reference";
+            this.Reference.ReadOnly = true;
+            this.Reference.Visible = false;
             // 
             // ProductName
             // 
@@ -373,6 +393,14 @@
             this.ProductName.Name = "ProductName";
             this.ProductName.ReadOnly = true;
             this.ProductName.Width = 123;
+            // 
+            // ProductBrand
+            // 
+            this.ProductBrand.HeaderText = "العلامة التجارية";
+            this.ProductBrand.MinimumWidth = 8;
+            this.ProductBrand.Name = "ProductBrand";
+            this.ProductBrand.ReadOnly = true;
+            this.ProductBrand.Visible = false;
             // 
             // Quantity
             // 
@@ -400,24 +428,6 @@
             this.Total.MinimumWidth = 8;
             this.Total.Name = "Total";
             this.Total.ReadOnly = true;
-            // 
-            // dgv_suggest
-            // 
-            this.dgv_suggest.AllowUserToAddRows = false;
-            this.dgv_suggest.AllowUserToDeleteRows = false;
-            this.dgv_suggest.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgv_suggest.BackgroundColor = System.Drawing.SystemColors.Window;
-            this.dgv_suggest.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dgv_suggest.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv_suggest.Location = new System.Drawing.Point(318, 108);
-            this.dgv_suggest.Name = "dgv_suggest";
-            this.dgv_suggest.ReadOnly = true;
-            this.dgv_suggest.RowHeadersWidth = 62;
-            this.dgv_suggest.RowTemplate.Height = 28;
-            this.dgv_suggest.Size = new System.Drawing.Size(468, 182);
-            this.dgv_suggest.TabIndex = 4;
-            this.dgv_suggest.Visible = false;
-            this.dgv_suggest.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_suggest_CellClick);
             // 
             // frm_sales
             // 
@@ -457,22 +467,14 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Panel panel4;
-        private DevExpress.XtraEditors.SimpleButton btn_edit_quantity;
         private DevExpress.XtraEditors.SimpleButton btn_clear_invoice;
         private DevExpress.XtraEditors.SimpleButton btn_delete_product;
         private DevExpress.XtraEditors.SimpleButton btn_add_invoice;
         private DevExpress.XtraEditors.SvgImageBox svgImageBox1;
-        private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Label lbl_total;
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ProductName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Price;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Total;
         protected System.Windows.Forms.Label label1;
         protected System.Windows.Forms.PictureBox pictureBox1;
         protected DevExpress.XtraEditors.SimpleButton btn_discount;
@@ -482,5 +484,14 @@
         protected System.Windows.Forms.Label lbl_discount;
         protected System.Windows.Forms.Label label3;
         protected System.Windows.Forms.Label label2;
+        protected DevExpress.XtraEditors.SimpleButton btn_edit_quantity;
+        protected System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Reference;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ProductName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ProductBrand;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Price;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Total;
     }
 }

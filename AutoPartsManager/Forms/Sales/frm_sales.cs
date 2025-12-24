@@ -44,14 +44,14 @@ namespace AutoPartsManager.Forms
             // البيع: يتم إنقاص الكمية داخل BL
         }
 
-        protected virtual cls_ml_Invoices PrepareInvoice(int ClientID, string PaymentMethod, decimal discount)
+        protected virtual cls_ml_Invoices PrepareInvoice(int Client_SupplierID, string PaymentMethod, decimal discount)
         {
             return new cls_ml_Invoices
             {
                 Date = DateTime.Now,
                 TotalAmount = GetCurrentGrandTotal(),
                 DiscountAmount = discount,
-                ClientID = ClientID,
+                ClientID = Client_SupplierID,
                 InvoiceType = InvoiceType,
                 PaymentMethod = PaymentMethod
             };
@@ -116,7 +116,10 @@ namespace AutoPartsManager.Forms
             dgv_invoice_list.RowHeadersVisible = false;
             dgv_invoice_list.ColumnHeadersDefaultCellStyle.BackColor = Color.LightGray;
             dgv_invoice_list.Font = new Font("Segoe UI", 12, FontStyle.Regular);
+           
+
         }
+        
 
         // ===== خصم =====
         protected void ApplyDiscountAndCalculateTotal()
@@ -212,9 +215,17 @@ namespace AutoPartsManager.Forms
             frm_add_invoice invoiceForm = new frm_add_invoice(GetCurrentGrandTotal(), decimal.Parse(lbl_discount.Text.Split(' ')[0]), InvoiceType);
             invoiceForm.ShowDialog();
             if (!invoiceForm.IsApproved) return;
+            cls_ml_Invoices invoice = new cls_ml_Invoices();
+            if (InvoiceType == "بيع" )
+            {
+                invoice = PrepareInvoice(invoiceForm.ClientID, invoiceForm.PaymentMethod, decimal.Parse(lbl_discount.Text.Split(' ')[0]));
+            }
+            else
+            {
+               invoice = PrepareInvoice(invoiceForm.SupplierID, invoiceForm.PaymentMethod, decimal.Parse(lbl_discount.Text.Split(' ')[0]));
 
-            cls_ml_Invoices invoice = PrepareInvoice(invoiceForm.ClientID, invoiceForm.PaymentMethod, decimal.Parse(lbl_discount.Text.Split(' ')[0]));
-            List<cls_ml_InvoiceDetail> details = PrepareInvoicesDetails();
+            }
+                List<cls_ml_InvoiceDetail> details = PrepareInvoicesDetails();
 
             string error;
             if (SaveInvoice(invoice, details, out error))
@@ -230,7 +241,7 @@ namespace AutoPartsManager.Forms
 
         private void btn_delete_product_Click(object sender, EventArgs e) => DeleteSelectedProductFromInvoice();
         private void btn_clear_invoice_Click(object sender, EventArgs e) => ClearInvoiceList();
-        private void btn_discount_Click(object sender, EventArgs e)
+        protected void btn_discount_Click(object sender, EventArgs e)
         {
             frm_discount discountForm = new frm_discount { GrandTotal = GetCurrentGrandTotal() };
             discountForm.ShowDialog();
@@ -545,7 +556,15 @@ namespace AutoPartsManager.Forms
 
         SetupSuggestionDataGridView();
             SetupDataGridView();
-            btn_discount.Visible = AllowDiscount;
+            //btn_discount.Visible = AllowDiscount;
+
+            if(!AllowDiscount)
+            {
+                btn_discount.Name = "btn_buy_from_excel";
+                btn_discount.BackColor = Color.FromArgb(51, 51, 51);
+                btn_discount.Text = "إستيراد إكسل";
+                btn_discount.ImageOptions.Image = Properties.Resources.logo;
+            }
         }
 
 

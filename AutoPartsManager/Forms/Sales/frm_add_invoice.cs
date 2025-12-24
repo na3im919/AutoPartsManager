@@ -20,9 +20,14 @@ namespace AutoPartsManager.Forms.Sales
         private string _invoiceType;
         public string PaymentMethod { get; set; }
         public int ClientID { get; set; }
+        public int SupplierID { get; set; }
         public bool IsApproved { get; set; }
 
         private cls_ml_Clients _unknownClient;
+        private cls_ml_Suppliers _unknownSupplier;
+
+        private List<cls_ml_Clients> _clients;
+        private List<cls_ml_Suppliers> _suppliers;
 
         public frm_add_invoice(decimal grandTotal, decimal discountAmount, string InvoiceType)
         {
@@ -44,24 +49,36 @@ namespace AutoPartsManager.Forms.Sales
 
         }
 
-        private List<cls_ml_Clients> _clients;
 
         private void FillClientsComboBoxEdit()
         {
             string error;
             _clients = cls_bl_Clients.GetActiveClients(out error);
+            _suppliers = cls_bl_Suppliers.GetActiveSuppliers(out error);
 
             cmb_client_name.Properties.Items.Clear();
 
-            foreach (var c in _clients)
+            if (_invoiceType == "بيع")
             {
-                if (c.Name == "مجهول")
-                    _unknownClient = c;
-
-                cmb_client_name.Properties.Items.Add(c.Name);
+                foreach (var c in _clients)
+                {
+                    if (c.Name == "مجهول") _unknownClient = c;
+                    cmb_client_name.Properties.Items.Add(c.Name);
+                }
             }
-        }
+            else // شراء
+            {
+                foreach (var s in _suppliers)
+                {
+                    if (s.Name == "مجهول") _unknownSupplier = s;
+                    cmb_client_name.Properties.Items.Add(s.Name);
+                }
+            }
 
+            // نحدد العنصر الأول تلقائيًا إذا لم يكن فارغ
+            if (cmb_client_name.Properties.Items.Count > 0)
+                cmb_client_name.SelectedIndex = 0;
+        }
 
         private void btn_cancel_Click(object sender, EventArgs e)
         {
@@ -85,12 +102,16 @@ namespace AutoPartsManager.Forms.Sales
             {
                 PaymentMethod = "دفع آجل";
 
-                // إزالة "مجهول"
-                if (_unknownClient != null)
+                if (_invoiceType == "بيع" && _unknownClient != null)
                 {
                     cmb_client_name.Properties.Items.Remove("مجهول");
+                    if (cmb_client_name.Text == "مجهول")
+                        cmb_client_name.SelectedIndex = -1;
+                }
 
-                    // لو كان محدد، نلغي التحديد
+                if (_invoiceType == "شراء" && _unknownSupplier != null)
+                {
+                    cmb_client_name.Properties.Items.Remove("مجهول");
                     if (cmb_client_name.Text == "مجهول")
                         cmb_client_name.SelectedIndex = -1;
                 }
@@ -99,9 +120,13 @@ namespace AutoPartsManager.Forms.Sales
             {
                 PaymentMethod = "نقد";
 
-                // إعادة "مجهول"
-                if (_unknownClient != null &&
-                    !cmb_client_name.Properties.Items.Contains("مجهول"))
+                if (_invoiceType == "بيع" && _unknownClient != null && !cmb_client_name.Properties.Items.Contains("مجهول"))
+                {
+                    cmb_client_name.Properties.Items.Insert(0, "مجهول");
+                    cmb_client_name.SelectedIndex = 0;
+                }
+
+                if (_invoiceType == "شراء" && _unknownSupplier != null && !cmb_client_name.Properties.Items.Contains("مجهول"))
                 {
                     cmb_client_name.Properties.Items.Insert(0, "مجهول");
                     cmb_client_name.SelectedIndex = 0;
@@ -109,24 +134,38 @@ namespace AutoPartsManager.Forms.Sales
             }
         }
 
-
         private void btn_add_invoice_Click(object sender, EventArgs e)
         {
-            string clientName = cmb_client_name.Text;
+            string selectedName = cmb_client_name.Text;
 
-            var client = _clients.FirstOrDefault(c => c.Name == clientName);
-
-            if (client == null)
+            if (_invoiceType == "بيع")
             {
-                XtraMessageBox.Show("يرجى اختيار عميل صحيح");
-                return;
+                var client = _clients.FirstOrDefault(c => c.Name == selectedName);
+
+                if (client == null)
+                {
+                    XtraMessageBox.Show("يرجى اختيار عميل صحيح");
+                    return;
+                }
+
+                ClientID = client.ID;
+            }
+            else // شراء
+            {
+                var supplier = _suppliers.FirstOrDefault(s => s.Name == selectedName);
+
+                if (supplier == null)
+                {
+                    XtraMessageBox.Show("يرجى اختيار مورد صحيح");
+                    return;
+                }
+
+                SupplierID = supplier.ID;
             }
 
-            ClientID = client.ID;
             IsApproved = true;
             this.Close();
         }
-
         private void frm_add_invoice_Shown(object sender, EventArgs e)
         {
             cmb_client_name.SelectedIndex = 0;

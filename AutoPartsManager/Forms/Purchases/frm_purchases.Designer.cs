@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_purchases));
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -59,6 +60,15 @@
             this.lbl_discount.Size = new System.Drawing.Size(248, 43);
             this.lbl_discount.Text = "0.00 DZD DZD";
             // 
+            // btn_edit_quantity
+            // 
+            this.btn_edit_quantity.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(81)))), ((int)(((byte)(0)))));
+            this.btn_edit_quantity.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_edit_quantity.Appearance.Options.UseBackColor = true;
+            this.btn_edit_quantity.Appearance.Options.UseFont = true;
+            this.btn_edit_quantity.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_edit_quantity.ImageOptions.Image")));
+            this.btn_edit_quantity.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.TopCenter;
+            // 
             // frm_purchases
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
@@ -66,7 +76,10 @@
             this.ClientSize = new System.Drawing.Size(1045, 1008);
             this.Name = "frm_purchases";
             this.Text = "frm_purchases";
+            this.Load += new System.EventHandler(this.frm_purchases_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
             this.ResumeLayout(false);
 
         }

@@ -117,5 +117,30 @@ namespace DAL
             }
         }
 
+
+        public static void IncreaseProductQuantity(
+    int productId,
+    int quantity,
+    SqlConnection con,
+    SqlTransaction transaction)
+        {
+            string query = @"
+        UPDATE Products
+        SET Quantity = Quantity + @Qty
+        WHERE ID = @ProductID";
+
+            using (SqlCommand cmd = new SqlCommand(query, con, transaction))
+            {
+                cmd.Parameters.AddWithValue("@Qty", quantity);
+                cmd.Parameters.AddWithValue("@ProductID", productId);
+
+                int affectedRows = cmd.ExecuteNonQuery();
+
+                if (affectedRows == 0)
+                    throw new Exception("تعذر زيادة كمية المنتج. تحقق من وجود المنتج.");
+            }
+        }
+
+
     }
 }
