@@ -30,9 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_add_updat_products));
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
-            this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
-            this.btn_cancel = new DevExpress.XtraEditors.SimpleButton();
-            this.btn_save = new DevExpress.XtraEditors.SimpleButton();
             this.txt_name = new DevExpress.XtraEditors.TextEdit();
             this.txt_reffrence = new DevExpress.XtraEditors.TextEdit();
             this.txt_brand = new DevExpress.XtraEditors.TextEdit();
@@ -40,6 +37,7 @@
             this.txt_price = new DevExpress.XtraEditors.TextEdit();
             this.txt_qty = new DevExpress.XtraEditors.TextEdit();
             this.txt_qty_min = new DevExpress.XtraEditors.TextEdit();
+            this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
             this.lay_ctrl_name = new DevExpress.XtraLayout.LayoutControlItem();
             this.ly_ctrl_refference = new DevExpress.XtraLayout.LayoutControlItem();
             this.lay_ctrl_brand = new DevExpress.XtraLayout.LayoutControlItem();
@@ -47,9 +45,10 @@
             this.lay_ctrl_price = new DevExpress.XtraLayout.LayoutControlItem();
             this.lay_ctrl_quantity = new DevExpress.XtraLayout.LayoutControlItem();
             this.lay_ctrl_min_quantity = new DevExpress.XtraLayout.LayoutControlItem();
+            this.btn_cancel = new DevExpress.XtraEditors.SimpleButton();
+            this.btn_save = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Root)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_name.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_reffrence.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_brand.Properties)).BeginInit();
@@ -57,6 +56,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.txt_price.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_qty.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_qty_min.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Root)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lay_ctrl_name)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ly_ctrl_refference)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lay_ctrl_brand)).BeginInit();
@@ -85,42 +85,6 @@
             this.layoutControl1.Size = new System.Drawing.Size(782, 307);
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
-            // 
-            // Root
-            // 
-            this.Root.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
-            this.Root.GroupBordersVisible = false;
-            this.Root.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
-            this.lay_ctrl_name,
-            this.ly_ctrl_refference,
-            this.lay_ctrl_brand,
-            this.lay_ctrl_cost,
-            this.lay_ctrl_price,
-            this.lay_ctrl_quantity,
-            this.lay_ctrl_min_quantity});
-            this.Root.Name = "Root";
-            this.Root.Size = new System.Drawing.Size(782, 307);
-            this.Root.TextVisible = false;
-            // 
-            // btn_cancel
-            // 
-            this.btn_cancel.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_cancel.ImageOptions.Image")));
-            this.btn_cancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.TopCenter;
-            this.btn_cancel.Location = new System.Drawing.Point(166, 313);
-            this.btn_cancel.Name = "btn_cancel";
-            this.btn_cancel.Size = new System.Drawing.Size(90, 65);
-            this.btn_cancel.TabIndex = 2;
-            this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
-            // 
-            // btn_save
-            // 
-            this.btn_save.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_save.ImageOptions.Image")));
-            this.btn_save.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.TopCenter;
-            this.btn_save.Location = new System.Drawing.Point(56, 313);
-            this.btn_save.Name = "btn_save";
-            this.btn_save.Size = new System.Drawing.Size(90, 65);
-            this.btn_save.TabIndex = 1;
-            this.btn_save.Click += new System.EventHandler(this.btn_save_Click);
             // 
             // txt_name
             // 
@@ -161,6 +125,7 @@
             this.txt_cost.Size = new System.Drawing.Size(520, 36);
             this.txt_cost.StyleController = this.layoutControl1;
             this.txt_cost.TabIndex = 7;
+            this.txt_cost.Click += new System.EventHandler(this.txt_cost_Click);
             // 
             // txt_price
             // 
@@ -171,6 +136,7 @@
             this.txt_price.Size = new System.Drawing.Size(520, 36);
             this.txt_price.StyleController = this.layoutControl1;
             this.txt_price.TabIndex = 8;
+            this.txt_price.Click += new System.EventHandler(this.txt_price_Click);
             // 
             // txt_qty
             // 
@@ -181,6 +147,7 @@
             this.txt_qty.Size = new System.Drawing.Size(520, 36);
             this.txt_qty.StyleController = this.layoutControl1;
             this.txt_qty.TabIndex = 9;
+            this.txt_qty.Click += new System.EventHandler(this.txt_qty_Click);
             // 
             // txt_qty_min
             // 
@@ -191,6 +158,23 @@
             this.txt_qty_min.Size = new System.Drawing.Size(520, 36);
             this.txt_qty_min.StyleController = this.layoutControl1;
             this.txt_qty_min.TabIndex = 10;
+            this.txt_qty_min.Click += new System.EventHandler(this.txt_qty_min_Click);
+            // 
+            // Root
+            // 
+            this.Root.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
+            this.Root.GroupBordersVisible = false;
+            this.Root.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
+            this.lay_ctrl_name,
+            this.ly_ctrl_refference,
+            this.lay_ctrl_brand,
+            this.lay_ctrl_cost,
+            this.lay_ctrl_price,
+            this.lay_ctrl_quantity,
+            this.lay_ctrl_min_quantity});
+            this.Root.Name = "Root";
+            this.Root.Size = new System.Drawing.Size(782, 307);
+            this.Root.TextVisible = false;
             // 
             // lay_ctrl_name
             // 
@@ -269,6 +253,26 @@
             this.lay_ctrl_min_quantity.Text = "الحد الأدنى للمخزون";
             this.lay_ctrl_min_quantity.TextSize = new System.Drawing.Size(226, 29);
             // 
+            // btn_cancel
+            // 
+            this.btn_cancel.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_cancel.ImageOptions.Image")));
+            this.btn_cancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.TopCenter;
+            this.btn_cancel.Location = new System.Drawing.Point(166, 313);
+            this.btn_cancel.Name = "btn_cancel";
+            this.btn_cancel.Size = new System.Drawing.Size(90, 65);
+            this.btn_cancel.TabIndex = 2;
+            this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
+            // 
+            // btn_save
+            // 
+            this.btn_save.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_save.ImageOptions.Image")));
+            this.btn_save.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.TopCenter;
+            this.btn_save.Location = new System.Drawing.Point(56, 313);
+            this.btn_save.Name = "btn_save";
+            this.btn_save.Size = new System.Drawing.Size(90, 65);
+            this.btn_save.TabIndex = 1;
+            this.btn_save.Click += new System.EventHandler(this.btn_save_Click);
+            // 
             // frm_add_updat_products
             // 
             this.Appearance.Options.UseFont = true;
@@ -286,7 +290,6 @@
             this.Load += new System.EventHandler(this.frm_add_updat_products_Load);
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.Root)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_name.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_reffrence.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_brand.Properties)).EndInit();
@@ -294,6 +297,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.txt_price.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_qty.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_qty_min.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Root)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lay_ctrl_name)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ly_ctrl_refference)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lay_ctrl_brand)).EndInit();

@@ -1,4 +1,6 @@
-﻿using BL;
+﻿using AutoPartsManager.Forms.Purchases;
+using BL;
+using ClosedXML.Excel;
 using DevExpress.XtraEditors;
 using Moldels;
 using System;
@@ -19,9 +21,21 @@ namespace AutoPartsManager.Forms.Inventory
         string Keyword = string.Empty;
         bool ActiveOnly = true;
         bool ZeroQtyOnly = false;
+        private ContextMenuStrip dgvContextMenu;
+
         public frm_inventory()
         {
             InitializeComponent();
+
+            dgvContextMenu = new ContextMenuStrip();
+            var exportItem = new ToolStripMenuItem("تصدير ملف Excel فارغ");
+            var exportInventory = new ToolStripMenuItem("تصدير المخزون في ملف EXCEL");
+            exportInventory.Click += ExportInventory_Click;
+            exportItem.Click += frm_purchases.ExportEmptyExcel_Click;
+            dgvContextMenu.Items.Add(exportInventory);
+            dgvContextMenu.Items.Add(exportItem);
+
+            dgv_inventory.ContextMenuStrip = dgvContextMenu;
         }
 
         private void GetTotalQuantity()
@@ -49,6 +63,99 @@ namespace AutoPartsManager.Forms.Inventory
 
             lbl_products_number.Text = total.ToString();
         }
+
+
+        public static void ExportInventoryToExcel(DataGridView dgv_inventory, string filePath)
+        {
+            using (var workbook = new ClosedXML.Excel.XLWorkbook())
+            {
+                var ws = workbook.Worksheets.Add("Products");
+
+                // 1️⃣ تصدير عناوين الأعمدة
+                int colIndex = 1;
+                foreach (DataGridViewColumn col in dgv_inventory.Columns)
+                {
+                    if (!col.Visible) continue;
+
+                    ws.Cell(1, colIndex).Value = col.HeaderText;
+                    ws.Cell(1, colIndex).Style.Font.Bold = true;
+                    colIndex++;
+                }
+
+                // 2️⃣ تصدير الصفوف
+                int rowIndex = 2;
+                foreach (DataGridViewRow row in dgv_inventory.Rows)
+                {
+                    if (row.IsNewRow) continue;
+
+                    colIndex = 1;
+                    foreach (DataGridViewColumn col in dgv_inventory.Columns)
+                    {
+                        if (!col.Visible || col is DataGridViewImageColumn) continue;
+
+                        ws.Cell(rowIndex, colIndex).Value =
+                            row.Cells[col.Index].Value?.ToString() ?? string.Empty;
+                        colIndex++;
+                    }
+
+                    rowIndex++;
+                }
+
+                // 3️⃣ ضبط عرض الأعمدة
+                ws.Columns().AdjustToContents();
+
+                workbook.SaveAs(filePath);
+            }
+        }
+
+        private void ImportProductsFromExcel(string filePath)
+        {
+            string error_msg = string.Empty;
+            int counter = 0;
+            using (var workbook = new XLWorkbook(filePath))
+            {
+                var ws = workbook.Worksheet(1);
+                var rows = ws.RowsUsed().Skip(1);
+
+                dgv_inventory.Rows.Clear();
+
+                foreach (var row in rows)
+                {
+                    string reference = row.Cell(1).GetValue<string>().Trim();
+                    string name = row.Cell(2).GetValue<string>();
+                    string brand = row.Cell(3).GetValue<string>();
+                    int quantity = row.Cell(4).GetValue<int>();
+                    decimal cost = row.Cell(5).GetValue<decimal>();
+
+                    int productId = cls_bl_Products.GetProductIdByReference(reference);
+
+                    if (productId == -1)
+                    {
+                        cls_ml_Products products = new cls_ml_Products()
+                        {
+                            Reference = reference,
+                            ProductName = name,
+                            ProductBrand = brand,
+                            Quantity = quantity,
+                            Cost = cost,
+                            Price = 0,
+                            min_quantity = 0,
+                            
+                        };
+                        if (cls_bl_Products.AddProductStock(products, out error_msg))
+                            counter++;
+
+                    }
+
+                }
+                XtraMessageBox.Show($"تم إضافة {counter} منتج جديد بنجاح");
+                LoadInventoryList();
+                GetTotalQuantity();
+                GetTotalCost();
+                GetTotalPrice();
+            }
+        }
+
 
         private string FormatDZD(decimal amount, bool withDecimals = false)
         {
@@ -313,5 +420,42 @@ namespace AutoPartsManager.Forms.Inventory
             if (addProductForm.add_or_update_product)
                 LoadInventoryList();
         }
+
+        private void btn_import_excel_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog ofd = new OpenFileDialog())
+            {
+                ofd.Filter = "Excel Files|*.xlsx";
+                ofd.Title = "اختر ملف المنتجات بعد تعبئته";
+
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    ImportProductsFromExcel(ofd.FileName);
+                }
+            }
+        }
+
+
+
+
+        private void ExportInventory_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                Filter = "Excel Files|*.xlsx",
+                FileName = "Inventory.xlsx"
+            };
+
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                ExportInventoryToExcel(dgv_inventory, sfd.FileName);
+
+                MessageBox.Show("تم تصدير المخزون بنجاح",
+                    "تصدير Excel",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+        }
+
     }
 }

@@ -137,7 +137,7 @@ namespace AutoPartsManager.Forms.Purchases
             }
         }
 
-        private void CreateEmptyExcelFile(string filePath)
+        public static void CreateEmptyExcelFile(string filePath)
         {
             using (var workbook = new ClosedXML.Excel.XLWorkbook())
             {
@@ -194,7 +194,7 @@ namespace AutoPartsManager.Forms.Purchases
             }
         }
 
-        private void ExportEmptyExcel_Click(object sender, EventArgs e)
+        public static void ExportEmptyExcel_Click(object sender, EventArgs e)
         {
             using (SaveFileDialog sfd = new SaveFileDialog())
             {

@@ -74,6 +74,8 @@
             this.panel6 = new System.Windows.Forms.Panel();
             this.chk_non_active_product = new System.Windows.Forms.CheckBox();
             this.btn_add_new_product = new DevExpress.XtraEditors.SimpleButton();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.btn_import_excel = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -92,10 +94,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_inventory)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.panel6.SuspendLayout();
+            this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelControl1
             // 
+            this.panelControl1.Controls.Add(this.panel4);
             this.panelControl1.Controls.Add(this.panel6);
             this.panelControl1.Controls.Add(this.groupBox1);
             this.panelControl1.Controls.Add(this.panel2);
@@ -520,7 +524,7 @@
             this.btn_add_new_product.Appearance.Options.UseBackColor = true;
             this.btn_add_new_product.Appearance.Options.UseFont = true;
             this.btn_add_new_product.AppearancePressed.Options.UseBackColor = true;
-            this.btn_add_new_product.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton1.ImageOptions.Image")));
+            this.btn_add_new_product.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_add_new_product.ImageOptions.Image")));
             this.btn_add_new_product.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.btn_add_new_product.Location = new System.Drawing.Point(16, 9);
             this.btn_add_new_product.Name = "btn_add_new_product";
@@ -528,6 +532,32 @@
             this.btn_add_new_product.TabIndex = 4;
             this.btn_add_new_product.Text = "إضافة منتج";
             this.btn_add_new_product.Click += new System.EventHandler(this.btn_add_new_product_Click);
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.btn_import_excel);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel4.Location = new System.Drawing.Point(892, 2);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(256, 84);
+            this.panel4.TabIndex = 14;
+            // 
+            // btn_import_excel
+            // 
+            this.btn_import_excel.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(90)))), ((int)(((byte)(156)))));
+            this.btn_import_excel.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_import_excel.Appearance.Options.UseBackColor = true;
+            this.btn_import_excel.Appearance.Options.UseFont = true;
+            this.btn_import_excel.AppearancePressed.Options.UseBackColor = true;
+            this.btn_import_excel.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton1.ImageOptions.Image")));
+            this.btn_import_excel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_import_excel.Location = new System.Drawing.Point(32, 9);
+            this.btn_import_excel.Name = "btn_import_excel";
+            this.btn_import_excel.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.btn_import_excel.Size = new System.Drawing.Size(202, 66);
+            this.btn_import_excel.TabIndex = 4;
+            this.btn_import_excel.Text = "إستيراد EXCEL";
+            this.btn_import_excel.Click += new System.EventHandler(this.btn_import_excel_Click);
             // 
             // frm_inventory
             // 
@@ -570,6 +600,7 @@
             this.groupBox1.PerformLayout();
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
+            this.panel4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -614,5 +645,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.RadioButton rad_non_zero;
         private System.Windows.Forms.RadioButton rad_zero;
+        private System.Windows.Forms.Panel panel4;
+        private DevExpress.XtraEditors.SimpleButton btn_import_excel;
     }
 }

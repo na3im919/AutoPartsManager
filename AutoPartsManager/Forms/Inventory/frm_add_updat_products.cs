@@ -222,5 +222,25 @@ namespace AutoPartsManager.Forms.Inventory
             }
                 
         }
+
+        private void txt_cost_Click(object sender, EventArgs e)
+        {
+            txt_cost.SelectAll();
+        }
+
+        private void txt_price_Click(object sender, EventArgs e)
+        {
+            txt_price.SelectAll();
+        }
+
+        private void txt_qty_Click(object sender, EventArgs e)
+        {
+            txt_qty.SelectAll();
+        }
+
+        private void txt_qty_min_Click(object sender, EventArgs e)
+        {
+            txt_qty_min.SelectAll();
+        }
     }
 }
