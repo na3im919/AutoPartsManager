@@ -16,7 +16,10 @@ namespace BL
         {
             return cls_dal_Products.GetProductsByKeyword(keyword, invoiceType, out error_message);
         }
-
+        public static List<cls_ml_Products> GetAllProducts(string kw, bool isActive, bool zero_qty, out string error_message)
+        {
+            return cls_dal_Products.GetAllProducts(kw, isActive, zero_qty, out error_message);
+        }
 
         public static int GetProductIdByReference(string reference)
         {
@@ -27,5 +30,16 @@ namespace BL
         {
             return cls_dal_Products.GetAvailableQuantity(productId, out error_message);
         }
+
+        public static bool DeactivateProduct(int productId, out string error)
+        {
+            error = string.Empty;
+            return cls_dal_Products.SetInactive(productId, out error);
+        }
+
+        public static bool SetActive(int productId, out string error)
+
+        { return cls_dal_Products.SetActive(productId, out error); }
+
     }
 }

@@ -59,7 +59,71 @@ namespace DAL
             return products;
         }
 
+        public static List<cls_ml_Products> GetAllProducts(
+            string kw,
+            bool isActive,
+            bool zero_quantity,
+            out string error_message)
+        {
+            error_message = string.Empty;
+            List<cls_ml_Products> Products = new List<cls_ml_Products>();
 
+            // شرط حالة المنتج
+            string productStatus = isActive ? "isActive = 1" : "isActive = 0";
+
+            // بناء الاستعلام الأساسي
+            string query = "SELECT * FROM Products WHERE " + productStatus;
+
+            // ✅ شرط الكمية = 0 (فقط للمنتجات النشطة)
+            if (zero_quantity)
+            {
+                query += " AND Quantity = 0";
+            }
+
+            // شرط البحث بالكلمة المفتاحية
+            if (!string.IsNullOrEmpty(kw))
+            {
+                query += " AND (Reference LIKE @Keyword OR ProductName LIKE @Keyword OR ProductBrand LIKE @Keyword)";
+            }
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                if (!string.IsNullOrEmpty(kw))
+                {
+                    command.Parameters.AddWithValue("@Keyword", "%" + kw + "%");
+                }
+
+                try
+                {
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            cls_ml_Products product = new cls_ml_Products
+                            {
+                                ID = (int)reader["ID"],
+                                Reference = reader["Reference"] != DBNull.Value ? reader["Reference"].ToString() : string.Empty,
+                                ProductName = reader["ProductName"] != DBNull.Value ? reader["ProductName"].ToString() : string.Empty,
+                                ProductBrand = reader["ProductBrand"] != DBNull.Value ? reader["ProductBrand"].ToString() : string.Empty,
+                                Cost = reader["Cost"] != DBNull.Value ? Convert.ToDecimal(reader["Cost"]) : 0,
+                                Price = reader["Price"] != DBNull.Value ? Convert.ToDecimal(reader["Price"]) : 0,
+                                Quantity = reader["Quantity"] != DBNull.Value ? Convert.ToInt32(reader["Quantity"]) : 0
+                            };
+
+                            Products.Add(product);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    error_message = ex.Message;
+                }
+            }
+
+            return Products;
+        }
         /// <summary>
         /// إرجاع الكمية المتاحة للمنتج حسب ID
         /// </summary>
@@ -116,6 +180,67 @@ namespace DAL
                     throw new Exception("الكمية غير كافية للمنتج");
             }
         }
+
+
+        public static bool SetInactive(int productId, out string error)
+        {
+            error = string.Empty;
+             
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    string query = @"
+                UPDATE Products
+                SET IsActive = 0
+                WHERE ID = @ID";
+
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@ID", productId);
+                        con.Open();
+                        return cmd.ExecuteNonQuery() > 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                error = ex.Message;
+                return false;
+            }
+        }
+
+
+        public static bool SetActive(int productId, out string error)
+        {
+            error = string.Empty;
+
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    string query = @"
+                UPDATE Products
+                SET IsActive = 1
+                WHERE ID = @ID";
+
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@ID", productId);
+                        con.Open();
+                        return cmd.ExecuteNonQuery() > 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                error = ex.Message;
+                return false;
+            }
+        }
+
 
 
         public static void IncreaseProductQuantity(
