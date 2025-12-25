@@ -275,13 +275,10 @@ namespace AutoPartsManager.Forms.Inventory
                         break;
 
                 case "Edit":
-                    // TODO: سيتم تنفيذ منطق التعديل لاحقًا
-                    MessageBox.Show(
-                        "منطق التعديل سيتم تنفيذه لاحقًا",
-                        "معلومة",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information
-                    );
+                     frm_add_updat_products updateProductForm = new frm_add_updat_products(productId);
+                     updateProductForm.ShowDialog();
+                    if(updateProductForm.add_or_update_product)
+                        LoadInventoryList();
                     break;
             }
         }
@@ -307,6 +304,14 @@ namespace AutoPartsManager.Forms.Inventory
         {
             ZeroQtyOnly = rad_zero.Checked;
             LoadInventoryList();
+        }
+
+        private void btn_add_new_product_Click(object sender, EventArgs e)
+        {
+            frm_add_updat_products addProductForm = new frm_add_updat_products();
+            addProductForm.ShowDialog();
+            if (addProductForm.add_or_update_product)
+                LoadInventoryList();
         }
     }
 }

@@ -15,6 +15,7 @@ namespace Moldels
         public decimal Cost { get; set; }
         public decimal Price { get; set; }
         public int Quantity { get; set; }
+        public int min_quantity { get; set; }
         public bool isActive { get; set; }
 
 

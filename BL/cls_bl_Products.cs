@@ -41,5 +41,22 @@ namespace BL
 
         { return cls_dal_Products.SetActive(productId, out error); }
 
+
+        public static cls_ml_Products GetProductInfoByID(int productId, out string error_message)
+        {
+            return cls_dal_Products.GetProductInfoByID(productId, out error_message);
+        }
+
+
+        public static bool AddProductStock(cls_ml_Products product, out string error_message)
+        {
+            return cls_dal_Products.AddProductStock(product, out error_message);
+        }
+
+        public static bool UpdateProductStock(cls_ml_Products product, out string error_message)
+        {
+            return cls_dal_Products.UpdateProductStock(product, out error_message);
+        }
+
     }
 }

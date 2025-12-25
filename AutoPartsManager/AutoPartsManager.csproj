@@ -110,6 +110,12 @@
     <Compile Include="CustomListBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Forms\Inventory\frm_add_updat_products.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inventory\frm_add_updat_products.Designer.cs">
+      <DependentUpon>frm_add_updat_products.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Inventory\frm_inventory.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -154,6 +160,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\Inventory\frm_add_updat_products.resx">
+      <DependentUpon>frm_add_updat_products.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Inventory\frm_inventory.resx">
       <DependentUpon>frm_inventory.cs</DependentUpon>
     </EmbeddedResource>
@@ -248,6 +257,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\return.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\updated.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\box.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

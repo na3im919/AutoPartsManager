@@ -147,11 +147,13 @@
             this.Controls.Add(this.accordionControl1);
             this.Controls.Add(this.fluentDesignFormControl1);
             this.FluentDesignFormControl = this.fluentDesignFormControl1;
+            this.IconOptions.Image = ((System.Drawing.Image)(resources.GetObject("frm_main.IconOptions.Image")));
+            this.IconOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("frm_main.IconOptions.LargeImage")));
             this.Name = "frm_main";
             this.NavigationControl = this.accordionControl1;
             this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.RightToLeftLayout = true;
-            this.Text = "FluentDesignForm1";
+            this.Text = "AutoPartsManager";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)(this.fluentFormDefaultManager1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.accordionControl1)).EndInit();

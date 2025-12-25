@@ -322,6 +322,137 @@ namespace DAL
             }
         }
 
+        public static bool AddProductStock(cls_ml_Products product, out string error_message)
+        {
+            error_message = string.Empty;
+            int product_id = -1;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    string query = @"INSERT INTO Products 
+                             (Reference, ProductName, ProductBrand, Cost, Price, Quantity, MinimumQuantity)
+                             OUTPUT INSERTED.ID
+                             VALUES
+                             (@Reference, @ProductName, @ProductBrand, @Cost, @Price, @Quantity, @MinimumQuantity)";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Reference", product.Reference);
+                        command.Parameters.AddWithValue("@ProductName", product.ProductName);
+                        command.Parameters.AddWithValue("@ProductBrand",
+                            string.IsNullOrEmpty(product.ProductBrand) ? (object)DBNull.Value : product.ProductBrand);
+                        command.Parameters.AddWithValue("@Cost", product.Cost);
+                        command.Parameters.AddWithValue("@Price", product.Price);
+                        command.Parameters.AddWithValue("@Quantity", product.Quantity);
+                        command.Parameters.AddWithValue("@MinimumQuantity", product.min_quantity);
+
+                        object result = command.ExecuteScalar();
+
+                        if (result != null)
+                            product_id = Convert.ToInt32(result);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    error_message = ex.Message;
+                }
+            }
+
+            return product_id != -1;
+        }
+
+        public static bool UpdateProductStock(cls_ml_Products product, out string error_message)
+        {
+            error_message = string.Empty;
+            int rowsAffected = 0;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    string query = @"UPDATE Products SET
+                                Reference = @Reference,
+                                ProductName = @ProductName,
+                                ProductBrand = @ProductBrand,
+                                Cost = @Cost,
+                                Price = @Price,
+                                Quantity = @Quantity,
+                                MinimumQuantity = @MinimumQuantity
+                             WHERE ID = @ID";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@ID", product.ID);
+                        command.Parameters.AddWithValue("@Reference", product.Reference);
+                        command.Parameters.AddWithValue("@ProductName", product.ProductName);
+                        command.Parameters.AddWithValue("@ProductBrand",
+                            string.IsNullOrEmpty(product.ProductBrand) ? (object)DBNull.Value : product.ProductBrand);
+                        command.Parameters.AddWithValue("@Cost", product.Cost);
+                        command.Parameters.AddWithValue("@Price", product.Price);
+                        command.Parameters.AddWithValue("@Quantity", product.Quantity);
+                        command.Parameters.AddWithValue("@MinimumQuantity", product.min_quantity);
+
+                        rowsAffected = command.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    error_message = ex.Message;
+                }
+            }
+
+            return rowsAffected > 0;
+        }
+
+        public static cls_ml_Products GetProductInfoByID(int productId, out string error_message)
+        {
+            error_message = string.Empty;
+            cls_ml_Products product = null;
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "SELECT * FROM Products WHERE ID = @ProductID";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@ProductID", productId);
+                    try
+                    {
+                        con.Open();
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                string brand = reader["ProductBrand"] == DBNull.Value ? "" : reader["ProductBrand"].ToString();
+                                int min_qty = reader["MinimumQuantity"] == DBNull.Value ? 0 : (int)reader["MinimumQuantity"];
+                                product = new cls_ml_Products
+                                {
+                                    ID = Convert.ToInt32(reader["ID"]),
+                                    Reference = reader["Reference"].ToString(),
+                                    ProductName = reader["ProductName"].ToString(),
+                                    ProductBrand = brand,
+                                    Cost = Convert.ToDecimal(reader["Cost"]),
+                                    Price = Convert.ToDecimal(reader["Price"]),
+                                    Quantity = Convert.ToInt32(reader["Quantity"]),
+                                    min_quantity = min_qty,
+                                    isActive = Convert.ToBoolean(reader["isActive"])
+                                };
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        error_message = ex.Message;
+                    }
+                }
+            }
+            return product;
+        }
+
 
     }
 }
