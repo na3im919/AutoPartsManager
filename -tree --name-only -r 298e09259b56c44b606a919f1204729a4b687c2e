@@ -1,0 +1,93 @@
+[33mcommit 872b88c3caa970195802464eb9567d81d11685cf[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/purchases[m[33m, [m[1;31morigin/feature/purchases[m[33m)[m
+Author: Naim Abrazi <nounouvenditta919@gmail.com>
+Date:   Sat Dec 27 22:37:34 2025 +0100
+
+    feat(returns): add returns forms, models, DAL and BL
+
+[33mcommit e236ea91ef6752a611618a16e2bfffbbde68f7cf[m
+Author: Naim Abrazi <nounouvenditta919@gmail.com>
+Date:   Thu Dec 25 17:45:12 2025 +0100
+
+    feat(inventory): implement product stock management and Excel export
+
+[33mcommit 66f234f3cddbbbb14d584d6d082368ccf5545249[m
+Author: Naim Abrazi <nounouvenditta919@gmail.com>
+Date:   Thu Dec 25 16:33:48 2025 +0100
+
+    feat(inventory): implement add and update product stock operations
+
+[33mcommit 55855b9bdc87d5f10d2e1498d895ff450c9f0507[m
+Author: Naim Abrazi <nounouvenditta919@gmail.com>
+Date:   Thu Dec 25 13:42:04 2025 +0100
+
+    - Improve some features on Inventory
+
+[33mcommit 298e09259b56c44b606a919f1204729a4b687c2e[m
+Author: Naim Abrazi <nounouvenditta919@gmail.com>
+Date:   Wed Dec 24 22:07:50 2025 +0100
+
+    - Fix dgv_invoice_list for both sales and purchases
+    - design Invoices
+
+[33mcommit 1508d24cb77bc47e77c861357a595b895ff3639e[m
+Author: Naim Abrazi <nounouvenditta919@gmail.com>
+Date:   Wed Dec 24 14:23:00 2025 +0100
+
+    Fix product quantity duplication and add AddOrIncreaseProduct function
+    - Prevent doubling quantity when adding new products
+    - Add unified function to insert or update product quantity safely
+
+[33mcommit 226751eb216d86f63b1768ff3fbdf49b7e10e3e4[m
+Author: Naim Abrazi <nounouvenditta919@gmail.com>
+Date:   Wed Dec 24 01:18:27 2025 +0100
+
+    Add empty Excel template export and Excel import for purchases invoices
+    
+    - Added context menu option to export empty Excel file
+    - Implemented Excel import to fill purchases invoice items
+    - Reused discount button to import filled Excel file
+    - Automatically open export location after file creation
+
+[33mcommit 4e907c0697a002cf1ed9782f4814304e6df24392[m
+Author: Naim Abrazi <nounouvenditta919@gmail.com>
+Date:   Tue Dec 23 22:09:22 2025 +0100
+
+    implement Suppliers Model
+
+[33mcommit d8c1b136cf4effa8c56e7551a3c71fa948254af3[m
+Author: Naim Abrazi <nounouvenditta919@gmail.com>
+Date:   Tue Dec 23 21:10:09 2025 +0100
+
+    backup: sales refactor completed and purchases form scaffold added
+
+[33mcommit 21148f33da9535d539d85702a2abc010910bffad[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m
+Author: Naim Abrazi <nounouvenditta919@gmail.com>
+Date:   Tue Dec 23 14:42:04 2025 +0100
+
+    feat: complete invoice saving workflow with details and stock update
+    
+    - Implement AddInvoice with transaction support
+    - Save invoice and invoice details using Business Layer
+    - Link invoice details to products by ProductID
+    - Decrease product quantity after saving invoice
+    - Improve ComboBox data binding for clients
+    - Fix keyboard navigation and UI behavior in sales form
+    - General code cleanup and layer consistency
+
+[33mcommit 084090f8ec397a917763e4e5151ed16ea0e9b293[m
+Author: Naim Abrazi <nounouvenditta919@gmail.com>
+Date:   Tue Dec 23 02:23:05 2025 +0100
+
+    setup invoice (still validation)
+
+[33mcommit 39c829fd30b9464620ab79de29bc7f13734a3d1d[m
+Author: Naim Abrazi <nounouvenditta919@gmail.com>
+Date:   Mon Dec 22 23:59:32 2025 +0100
+
+    Add project files.
+
+[33mcommit 4bfc5988146d3ca03f4616998d0bfdc57913c296[m
+Author: Naim Abrazi <nounouvenditta919@gmail.com>
+Date:   Mon Dec 22 23:59:26 2025 +0100
+
+    Add .gitattributes and .gitignore.

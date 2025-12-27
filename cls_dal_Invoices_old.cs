@@ -14,9 +14,9 @@ namespace DAL
         static string connectionString = cls_dal_Connections.connectionString;
 
         public static bool AddInvoice(
-      cls_ml_Invoices invoice,
-      List<cls_ml_InvoiceDetail> details,
-      out string errorMessage)
+     cls_ml_Invoices invoice,
+     List<cls_ml_InvoiceDetail> details,
+     out string errorMessage)
         {
             errorMessage = "";
 
@@ -29,29 +29,29 @@ namespace DAL
                 {
                     // 1️⃣ إضافة الفاتورة
                     string invoiceQuery = @"
-        INSERT INTO Invoices
-        (
-            ClientID,
-            SupplierID,
-            InvoiceType,
-            Date,
-            TotalAmount,
-            DiscountAmount,
-            NetAmount,
-            PaymentMethode
-        )
-        VALUES
-        (
-            @ClientID,
-            @SupplierID,
-            @InvoiceType,
-            @Date,
-            @TotalAmount,
-            @DiscountAmount,
-            @NetAmount,
-            @PaymentMethod
-        );
-        SELECT SCOPE_IDENTITY();";
+            INSERT INTO Invoices
+            (
+                ClientID,
+                SupplierID,
+                InvoiceType,
+                Date,
+                TotalAmount,
+                DiscountAmount,
+                NetAmount,
+                PaymentMethode
+            )
+            VALUES
+            (
+                @ClientID,
+                @SupplierID,
+                @InvoiceType,
+                @Date,
+                @TotalAmount,
+                @DiscountAmount,
+                @NetAmount,
+                @PaymentMethod
+            );
+            SELECT SCOPE_IDENTITY();";
 
                     int invoiceID;
 
@@ -82,10 +82,10 @@ namespace DAL
                         if (productId == -1)
                         {
                             string insertProduct = @"
-            INSERT INTO Products
-            (Reference, ProductName, ProductBrand, Cost, Price, isActive)
-            VALUES (@Reference, @ProductName, @ProductBrand, @Cost, @Price,1);
-            SELECT SCOPE_IDENTITY();";
+                    INSERT INTO Products
+                    (Reference, ProductName, ProductBrand, Cost, Price, isActive)
+                    VALUES (@Reference, @ProductName, @ProductBrand, @Cost, @Price,1);
+                    SELECT SCOPE_IDENTITY();";
 
                             using (SqlCommand cmdProduct = new SqlCommand(insertProduct, con, transaction))
                             {
@@ -119,62 +119,30 @@ namespace DAL
                             );
                         }
 
-                        // 🔹 إضافة التفاصيل إلى الجدول الصحيح
-                        if (invoice.InvoiceType == "شراء")
-                        {
-                            // جدول المشتريات
-                            string purchaseDetailQuery = @"
-            INSERT INTO PurchasesInvoicesDetails
-            (
-                InvoiceID,
-                ProductID,
-                Cost,
-                Quantity
-            )
-            VALUES
-            (
-                @InvoiceID,
-                @ProductID,
-                @Cost,
-                @Quantity
-            );";
+                        // 🔹 إضافة التفاصيل إلى InvoicesDetails
+                        string detailQuery = @"
+                INSERT INTO InvoicesDetails
+                (
+                    InvoiceID,
+                    ProductID,
+                    ProductPrice,
+                    Quantity
+                )
+                VALUES
+                (
+                    @InvoiceID,
+                    @ProductID,
+                    @UnitPrice,
+                    @Quantity
+                );";
 
-                            using (SqlCommand cmdDetail = new SqlCommand(purchaseDetailQuery, con, transaction))
-                            {
-                                cmdDetail.Parameters.AddWithValue("@InvoiceID", invoiceID);
-                                cmdDetail.Parameters.AddWithValue("@ProductID", productId);
-                                cmdDetail.Parameters.AddWithValue("@Cost", detail.Cost);
-                                cmdDetail.Parameters.AddWithValue("@Quantity", detail.Quantity);
-                                cmdDetail.ExecuteNonQuery();
-                            }
-                        }
-                        else
+                        using (SqlCommand cmdDetail = new SqlCommand(detailQuery, con, transaction))
                         {
-                            // جدول المبيعات
-                            string saleDetailQuery = @"
-            INSERT INTO InvoicesDetails
-            (
-                InvoiceID,
-                ProductID,
-                ProductPrice,
-                Quantity
-            )
-            VALUES
-            (
-                @InvoiceID,
-                @ProductID,
-                @UnitPrice,
-                @Quantity
-            );";
-
-                            using (SqlCommand cmdDetail = new SqlCommand(saleDetailQuery, con, transaction))
-                            {
-                                cmdDetail.Parameters.AddWithValue("@InvoiceID", invoiceID);
-                                cmdDetail.Parameters.AddWithValue("@ProductID", productId);
-                                cmdDetail.Parameters.AddWithValue("@UnitPrice", detail.UnitPrice);
-                                cmdDetail.Parameters.AddWithValue("@Quantity", detail.Quantity);
-                                cmdDetail.ExecuteNonQuery();
-                            }
+                            cmdDetail.Parameters.AddWithValue("@InvoiceID", invoiceID);
+                            cmdDetail.Parameters.AddWithValue("@ProductID", productId);
+                            cmdDetail.Parameters.AddWithValue("@UnitPrice", detail.UnitPrice);
+                            cmdDetail.Parameters.AddWithValue("@Quantity", detail.Quantity);
+                            cmdDetail.ExecuteNonQuery();
                         }
                     }
 
@@ -189,7 +157,6 @@ namespace DAL
                 }
             }
         }
-
 
 
 
