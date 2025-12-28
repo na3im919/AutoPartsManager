@@ -101,5 +101,41 @@ namespace AutoPartsManager.Forms.Inventory
             SetupDataGridView();
 
         }
+
+        private void dgv_inventory_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            if (dgv_inventory.Columns[e.ColumnIndex].Name == "Quantity")
+            {
+                string value = e.FormattedValue.ToString().Trim();
+
+                // إذا كانت الخلية فارغة
+                if (string.IsNullOrEmpty(value))
+                {
+                    dgv_inventory.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = 0;
+                    return;
+                }
+
+                // إذا لم تكن رقمًا
+                if (!int.TryParse(value, out _))
+                {
+                    e.Cancel = true;
+                    MessageBox.Show("Quantity must be a number");
+                }
+            }
+        }
+
+        private void dgv_inventory_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgv_inventory.Columns[e.ColumnIndex].Name == "Quantity")
+            {
+                var cell = dgv_inventory.Rows[e.RowIndex].Cells[e.ColumnIndex];
+
+                if (cell.Value == null || string.IsNullOrWhiteSpace(cell.Value.ToString()))
+                {
+                    cell.Value = 0;
+                }
+            }
+        }
+
     }
 }
