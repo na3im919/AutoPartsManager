@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_inventory));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_inventory));
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
@@ -64,8 +64,6 @@
             this.pnl_price_title = new System.Windows.Forms.Panel();
             this.lbl_price_title = new System.Windows.Forms.Label();
             this.dgv_inventory = new System.Windows.Forms.DataGridView();
-            this.btn_import_excel = new DevExpress.XtraEditors.SimpleButton();
-            this.btn_add_new_product = new DevExpress.XtraEditors.SimpleButton();
             this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Reference = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ProductName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -77,6 +75,10 @@
             this.Delete = new System.Windows.Forms.DataGridViewImageColumn();
             this.Restore = new System.Windows.Forms.DataGridViewImageColumn();
             this.Recomendation = new System.Windows.Forms.DataGridViewImageColumn();
+            this.btn_import_excel = new DevExpress.XtraEditors.SimpleButton();
+            this.btn_add_new_product = new DevExpress.XtraEditors.SimpleButton();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.btn_recomended = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -96,10 +98,12 @@
             this.panel10.SuspendLayout();
             this.pnl_price_title.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_inventory)).BeginInit();
+            this.panel5.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelControl1
             // 
+            this.panelControl1.Controls.Add(this.panel5);
             this.panelControl1.Controls.Add(this.panel4);
             this.panelControl1.Controls.Add(this.panel6);
             this.panelControl1.Controls.Add(this.groupBox1);
@@ -427,39 +431,6 @@
             this.dgv_inventory.TabIndex = 5;
             this.dgv_inventory.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_inventory_CellClick);
             // 
-            // btn_import_excel
-            // 
-            this.btn_import_excel.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(90)))), ((int)(((byte)(156)))));
-            this.btn_import_excel.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_import_excel.Appearance.Options.UseBackColor = true;
-            this.btn_import_excel.Appearance.Options.UseFont = true;
-            this.btn_import_excel.AppearancePressed.Options.UseBackColor = true;
-            this.btn_import_excel.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_import_excel.ImageOptions.Image")));
-            this.btn_import_excel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_import_excel.Location = new System.Drawing.Point(32, 9);
-            this.btn_import_excel.Name = "btn_import_excel";
-            this.btn_import_excel.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.btn_import_excel.Size = new System.Drawing.Size(202, 66);
-            this.btn_import_excel.TabIndex = 4;
-            this.btn_import_excel.Text = "إستيراد EXCEL";
-            this.btn_import_excel.Click += new System.EventHandler(this.btn_import_excel_Click);
-            // 
-            // btn_add_new_product
-            // 
-            this.btn_add_new_product.Appearance.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.btn_add_new_product.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_add_new_product.Appearance.Options.UseBackColor = true;
-            this.btn_add_new_product.Appearance.Options.UseFont = true;
-            this.btn_add_new_product.AppearancePressed.Options.UseBackColor = true;
-            this.btn_add_new_product.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_add_new_product.ImageOptions.Image")));
-            this.btn_add_new_product.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.btn_add_new_product.Location = new System.Drawing.Point(16, 9);
-            this.btn_add_new_product.Name = "btn_add_new_product";
-            this.btn_add_new_product.Size = new System.Drawing.Size(181, 66);
-            this.btn_add_new_product.TabIndex = 4;
-            this.btn_add_new_product.Text = "إضافة منتج";
-            this.btn_add_new_product.Click += new System.EventHandler(this.btn_add_new_product_Click);
-            // 
             // ID
             // 
             this.ID.HeaderText = "ID";
@@ -520,7 +491,7 @@
             this.Price.MinimumWidth = 8;
             this.Price.Name = "Price";
             this.Price.ReadOnly = true;
-            this.Price.Width = 111;
+            this.Price.Width = 76;
             // 
             // Quantity
             // 
@@ -572,6 +543,65 @@
             this.Recomendation.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.Recomendation.Width = 29;
             // 
+            // btn_import_excel
+            // 
+            this.btn_import_excel.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(90)))), ((int)(((byte)(156)))));
+            this.btn_import_excel.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_import_excel.Appearance.Options.UseBackColor = true;
+            this.btn_import_excel.Appearance.Options.UseFont = true;
+            this.btn_import_excel.AppearancePressed.Options.UseBackColor = true;
+            this.btn_import_excel.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_import_excel.ImageOptions.Image")));
+            this.btn_import_excel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_import_excel.Location = new System.Drawing.Point(32, 9);
+            this.btn_import_excel.Name = "btn_import_excel";
+            this.btn_import_excel.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.btn_import_excel.Size = new System.Drawing.Size(202, 66);
+            this.btn_import_excel.TabIndex = 4;
+            this.btn_import_excel.Text = "إستيراد EXCEL";
+            this.btn_import_excel.Click += new System.EventHandler(this.btn_import_excel_Click);
+            // 
+            // btn_add_new_product
+            // 
+            this.btn_add_new_product.Appearance.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.btn_add_new_product.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_add_new_product.Appearance.Options.UseBackColor = true;
+            this.btn_add_new_product.Appearance.Options.UseFont = true;
+            this.btn_add_new_product.AppearancePressed.Options.UseBackColor = true;
+            this.btn_add_new_product.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_add_new_product.ImageOptions.Image")));
+            this.btn_add_new_product.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
+            this.btn_add_new_product.Location = new System.Drawing.Point(16, 9);
+            this.btn_add_new_product.Name = "btn_add_new_product";
+            this.btn_add_new_product.Size = new System.Drawing.Size(181, 66);
+            this.btn_add_new_product.TabIndex = 4;
+            this.btn_add_new_product.Text = "إضافة منتج";
+            this.btn_add_new_product.Click += new System.EventHandler(this.btn_add_new_product_Click);
+            // 
+            // panel5
+            // 
+            this.panel5.Controls.Add(this.btn_recomended);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel5.Location = new System.Drawing.Point(810, 2);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(368, 84);
+            this.panel5.TabIndex = 15;
+            // 
+            // btn_recomended
+            // 
+            this.btn_recomended.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(90)))), ((int)(((byte)(156)))));
+            this.btn_recomended.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_recomended.Appearance.Options.UseBackColor = true;
+            this.btn_recomended.Appearance.Options.UseFont = true;
+            this.btn_recomended.AppearancePressed.Options.UseBackColor = true;
+            this.btn_recomended.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton1.ImageOptions.Image")));
+            this.btn_recomended.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_recomended.Location = new System.Drawing.Point(50, 9);
+            this.btn_recomended.Name = "btn_recomended";
+            this.btn_recomended.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.btn_recomended.Size = new System.Drawing.Size(290, 66);
+            this.btn_recomended.TabIndex = 4;
+            this.btn_recomended.Text = "قائمة المنتجات المطلوبة";
+            this.btn_recomended.Click += new System.EventHandler(this.btn_recomended_Click);
+            // 
             // frm_inventory
             // 
             this.Appearance.BackColor = System.Drawing.Color.White;
@@ -614,6 +644,7 @@
             this.pnl_price_title.ResumeLayout(false);
             this.pnl_price_title.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_inventory)).EndInit();
+            this.panel5.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -661,5 +692,7 @@
         private System.Windows.Forms.DataGridViewImageColumn Delete;
         private System.Windows.Forms.DataGridViewImageColumn Restore;
         private System.Windows.Forms.DataGridViewImageColumn Recomendation;
+        private System.Windows.Forms.Panel panel5;
+        private DevExpress.XtraEditors.SimpleButton btn_recomended;
     }
 }

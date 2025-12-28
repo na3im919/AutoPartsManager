@@ -17,6 +17,7 @@ namespace Moldels
         public int Quantity { get; set; }
         public int min_quantity { get; set; }
         public bool isActive { get; set; }
+        public bool AlreadyRecomended { get; set; }
 
 
         // في كلاس cls_ml_Products

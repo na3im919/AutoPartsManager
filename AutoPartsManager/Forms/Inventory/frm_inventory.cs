@@ -476,5 +476,10 @@ namespace AutoPartsManager.Forms.Inventory
             }
         }
 
+        private void btn_recomended_Click(object sender, EventArgs e)
+        {
+            frm_recommended_products recommended_Products = new frm_recommended_products();
+            recommended_Products.ShowDialog();
+        }
     }
 }

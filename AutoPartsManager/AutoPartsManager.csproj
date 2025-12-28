@@ -122,6 +122,12 @@
     <Compile Include="Forms\Inventory\frm_inventory.Designer.cs">
       <DependentUpon>frm_inventory.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Inventory\frm_recommended_products.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inventory\frm_recommended_products.Designer.cs">
+      <DependentUpon>frm_recommended_products.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Purchases\frm_purchases.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -165,6 +171,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Inventory\frm_inventory.resx">
       <DependentUpon>frm_inventory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inventory\frm_recommended_products.resx">
+      <DependentUpon>frm_recommended_products.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Purchases\frm_purchases.resx">
       <DependentUpon>frm_purchases.cs</DependentUpon>
@@ -266,6 +275,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\quality.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\check.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\close %282%29.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -15,8 +15,12 @@ namespace BL
             return cls_dal_recomendations.AddRecommendation(product, out error_message);
         }
 
+        public static List<cls_ml_Products> GetRecommendedProducts(out string error_message)
+        {
+            return cls_dal_recomendations.GetRecommendedProducts(out error_message);
+        }
 
-        
+
 
     }
 }
