@@ -177,6 +177,20 @@ namespace AutoPartsManager.Forms.Inventory
             if (dgv_inventory.Rows.Count == 0)
                 return;
 
+            // تحقق من وجود أي كمية > 0
+            bool hasQuantity = dgv_inventory.Rows
+                                .Cast<DataGridViewRow>()
+                                .Any(row => !row.IsNewRow && Convert.ToInt32(row.Cells["Quantity"].Value ?? 0) > 0);
+
+            if (!hasQuantity)
+            {
+                MessageBox.Show("يرجى إدخال كمية أكبر من الصفر على الأقل لمنتج واحد.",
+                                "تنبيه",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                return;
+            }
+
             using (SaveFileDialog sfd = new SaveFileDialog())
             {
                 sfd.Filter = "Excel Files (*.xlsx)|*.xlsx";
@@ -191,9 +205,14 @@ namespace AutoPartsManager.Forms.Inventory
 
                     int colIndex = 1;
 
-                    // 🔹 Headers
+                    // 🔹 Headers (تجاهل الأعمدة من نوع Image)
                     foreach (DataGridViewColumn col in dgv_inventory.Columns)
                     {
+                        if (col is DataGridViewImageColumn)
+                            continue;
+                        if (col.Name == "ID") continue;
+
+
                         ws.Cell(1, colIndex).Value = col.HeaderText;
                         ws.Cell(1, colIndex).Style.Font.Bold = true;
                         colIndex++;
@@ -212,12 +231,16 @@ namespace AutoPartsManager.Forms.Inventory
 
                         foreach (DataGridViewColumn col in dgv_inventory.Columns)
                         {
+                            if (col is DataGridViewImageColumn)
+                                continue;
+                            if (col.Name == "ID") continue;
+
                             var cell = ws.Cell(rowIndex, colIndex);
                             object value = row.Cells[col.Index].Value;
 
                             if (col.Name == "Quantity")
                             {
-                                cell.Value = Convert.ToInt32(value ?? 0);
+                                cell.Value = quantity;
                             }
                             else if (col.Name == "Price")
                             {
@@ -239,10 +262,19 @@ namespace AutoPartsManager.Forms.Inventory
                     workbook.SaveAs(sfd.FileName);
                 }
 
-                MessageBox.Show("تم تصدير المخزون إلى Excel بنجاح ✅",
-                                "Export",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Information);
+                // اخبر المستخدم بمكان الملف
+                DialogResult result = MessageBox.Show(
+                    "تم تصدير المخزون إلى Excel بنجاح ✅\nهل تريد فتح موقع الملف؟",
+                    "Export",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Information);
+
+                if (result == DialogResult.Yes)
+                {
+                    // فتح موقع الملف في File Explorer
+                    string argument = "/select, \"" + sfd.FileName + "\"";
+                    System.Diagnostics.Process.Start("explorer.exe", argument);
+                }
             }
         }
 
