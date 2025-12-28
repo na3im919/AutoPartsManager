@@ -58,5 +58,11 @@ namespace BL
             return cls_dal_Products.UpdateProductStock(product, out error_message);
         }
 
+
+        public static List<cls_ml_Products> GetDepletedProducts(out string error_message)
+        {
+            return cls_dal_Products.GetDepletedProducts(out error_message);
+        }
+
     }
 }

@@ -28,22 +28,26 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_inventory));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.btn_recomended = new DevExpress.XtraEditors.SimpleButton();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.btn_import_excel = new DevExpress.XtraEditors.SimpleButton();
             this.panel6 = new System.Windows.Forms.Panel();
             this.chk_non_active_product = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.rad_non_zero = new System.Windows.Forms.RadioButton();
             this.rad_zero = new System.Windows.Forms.RadioButton();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.btn_add_new_product = new DevExpress.XtraEditors.SimpleButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel8 = new System.Windows.Forms.Panel();
             this.lbl_products_number = new System.Windows.Forms.Label();
@@ -75,12 +79,11 @@
             this.Delete = new System.Windows.Forms.DataGridViewImageColumn();
             this.Restore = new System.Windows.Forms.DataGridViewImageColumn();
             this.Recomendation = new System.Windows.Forms.DataGridViewImageColumn();
-            this.btn_import_excel = new DevExpress.XtraEditors.SimpleButton();
-            this.btn_add_new_product = new DevExpress.XtraEditors.SimpleButton();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.btn_recomended = new DevExpress.XtraEditors.SimpleButton();
+            this.panel12 = new System.Windows.Forms.Panel();
+            this.chk_low_quantity = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
+            this.panel5.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel6.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -98,11 +101,12 @@
             this.panel10.SuspendLayout();
             this.pnl_price_title.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_inventory)).BeginInit();
-            this.panel5.SuspendLayout();
+            this.panel12.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelControl1
             // 
+            this.panelControl1.Controls.Add(this.panel12);
             this.panelControl1.Controls.Add(this.panel5);
             this.panelControl1.Controls.Add(this.panel4);
             this.panelControl1.Controls.Add(this.panel6);
@@ -111,17 +115,62 @@
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelControl1.Location = new System.Drawing.Point(0, 0);
             this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(1664, 88);
+            this.panelControl1.Size = new System.Drawing.Size(1798, 88);
             this.panelControl1.TabIndex = 2;
+            // 
+            // panel5
+            // 
+            this.panel5.Controls.Add(this.btn_recomended);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel5.Location = new System.Drawing.Point(1197, 2);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(200, 84);
+            this.panel5.TabIndex = 15;
+            // 
+            // btn_recomended
+            // 
+            this.btn_recomended.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(90)))), ((int)(((byte)(156)))));
+            this.btn_recomended.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_recomended.Appearance.Options.UseBackColor = true;
+            this.btn_recomended.Appearance.Options.UseFont = true;
+            this.btn_recomended.Appearance.Options.UseTextOptions = true;
+            this.btn_recomended.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.btn_recomended.AppearancePressed.Options.UseBackColor = true;
+            this.btn_recomended.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_recomended.ImageOptions.Image")));
+            this.btn_recomended.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_recomended.Location = new System.Drawing.Point(18, 10);
+            this.btn_recomended.Name = "btn_recomended";
+            this.btn_recomended.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.btn_recomended.Size = new System.Drawing.Size(166, 66);
+            this.btn_recomended.TabIndex = 4;
+            this.btn_recomended.Text = "توصيات";
+            this.btn_recomended.Click += new System.EventHandler(this.btn_recomended_Click);
             // 
             // panel4
             // 
             this.panel4.Controls.Add(this.btn_import_excel);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel4.Location = new System.Drawing.Point(1178, 2);
+            this.panel4.Location = new System.Drawing.Point(1397, 2);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(256, 84);
+            this.panel4.Size = new System.Drawing.Size(207, 84);
             this.panel4.TabIndex = 14;
+            // 
+            // btn_import_excel
+            // 
+            this.btn_import_excel.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(90)))), ((int)(((byte)(156)))));
+            this.btn_import_excel.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_import_excel.Appearance.Options.UseBackColor = true;
+            this.btn_import_excel.Appearance.Options.UseFont = true;
+            this.btn_import_excel.AppearancePressed.Options.UseBackColor = true;
+            this.btn_import_excel.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_import_excel.ImageOptions.Image")));
+            this.btn_import_excel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_import_excel.Location = new System.Drawing.Point(6, 9);
+            this.btn_import_excel.Name = "btn_import_excel";
+            this.btn_import_excel.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.btn_import_excel.Size = new System.Drawing.Size(202, 66);
+            this.btn_import_excel.TabIndex = 4;
+            this.btn_import_excel.Text = "إستيراد EXCEL";
+            this.btn_import_excel.Click += new System.EventHandler(this.btn_import_excel_Click);
             // 
             // panel6
             // 
@@ -159,7 +208,7 @@
             // 
             this.rad_non_zero.AutoSize = true;
             this.rad_non_zero.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rad_non_zero.Location = new System.Drawing.Point(211, 27);
+            this.rad_non_zero.Location = new System.Drawing.Point(209, 19);
             this.rad_non_zero.Name = "rad_non_zero";
             this.rad_non_zero.Size = new System.Drawing.Size(215, 33);
             this.rad_non_zero.TabIndex = 1;
@@ -171,7 +220,7 @@
             // 
             this.rad_zero.AutoSize = true;
             this.rad_zero.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rad_zero.Location = new System.Drawing.Point(12, 27);
+            this.rad_zero.Location = new System.Drawing.Point(10, 19);
             this.rad_zero.Name = "rad_zero";
             this.rad_zero.Size = new System.Drawing.Size(171, 33);
             this.rad_zero.TabIndex = 0;
@@ -184,10 +233,26 @@
             // 
             this.panel2.Controls.Add(this.btn_add_new_product);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel2.Location = new System.Drawing.Point(1434, 2);
+            this.panel2.Location = new System.Drawing.Point(1604, 2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(228, 84);
+            this.panel2.Size = new System.Drawing.Size(192, 84);
             this.panel2.TabIndex = 6;
+            // 
+            // btn_add_new_product
+            // 
+            this.btn_add_new_product.Appearance.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.btn_add_new_product.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_add_new_product.Appearance.Options.UseBackColor = true;
+            this.btn_add_new_product.Appearance.Options.UseFont = true;
+            this.btn_add_new_product.AppearancePressed.Options.UseBackColor = true;
+            this.btn_add_new_product.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_add_new_product.ImageOptions.Image")));
+            this.btn_add_new_product.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
+            this.btn_add_new_product.Location = new System.Drawing.Point(6, 10);
+            this.btn_add_new_product.Name = "btn_add_new_product";
+            this.btn_add_new_product.Size = new System.Drawing.Size(181, 66);
+            this.btn_add_new_product.TabIndex = 4;
+            this.btn_add_new_product.Text = "إضافة منتج";
+            this.btn_add_new_product.Click += new System.EventHandler(this.btn_add_new_product_Click);
             // 
             // panel1
             // 
@@ -199,14 +264,14 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 88);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1664, 39);
+            this.panel1.Size = new System.Drawing.Size(1798, 39);
             this.panel1.TabIndex = 3;
             // 
             // panel8
             // 
             this.panel8.Controls.Add(this.lbl_products_number);
             this.panel8.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel8.Location = new System.Drawing.Point(1387, 0);
+            this.panel8.Location = new System.Drawing.Point(1521, 0);
             this.panel8.Name = "panel8";
             this.panel8.Size = new System.Drawing.Size(155, 37);
             this.panel8.TabIndex = 9;
@@ -227,7 +292,7 @@
             // 
             this.panel7.Controls.Add(this.label1);
             this.panel7.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel7.Location = new System.Drawing.Point(1542, 0);
+            this.panel7.Location = new System.Drawing.Point(1676, 0);
             this.panel7.Name = "panel7";
             this.panel7.Size = new System.Drawing.Size(120, 37);
             this.panel7.TabIndex = 8;
@@ -282,7 +347,7 @@
             this.pnl_bottm.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnl_bottm.Location = new System.Drawing.Point(0, 428);
             this.pnl_bottm.Name = "pnl_bottm";
-            this.pnl_bottm.Size = new System.Drawing.Size(1664, 117);
+            this.pnl_bottm.Size = new System.Drawing.Size(1798, 117);
             this.pnl_bottm.TabIndex = 4;
             // 
             // pnl_total_cost
@@ -290,7 +355,7 @@
             this.pnl_total_cost.Controls.Add(this.panel9);
             this.pnl_total_cost.Controls.Add(this.panel11);
             this.pnl_total_cost.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnl_total_cost.Location = new System.Drawing.Point(838, 0);
+            this.pnl_total_cost.Location = new System.Drawing.Point(972, 0);
             this.pnl_total_cost.Name = "pnl_total_cost";
             this.pnl_total_cost.Size = new System.Drawing.Size(415, 115);
             this.pnl_total_cost.TabIndex = 1;
@@ -342,7 +407,7 @@
             this.pnl_total_price.Controls.Add(this.panel10);
             this.pnl_total_price.Controls.Add(this.pnl_price_title);
             this.pnl_total_price.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnl_total_price.Location = new System.Drawing.Point(1253, 0);
+            this.pnl_total_price.Location = new System.Drawing.Point(1387, 0);
             this.pnl_total_price.Name = "pnl_total_price";
             this.pnl_total_price.Size = new System.Drawing.Size(409, 115);
             this.pnl_total_price.TabIndex = 0;
@@ -395,14 +460,14 @@
             this.dgv_inventory.AllowUserToDeleteRows = false;
             this.dgv_inventory.AllowUserToOrderColumns = true;
             this.dgv_inventory.BackgroundColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 8F);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_inventory.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Tahoma", 8F);
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_inventory.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
             this.dgv_inventory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_inventory.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ID,
@@ -427,7 +492,7 @@
             this.dgv_inventory.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.Color.White;
             this.dgv_inventory.RowTemplate.Height = 28;
             this.dgv_inventory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv_inventory.Size = new System.Drawing.Size(1664, 301);
+            this.dgv_inventory.Size = new System.Drawing.Size(1798, 301);
             this.dgv_inventory.TabIndex = 5;
             this.dgv_inventory.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_inventory_CellClick);
             // 
@@ -443,8 +508,8 @@
             // Reference
             // 
             this.Reference.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Reference.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Reference.DefaultCellStyle = dataGridViewCellStyle9;
             this.Reference.HeaderText = "كود المنتج";
             this.Reference.MinimumWidth = 8;
             this.Reference.Name = "Reference";
@@ -453,8 +518,8 @@
             // ProductName
             // 
             this.ProductName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ProductName.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ProductName.DefaultCellStyle = dataGridViewCellStyle10;
             this.ProductName.HeaderText = "إسم المنتج";
             this.ProductName.MinimumWidth = 8;
             this.ProductName.Name = "ProductName";
@@ -463,8 +528,8 @@
             // ProductBrand
             // 
             this.ProductBrand.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ProductBrand.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ProductBrand.DefaultCellStyle = dataGridViewCellStyle11;
             this.ProductBrand.HeaderText = "العلامة التجارية";
             this.ProductBrand.MinimumWidth = 8;
             this.ProductBrand.Name = "ProductBrand";
@@ -474,8 +539,8 @@
             // Cost
             // 
             this.Cost.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Cost.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Cost.DefaultCellStyle = dataGridViewCellStyle12;
             this.Cost.HeaderText = "سعر الشراء";
             this.Cost.MinimumWidth = 8;
             this.Cost.Name = "Cost";
@@ -485,19 +550,19 @@
             // Price
             // 
             this.Price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Price.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle13.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Price.DefaultCellStyle = dataGridViewCellStyle13;
             this.Price.HeaderText = "سعر البيع";
             this.Price.MinimumWidth = 8;
             this.Price.Name = "Price";
             this.Price.ReadOnly = true;
-            this.Price.Width = 76;
+            this.Price.Width = 111;
             // 
             // Quantity
             // 
             this.Quantity.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Quantity.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle14.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Quantity.DefaultCellStyle = dataGridViewCellStyle14;
             this.Quantity.HeaderText = "الكمية";
             this.Quantity.MinimumWidth = 8;
             this.Quantity.Name = "Quantity";
@@ -530,7 +595,7 @@
             this.Restore.Name = "Restore";
             this.Restore.ReadOnly = true;
             this.Restore.Visible = false;
-            this.Restore.Width = 8;
+            this.Restore.Width = 150;
             // 
             // Recomendation
             // 
@@ -543,64 +608,26 @@
             this.Recomendation.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.Recomendation.Width = 29;
             // 
-            // btn_import_excel
+            // panel12
             // 
-            this.btn_import_excel.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(90)))), ((int)(((byte)(156)))));
-            this.btn_import_excel.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_import_excel.Appearance.Options.UseBackColor = true;
-            this.btn_import_excel.Appearance.Options.UseFont = true;
-            this.btn_import_excel.AppearancePressed.Options.UseBackColor = true;
-            this.btn_import_excel.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_import_excel.ImageOptions.Image")));
-            this.btn_import_excel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_import_excel.Location = new System.Drawing.Point(32, 9);
-            this.btn_import_excel.Name = "btn_import_excel";
-            this.btn_import_excel.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.btn_import_excel.Size = new System.Drawing.Size(202, 66);
-            this.btn_import_excel.TabIndex = 4;
-            this.btn_import_excel.Text = "إستيراد EXCEL";
-            this.btn_import_excel.Click += new System.EventHandler(this.btn_import_excel_Click);
+            this.panel12.Controls.Add(this.chk_low_quantity);
+            this.panel12.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel12.Location = new System.Drawing.Point(672, 2);
+            this.panel12.Name = "panel12";
+            this.panel12.Size = new System.Drawing.Size(253, 84);
+            this.panel12.TabIndex = 14;
             // 
-            // btn_add_new_product
+            // chk_low_quantity
             // 
-            this.btn_add_new_product.Appearance.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.btn_add_new_product.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_add_new_product.Appearance.Options.UseBackColor = true;
-            this.btn_add_new_product.Appearance.Options.UseFont = true;
-            this.btn_add_new_product.AppearancePressed.Options.UseBackColor = true;
-            this.btn_add_new_product.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_add_new_product.ImageOptions.Image")));
-            this.btn_add_new_product.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.btn_add_new_product.Location = new System.Drawing.Point(16, 9);
-            this.btn_add_new_product.Name = "btn_add_new_product";
-            this.btn_add_new_product.Size = new System.Drawing.Size(181, 66);
-            this.btn_add_new_product.TabIndex = 4;
-            this.btn_add_new_product.Text = "إضافة منتج";
-            this.btn_add_new_product.Click += new System.EventHandler(this.btn_add_new_product_Click);
-            // 
-            // panel5
-            // 
-            this.panel5.Controls.Add(this.btn_recomended);
-            this.panel5.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel5.Location = new System.Drawing.Point(810, 2);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(368, 84);
-            this.panel5.TabIndex = 15;
-            // 
-            // btn_recomended
-            // 
-            this.btn_recomended.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(90)))), ((int)(((byte)(156)))));
-            this.btn_recomended.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_recomended.Appearance.Options.UseBackColor = true;
-            this.btn_recomended.Appearance.Options.UseFont = true;
-            this.btn_recomended.AppearancePressed.Options.UseBackColor = true;
-            this.btn_recomended.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton1.ImageOptions.Image")));
-            this.btn_recomended.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_recomended.Location = new System.Drawing.Point(50, 9);
-            this.btn_recomended.Name = "btn_recomended";
-            this.btn_recomended.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.btn_recomended.Size = new System.Drawing.Size(290, 66);
-            this.btn_recomended.TabIndex = 4;
-            this.btn_recomended.Text = "قائمة المنتجات المطلوبة";
-            this.btn_recomended.Click += new System.EventHandler(this.btn_recomended_Click);
+            this.chk_low_quantity.AutoSize = true;
+            this.chk_low_quantity.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chk_low_quantity.Location = new System.Drawing.Point(10, 20);
+            this.chk_low_quantity.Name = "chk_low_quantity";
+            this.chk_low_quantity.Size = new System.Drawing.Size(242, 33);
+            this.chk_low_quantity.TabIndex = 0;
+            this.chk_low_quantity.Text = "الكميات المنخفضة";
+            this.chk_low_quantity.UseVisualStyleBackColor = true;
+            this.chk_low_quantity.CheckedChanged += new System.EventHandler(this.chk_low_quantity_CheckedChanged);
             // 
             // frm_inventory
             // 
@@ -608,7 +635,7 @@
             this.Appearance.Options.UseBackColor = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1664, 545);
+            this.ClientSize = new System.Drawing.Size(1798, 545);
             this.Controls.Add(this.dgv_inventory);
             this.Controls.Add(this.pnl_bottm);
             this.Controls.Add(this.panel1);
@@ -618,6 +645,7 @@
             this.Load += new System.EventHandler(this.frm_inventory_Load);
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
             this.panelControl1.ResumeLayout(false);
+            this.panel5.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
@@ -644,7 +672,8 @@
             this.pnl_price_title.ResumeLayout(false);
             this.pnl_price_title.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_inventory)).EndInit();
-            this.panel5.ResumeLayout(false);
+            this.panel12.ResumeLayout(false);
+            this.panel12.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -694,5 +723,7 @@
         private System.Windows.Forms.DataGridViewImageColumn Recomendation;
         private System.Windows.Forms.Panel panel5;
         private DevExpress.XtraEditors.SimpleButton btn_recomended;
+        private System.Windows.Forms.Panel panel12;
+        private System.Windows.Forms.CheckBox chk_low_quantity;
     }
 }

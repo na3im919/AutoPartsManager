@@ -453,6 +453,53 @@ namespace DAL
             return product;
         }
 
+        public static List<cls_ml_Products> GetDepletedProducts(out string error_message)
+        {
+            error_message = string.Empty;
+            List<cls_ml_Products> depletedProducts = new List<cls_ml_Products>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(cls_dal_Connections.connectionString))
+                {
+                    conn.Open();
+
+                    string query = @"
+                SELECT ID, ProductName, Reference, ProductBrand, Quantity, MinimumQuantity
+                FROM Products
+                WHERE Quantity <= MinimumQuantity";
+
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                cls_ml_Products product = new cls_ml_Products
+                                {
+                                    ID = reader.GetInt32(reader.GetOrdinal("ID")),
+                                    ProductName = reader.GetString(reader.GetOrdinal("ProductName")),
+                                    Reference = reader.GetString(reader.GetOrdinal("Reference")),
+                                    ProductBrand = reader.GetString(reader.GetOrdinal("ProductBrand")),
+                                    Quantity = reader.GetInt32(reader.GetOrdinal("Quantity")),
+                                    min_quantity = reader.GetInt32(reader.GetOrdinal("MinimumQuantity"))
+                                };
+
+                                depletedProducts.Add(product);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                error_message = ex.Message;
+            }
+
+            return depletedProducts;
+        }
+
+
 
     }
 }

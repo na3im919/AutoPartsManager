@@ -21,6 +21,31 @@ namespace AutoPartsManager.Forms.Inventory
             InitializeComponent();
         }
 
+        private void GetTotalQuantity()
+        {
+            int total = 0;
+            if (dgv_inventory.Rows.Count == 0)
+            {
+                lbl_products_number.Text = "0";
+                return;
+            }
+
+            foreach (DataGridViewRow row in dgv_inventory.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                if (row.Cells["Quantity"].Value != null)
+                {
+                    int qty;
+                    if (int.TryParse(row.Cells["Quantity"].Value.ToString(), out qty))
+                    {
+                        total += qty;
+                    }
+                }
+            }
+
+            lbl_products_number.Text = total.ToString();
+        }
 
         void LoadRecommendedProducts()
         {
@@ -61,8 +86,8 @@ namespace AutoPartsManager.Forms.Inventory
                             );
                 }
             }
-
-
+            var frm_inv = new frm_inventory();
+            GetTotalQuantity();
         }
 
 
@@ -75,6 +100,7 @@ namespace AutoPartsManager.Forms.Inventory
                 {
                     tb.KeyPress -= Tb_KeyPress; // لتجنب تكرار الحدث
                     tb.KeyPress += Tb_KeyPress;
+                    GetTotalQuantity();
                 }
             }
         }
@@ -121,6 +147,7 @@ namespace AutoPartsManager.Forms.Inventory
                     {
                         // إزالة الصف من DataGridView بعد الحذف
                         dgv_inventory.Rows.RemoveAt(e.RowIndex);
+                        GetTotalQuantity();
                     }
                 }
             }
@@ -156,6 +183,7 @@ namespace AutoPartsManager.Forms.Inventory
                     MessageBox.Show("Quantity must be a number");
                 }
             }
+                GetTotalQuantity();
         }
 
         private void dgv_inventory_CellEndEdit(object sender, DataGridViewCellEventArgs e)

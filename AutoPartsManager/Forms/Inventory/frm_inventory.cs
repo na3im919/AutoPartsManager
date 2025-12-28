@@ -38,7 +38,7 @@ namespace AutoPartsManager.Forms.Inventory
             dgv_inventory.ContextMenuStrip = dgvContextMenu;
         }
 
-        private void GetTotalQuantity()
+        public  void GetTotalQuantity()
         {
             int total = 0;
             if(dgv_inventory.Rows.Count == 0)
@@ -234,7 +234,11 @@ namespace AutoPartsManager.Forms.Inventory
         private void LoadInventoryList()
         {
             string error_message = string.Empty;
-
+            panel1.Visible = true;
+            panel5.Visible = true;
+            panel4.Visible = true;
+            groupBox1.Visible = true;
+            pnl_bottm.Visible = true;
             List<cls_ml_Products> products =
                 cls_bl_Products.GetAllProducts(Keyword, ActiveOnly, ZeroQtyOnly, out error_message);
 
@@ -276,17 +280,62 @@ namespace AutoPartsManager.Forms.Inventory
             GetTotalCost();
         }
 
-        cls_ml_Products PrepareRecommendedProduct(DataGridViewCellEventArgs e, DataGridView dgvProducts)
+        private void LoadLowQuantities()
         {
-            cls_ml_Products recommendedProduct = new cls_ml_Products
+            string error_message = string.Empty;
+
+            panel1.Visible = false;
+            panel4.Visible = false;
+            panel5.Visible = false;
+            groupBox1.Visible = false;
+            pnl_bottm.Visible = false;
+            dgv_inventory.Columns["Delete"].Visible = false;
+            dgv_inventory.Columns["Recomendation"].Visible = false;
+            dgv_inventory.Columns["Restore"].Visible = false;
+
+
+            pnl_bottm.Visible = true;
+            List<cls_ml_Products> products =
+                cls_bl_Products.GetDepletedProducts(out error_message);
+
+            // في حال وجود خطأ
+            if (!string.IsNullOrEmpty(error_message))
             {
-                Reference = dgvProducts.Rows[e.RowIndex].Cells["Reference"].Value.ToString(),
-                ProductName = dgvProducts.Rows[e.RowIndex].Cells["ProductName"].Value.ToString(),
-                ProductBrand = dgvProducts.Rows[e.RowIndex].Cells["ProductBrand"].Value.ToString(),
-                Quantity = Convert.ToInt32(dgvProducts.Rows[e.RowIndex].Cells["Quantity"].Value)
-            };
-            return recommendedProduct;
+                MessageBox.Show(error_message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            dgv_inventory.Rows.Clear();
+            foreach (var product in products)
+            {
+                dgv_inventory.Rows.Add(
+                    product.ID,
+                    product.Reference,
+                    product.ProductName,
+                    product.ProductBrand,
+                    product.Cost,
+                    product.Price,
+                    product.Quantity,
+                    Properties.Resources.edit__1_
+                    
+                );
+            }
+
         }
+
+
+            cls_ml_Products PrepareRecommendedProduct(DataGridViewCellEventArgs e, DataGridView dgvProducts)
+            {
+                cls_ml_Products recommendedProduct = new cls_ml_Products
+                {
+                    Reference = dgvProducts.Rows[e.RowIndex].Cells["Reference"].Value.ToString(),
+                    ProductName = dgvProducts.Rows[e.RowIndex].Cells["ProductName"].Value.ToString(),
+                    ProductBrand = dgvProducts.Rows[e.RowIndex].Cells["ProductBrand"].Value.ToString(),
+                    Quantity = Convert.ToInt32(dgvProducts.Rows[e.RowIndex].Cells["Quantity"].Value)
+                };
+                return recommendedProduct;
+            }
+        
 
         private void frm_inventory_Load(object sender, EventArgs e)
         {
@@ -480,6 +529,21 @@ namespace AutoPartsManager.Forms.Inventory
         {
             frm_recommended_products recommended_Products = new frm_recommended_products();
             recommended_Products.ShowDialog();
+        }
+
+        private void chk_low_quantity_CheckedChanged(object sender, EventArgs e)
+        {
+            if(chk_low_quantity.Checked)
+            {
+                LoadLowQuantities();
+               
+            }
+            else
+            {
+                LoadInventoryList();
+                
+            }
+
         }
     }
 }
