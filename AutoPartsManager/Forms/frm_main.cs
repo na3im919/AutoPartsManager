@@ -125,5 +125,14 @@ namespace AutoPartsManager
         }
 
 
+        public Form GetOpenedForm(string formName)
+        {
+            return OpenedForms.ContainsKey(formName)
+                ? OpenedForms[formName]
+                : null;
+        }
+
+
+
     }
 }

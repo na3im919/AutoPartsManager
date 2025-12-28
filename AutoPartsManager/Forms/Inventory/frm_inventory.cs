@@ -292,6 +292,8 @@ namespace AutoPartsManager.Forms.Inventory
             dgv_inventory.Columns["Delete"].Visible = false;
             dgv_inventory.Columns["Recomendation"].Visible = false;
             dgv_inventory.Columns["Restore"].Visible = false;
+            dgv_inventory.Columns["Cost"].Visible = false;
+            dgv_inventory.Columns["Price"].Visible = false;
 
 
             pnl_bottm.Visible = true;
@@ -335,7 +337,11 @@ namespace AutoPartsManager.Forms.Inventory
                 };
                 return recommendedProduct;
             }
-        
+
+        public void ShowLowQuantities()
+        {
+            chk_low_quantity.Checked = true;
+        }
 
         private void frm_inventory_Load(object sender, EventArgs e)
         {
@@ -547,48 +553,42 @@ namespace AutoPartsManager.Forms.Inventory
         }
     }
 
-    public class LowQuantitiesChecker
+    public static class LowQuantitiesChecker
     {
-        private static NotifyIcon _notifyIcon;
-
         public static void NotifyOfLowQuantities()
         {
             string error = string.Empty;
+            var products = cls_bl_Products.GetDepletedProducts(out error);
 
-            var depletedProducts = cls_bl_Products.GetDepletedProducts(out error);
-
-            if (!string.IsNullOrEmpty(error))
+            if (products.Count == 0)
                 return;
 
-            if (depletedProducts == null || depletedProducts.Count == 0)
+            NotifyIcon notifyIcon = new NotifyIcon
+            {
+                Icon = SystemIcons.Warning,
+                Visible = true,
+                BalloonTipTitle = "تنبيه المخزون",
+                BalloonTipText = "بعض المنتجات كميتها منخفضة، اضغط لعرضها"
+            };
+
+            notifyIcon.BalloonTipClicked += NotifyIcon_BalloonTipClicked;
+            notifyIcon.ShowBalloonTip(5000);
+        }
+
+        private static void NotifyIcon_BalloonTipClicked(object sender, EventArgs e)
+        {
+            frm_main mainForm = Application.OpenForms
+                .OfType<frm_main>()
+                .FirstOrDefault();
+
+            if (mainForm == null)
                 return;
 
-            // إنشاء NotifyIcon مرة واحدة فقط
-            if (_notifyIcon == null)
-            {
-                _notifyIcon = new NotifyIcon
-                {
-                    Icon = SystemIcons.Warning,
-                    BalloonTipIcon = ToolTipIcon.Warning,
-                    Visible = true
-                };
-            }
+            mainForm.OpenFormsFrom("frm_inventory");
 
-            // بناء نص الإشعار (حد أقصى 5 منتجات)
-            string message = "المنتجات ذات الكمية المنخفضة:\n";
-
-            foreach (var product in depletedProducts.Take(5))
-            {
-                message += $"- {product.ProductName} ({product.Quantity})\n";
-            }
-
-            if (depletedProducts.Count > 5)
-                message += $"و {depletedProducts.Count - 5} منتجات أخرى...";
-
-            _notifyIcon.BalloonTipTitle = "تنبيه المخزون";
-            _notifyIcon.BalloonTipText = message;
-
-            _notifyIcon.ShowBalloonTip(5000);
+            var inventoryForm = mainForm.GetOpenedForm("frm_inventory") as frm_inventory;
+            inventoryForm?.ShowLowQuantities();
         }
     }
+
 }

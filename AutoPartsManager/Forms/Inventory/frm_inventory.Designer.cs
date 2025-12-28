@@ -29,14 +29,16 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_inventory));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
+            this.panel12 = new System.Windows.Forms.Panel();
+            this.chk_low_quantity = new System.Windows.Forms.CheckBox();
             this.panel5 = new System.Windows.Forms.Panel();
             this.btn_recomended = new DevExpress.XtraEditors.SimpleButton();
             this.panel4 = new System.Windows.Forms.Panel();
@@ -79,10 +81,9 @@
             this.Delete = new System.Windows.Forms.DataGridViewImageColumn();
             this.Restore = new System.Windows.Forms.DataGridViewImageColumn();
             this.Recomendation = new System.Windows.Forms.DataGridViewImageColumn();
-            this.panel12 = new System.Windows.Forms.Panel();
-            this.chk_low_quantity = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
+            this.panel12.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel6.SuspendLayout();
@@ -101,7 +102,6 @@
             this.panel10.SuspendLayout();
             this.pnl_price_title.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_inventory)).BeginInit();
-            this.panel12.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelControl1
@@ -117,6 +117,27 @@
             this.panelControl1.Name = "panelControl1";
             this.panelControl1.Size = new System.Drawing.Size(1798, 88);
             this.panelControl1.TabIndex = 2;
+            // 
+            // panel12
+            // 
+            this.panel12.Controls.Add(this.chk_low_quantity);
+            this.panel12.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel12.Location = new System.Drawing.Point(672, 2);
+            this.panel12.Name = "panel12";
+            this.panel12.Size = new System.Drawing.Size(253, 84);
+            this.panel12.TabIndex = 14;
+            // 
+            // chk_low_quantity
+            // 
+            this.chk_low_quantity.AutoSize = true;
+            this.chk_low_quantity.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chk_low_quantity.Location = new System.Drawing.Point(10, 20);
+            this.chk_low_quantity.Name = "chk_low_quantity";
+            this.chk_low_quantity.Size = new System.Drawing.Size(242, 33);
+            this.chk_low_quantity.TabIndex = 0;
+            this.chk_low_quantity.Text = "الكميات المنخفضة";
+            this.chk_low_quantity.UseVisualStyleBackColor = true;
+            this.chk_low_quantity.CheckedChanged += new System.EventHandler(this.chk_low_quantity_CheckedChanged);
             // 
             // panel5
             // 
@@ -460,14 +481,14 @@
             this.dgv_inventory.AllowUserToDeleteRows = false;
             this.dgv_inventory.AllowUserToOrderColumns = true;
             this.dgv_inventory.BackgroundColor = System.Drawing.Color.White;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Tahoma", 8F);
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_inventory.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 8F);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_inventory.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgv_inventory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_inventory.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ID,
@@ -508,8 +529,8 @@
             // Reference
             // 
             this.Reference.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Reference.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Reference.DefaultCellStyle = dataGridViewCellStyle2;
             this.Reference.HeaderText = "كود المنتج";
             this.Reference.MinimumWidth = 8;
             this.Reference.Name = "Reference";
@@ -518,8 +539,8 @@
             // ProductName
             // 
             this.ProductName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ProductName.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ProductName.DefaultCellStyle = dataGridViewCellStyle3;
             this.ProductName.HeaderText = "إسم المنتج";
             this.ProductName.MinimumWidth = 8;
             this.ProductName.Name = "ProductName";
@@ -528,8 +549,8 @@
             // ProductBrand
             // 
             this.ProductBrand.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ProductBrand.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ProductBrand.DefaultCellStyle = dataGridViewCellStyle4;
             this.ProductBrand.HeaderText = "العلامة التجارية";
             this.ProductBrand.MinimumWidth = 8;
             this.ProductBrand.Name = "ProductBrand";
@@ -539,8 +560,8 @@
             // Cost
             // 
             this.Cost.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Cost.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Cost.DefaultCellStyle = dataGridViewCellStyle5;
             this.Cost.HeaderText = "سعر الشراء";
             this.Cost.MinimumWidth = 8;
             this.Cost.Name = "Cost";
@@ -550,8 +571,8 @@
             // Price
             // 
             this.Price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle13.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Price.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Price.DefaultCellStyle = dataGridViewCellStyle6;
             this.Price.HeaderText = "سعر البيع";
             this.Price.MinimumWidth = 8;
             this.Price.Name = "Price";
@@ -561,8 +582,8 @@
             // Quantity
             // 
             this.Quantity.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle14.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Quantity.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Quantity.DefaultCellStyle = dataGridViewCellStyle7;
             this.Quantity.HeaderText = "الكمية";
             this.Quantity.MinimumWidth = 8;
             this.Quantity.Name = "Quantity";
@@ -608,27 +629,6 @@
             this.Recomendation.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.Recomendation.Width = 29;
             // 
-            // panel12
-            // 
-            this.panel12.Controls.Add(this.chk_low_quantity);
-            this.panel12.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel12.Location = new System.Drawing.Point(672, 2);
-            this.panel12.Name = "panel12";
-            this.panel12.Size = new System.Drawing.Size(253, 84);
-            this.panel12.TabIndex = 14;
-            // 
-            // chk_low_quantity
-            // 
-            this.chk_low_quantity.AutoSize = true;
-            this.chk_low_quantity.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chk_low_quantity.Location = new System.Drawing.Point(10, 20);
-            this.chk_low_quantity.Name = "chk_low_quantity";
-            this.chk_low_quantity.Size = new System.Drawing.Size(242, 33);
-            this.chk_low_quantity.TabIndex = 0;
-            this.chk_low_quantity.Text = "الكميات المنخفضة";
-            this.chk_low_quantity.UseVisualStyleBackColor = true;
-            this.chk_low_quantity.CheckedChanged += new System.EventHandler(this.chk_low_quantity_CheckedChanged);
-            // 
             // frm_inventory
             // 
             this.Appearance.BackColor = System.Drawing.Color.White;
@@ -645,6 +645,8 @@
             this.Load += new System.EventHandler(this.frm_inventory_Load);
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
             this.panelControl1.ResumeLayout(false);
+            this.panel12.ResumeLayout(false);
+            this.panel12.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.panel6.ResumeLayout(false);
@@ -672,8 +674,6 @@
             this.pnl_price_title.ResumeLayout(false);
             this.pnl_price_title.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_inventory)).EndInit();
-            this.panel12.ResumeLayout(false);
-            this.panel12.PerformLayout();
             this.ResumeLayout(false);
 
         }

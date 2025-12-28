@@ -38,6 +38,11 @@
             this.accordionControlElement3 = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.accordionControlElement4 = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.fluentDesignFormControl1 = new DevExpress.XtraBars.FluentDesignSystem.FluentDesignFormControl();
+            this.accordionControlElement5 = new DevExpress.XtraBars.Navigation.AccordionControlElement();
+            this.accordionControlElement6 = new DevExpress.XtraBars.Navigation.AccordionControlElement();
+            this.accordionControlElement7 = new DevExpress.XtraBars.Navigation.AccordionControlElement();
+            this.accordionControlElement8 = new DevExpress.XtraBars.Navigation.AccordionControlElement();
+            this.accordionControlElement9 = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             ((System.ComponentModel.ISupportInitialize)(this.fluentFormDefaultManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.accordionControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fluentDesignFormControl1)).BeginInit();
@@ -63,7 +68,12 @@
             this.accordionControlElement1,
             this.accordionControlElement2,
             this.accordionControlElement3,
-            this.accordionControlElement4});
+            this.accordionControlElement4,
+            this.accordionControlElement5,
+            this.accordionControlElement6,
+            this.accordionControlElement7,
+            this.accordionControlElement8,
+            this.accordionControlElement9});
             this.accordionControl1.Location = new System.Drawing.Point(0, 46);
             this.accordionControl1.Name = "accordionControl1";
             this.accordionControl1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -137,6 +147,67 @@
             this.fluentDesignFormControl1.TabIndex = 2;
             this.fluentDesignFormControl1.TabStop = false;
             // 
+            // accordionControlElement5
+            // 
+            this.accordionControlElement5.Appearance.Disabled.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.accordionControlElement5.Appearance.Disabled.Options.UseFont = true;
+            this.accordionControlElement5.Appearance.Hovered.Font = new System.Drawing.Font("Tahoma", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.accordionControlElement5.Appearance.Hovered.Options.UseFont = true;
+            this.accordionControlElement5.Appearance.Normal.Font = new System.Drawing.Font("Tahoma", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.accordionControlElement5.Appearance.Normal.Options.UseFont = true;
+            this.accordionControlElement5.Appearance.Pressed.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.accordionControlElement5.Appearance.Pressed.Options.UseFont = true;
+            this.accordionControlElement5.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("accordionControlElement5.ImageOptions.Image")));
+            this.accordionControlElement5.Name = "accordionControlElement5";
+            this.accordionControlElement5.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
+            this.accordionControlElement5.Text = "إدارة الزبائن";
+            // 
+            // accordionControlElement6
+            // 
+            this.accordionControlElement6.Appearance.Hovered.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.accordionControlElement6.Appearance.Hovered.Options.UseFont = true;
+            this.accordionControlElement6.Appearance.Normal.Font = new System.Drawing.Font("Tahoma", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.accordionControlElement6.Appearance.Normal.Options.UseFont = true;
+            this.accordionControlElement6.Appearance.Pressed.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.accordionControlElement6.Appearance.Pressed.Options.UseFont = true;
+            this.accordionControlElement6.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("accordionControlElement6.ImageOptions.Image")));
+            this.accordionControlElement6.Name = "accordionControlElement6";
+            this.accordionControlElement6.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
+            this.accordionControlElement6.Text = "إدارة الموردين";
+            // 
+            // accordionControlElement7
+            // 
+            this.accordionControlElement7.Appearance.Normal.Font = new System.Drawing.Font("Tahoma", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.accordionControlElement7.Appearance.Normal.Options.UseFont = true;
+            this.accordionControlElement7.Appearance.Pressed.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.accordionControlElement7.Appearance.Pressed.Options.UseFont = true;
+            this.accordionControlElement7.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("accordionControlElement7.ImageOptions.Image")));
+            this.accordionControlElement7.Name = "accordionControlElement7";
+            this.accordionControlElement7.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
+            this.accordionControlElement7.Text = "التقارير";
+            // 
+            // accordionControlElement8
+            // 
+            this.accordionControlElement8.Appearance.Normal.Font = new System.Drawing.Font("Tahoma", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.accordionControlElement8.Appearance.Normal.Options.UseFont = true;
+            this.accordionControlElement8.Appearance.Pressed.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.accordionControlElement8.Appearance.Pressed.Options.UseFont = true;
+            this.accordionControlElement8.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("accordionControlElement8.ImageOptions.Image")));
+            this.accordionControlElement8.Name = "accordionControlElement8";
+            this.accordionControlElement8.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
+            this.accordionControlElement8.Text = "الإعدادات";
+            // 
+            // accordionControlElement9
+            // 
+            this.accordionControlElement9.Appearance.Normal.Font = new System.Drawing.Font("Tahoma", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.accordionControlElement9.Appearance.Normal.Options.UseFont = true;
+            this.accordionControlElement9.Appearance.Pressed.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.accordionControlElement9.Appearance.Pressed.Options.UseFont = true;
+            this.accordionControlElement9.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("accordionControlElement9.ImageOptions.Image")));
+            this.accordionControlElement9.Name = "accordionControlElement9";
+            this.accordionControlElement9.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
+            this.accordionControlElement9.Text = "حول البرنامج";
+            // 
             // frm_main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
@@ -172,5 +243,10 @@
         private DevExpress.XtraBars.Navigation.AccordionControlElement accordionControlElement2;
         private DevExpress.XtraBars.Navigation.AccordionControlElement accordionControlElement3;
         private DevExpress.XtraBars.Navigation.AccordionControlElement accordionControlElement4;
+        private DevExpress.XtraBars.Navigation.AccordionControlElement accordionControlElement5;
+        private DevExpress.XtraBars.Navigation.AccordionControlElement accordionControlElement6;
+        private DevExpress.XtraBars.Navigation.AccordionControlElement accordionControlElement7;
+        private DevExpress.XtraBars.Navigation.AccordionControlElement accordionControlElement8;
+        private DevExpress.XtraBars.Navigation.AccordionControlElement accordionControlElement9;
     }
 }
