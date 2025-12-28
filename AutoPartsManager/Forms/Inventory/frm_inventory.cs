@@ -401,7 +401,7 @@ namespace AutoPartsManager.Forms.Inventory
                 case "Recomendation":
                     string recomendError = string.Empty;
                     cls_ml_Products recommendedProduct = PrepareRecommendedProduct(e, dgv_inventory);
-                    if (!cls_bl_recomendations.AddRecommendation(recommendedProduct, out recomendError))
+                    if (!cls_bl_recomendations.AddRecommendation(recommendedProduct, false, out recomendError))
                         XtraMessageBox.Show(recomendError, "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     else
                         XtraMessageBox.Show("تمت إضافة المنتج الى قائمة المنتجات الموصى بها", "نجاح الإضافة", MessageBoxButtons.OK, MessageBoxIcon.Information);

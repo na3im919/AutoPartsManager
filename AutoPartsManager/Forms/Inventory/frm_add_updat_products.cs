@@ -17,10 +17,12 @@ namespace AutoPartsManager.Forms.Inventory
     {
         private int _productId;
         public bool add_or_update_product = false;
+        private bool _is_recommended = false;
         private enum frmMode
         {
             Add,
-            Update
+            Update,
+            recommended
         }
         frmMode Mode;
 
@@ -37,6 +39,12 @@ namespace AutoPartsManager.Forms.Inventory
             Mode = frmMode.Update;
         }
 
+        public frm_add_updat_products(bool is_recommended)
+        {
+            InitializeComponent();
+            _is_recommended = is_recommended;
+            Mode = frmMode.recommended;
+        }
 
         private bool ValidateProductInputs()
         {
@@ -55,40 +63,6 @@ namespace AutoPartsManager.Forms.Inventory
                 txt_name.ErrorText = "اسم المنتج إجباري";
                 isValid = false;
             }
-
-            // سعر التكلفة
-            decimal cost = 0;
-            if (string.IsNullOrWhiteSpace(txt_cost.Text))
-            {
-                txt_cost.ErrorText = "سعر التكلفة إجباري";
-                isValid = false;
-            }
-            else if (!decimal.TryParse(txt_cost.Text, out cost) || cost < 0)
-            {
-                txt_cost.ErrorText = "الرجاء إدخال رقم صحيح ≥ 0";
-                isValid = false;
-            }
-
-            // سعر البيع
-            decimal price = 0;
-            if (string.IsNullOrWhiteSpace(txt_price.Text))
-            {
-                txt_price.ErrorText = "سعر البيع إجباري";
-                isValid = false;
-            }
-            else if (!decimal.TryParse(txt_price.Text, out price) || price < 0)
-            {
-                txt_price.ErrorText = "الرجاء إدخال رقم صحيح ≥ 0";
-                isValid = false;
-            }
-
-            // تحقق أن التكلفة ≤ السعر
-            if (cost > 0 && price > 0 && cost >= price)
-            {
-                txt_price.ErrorText = "سعر البيع يجب أن يكون أكبر من سعر التكلفة";
-                isValid = false;
-            }
-
             // الكمية
             int qty = 0;
             if (string.IsNullOrWhiteSpace(txt_qty.Text))
@@ -101,19 +75,57 @@ namespace AutoPartsManager.Forms.Inventory
                 txt_qty.ErrorText = "الرجاء إدخال رقم صحيح ≥ 0";
                 isValid = false;
             }
+            if (Mode != frmMode.recommended)
+            {
+                // سعر التكلفة
+                decimal cost = 0;
+                if (string.IsNullOrWhiteSpace(txt_cost.Text))
+                {
+                    txt_cost.ErrorText = "سعر التكلفة إجباري";
+                    isValid = false;
+                }
+                else if (!decimal.TryParse(txt_cost.Text, out cost) || cost < 0)
+                {
+                    txt_cost.ErrorText = "الرجاء إدخال رقم صحيح ≥ 0";
+                    isValid = false;
+                }
 
-            // الحد الأدنى للكمية
-            int minQty = 0;
-            if (string.IsNullOrWhiteSpace(txt_qty_min.Text))
-            {
-                txt_qty_min.ErrorText = "الحد الأدنى للكمية إجباري";
-                isValid = false;
+                // سعر البيع
+                decimal price = 0;
+                if (string.IsNullOrWhiteSpace(txt_price.Text))
+                {
+                    txt_price.ErrorText = "سعر البيع إجباري";
+                    isValid = false;
+                }
+                else if (!decimal.TryParse(txt_price.Text, out price) || price < 0)
+                {
+                    txt_price.ErrorText = "الرجاء إدخال رقم صحيح ≥ 0";
+                    isValid = false;
+                }
+
+                // تحقق أن التكلفة ≤ السعر
+                if (cost > 0 && price > 0 && cost >= price)
+                {
+                    txt_price.ErrorText = "سعر البيع يجب أن يكون أكبر من سعر التكلفة";
+                    isValid = false;
+                }
+
+
+
+                // الحد الأدنى للكمية
+                int minQty = 0;
+                if (string.IsNullOrWhiteSpace(txt_qty_min.Text))
+                {
+                    txt_qty_min.ErrorText = "الحد الأدنى للكمية إجباري";
+                    isValid = false;
+                }
+                else if (!int.TryParse(txt_qty_min.Text, out minQty) || minQty < 0)
+                {
+                    txt_qty_min.ErrorText = "الرجاء إدخال رقم صحيح موجب ";
+                    isValid = false;
+                }
             }
-            else if (!int.TryParse(txt_qty_min.Text, out minQty) || minQty < 0)
-            {
-                txt_qty_min.ErrorText = "الرجاء إدخال رقم صحيح موجب ";
-                isValid = false;
-            }
+           
 
             return isValid;
         }
@@ -173,54 +185,92 @@ namespace AutoPartsManager.Forms.Inventory
         {
             this.Text = Mode == frmMode.Add ? "إضافة منتج جديد" : "تعديل بيانات المنتج";
             btn_save.ImageOptions.Image = Mode == frmMode.Add ? Properties.Resources.box : Properties.Resources.updated;
-            
+            if(Mode == frmMode.recommended)
+            {
+                btn_save.ImageOptions.Image = Properties.Resources.quality;
+                this.Text = "إضافة منتج موصى به";
+                EditFormForRecommendedProducts();
+            }
             if (Mode == frmMode.Update)
                 getProductDetails(_productId);
         }
 
+        private void EditFormForRecommendedProducts()
+        {
+            lay_ctrl_cost.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never;
+            lay_ctrl_price.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never;
+            lay_ctrl_min_quantity.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never;
+            
+        }
         private void btn_save_Click(object sender, EventArgs e)
         {
             string error_message = string.Empty;
-            cls_ml_Products newProduct = new cls_ml_Products()
+            if (!ValidateProductInputs())
             {
-                Reference = txt_reffrence.Text,
-                ProductName = txt_name.Text,
-                ProductBrand = txt_brand.Text,
-                Cost = Convert.ToDecimal(txt_cost.Text),
-                Price = Convert.ToDecimal(txt_price.Text),
-                Quantity = Convert.ToInt32(txt_qty.Text),
-                min_quantity = Convert.ToInt32(txt_qty_min.Text),
-
-
-            };
-            if (ValidateProductInputs())
+                return;
+            }
+            cls_ml_Products newProduct = new cls_ml_Products();
+            if (Mode != frmMode.recommended)
             {
-                if (Mode == frmMode.Update)
+                newProduct = new cls_ml_Products()
                 {
-                    newProduct.ID = _productId;
-                    if (cls_bl_Products.UpdateProductStock(newProduct, out error_message))
-                    {
-                        XtraMessageBox.Show("تم تحديث بيانات المنتج بنجاح", "تحديث منتج", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        add_or_update_product = true;
-                        this.Close();
-                    }
-                }
-                else
-                {
-                    if (cls_bl_Products.AddProductStock(newProduct, out error_message))
-                    {
-                        XtraMessageBox.Show("تمت إضافة المنتج بنجاح", "إضافة منتج جديد", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        add_or_update_product = true;
-                        this.Close();
-                    }
-                }
-                if (!string.IsNullOrEmpty(error_message))
-                {
-                    XtraMessageBox.Show(error_message, "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Reference = txt_reffrence.Text,
+                    ProductName = txt_name.Text,
+                    ProductBrand = txt_brand.Text,
+                    Cost = Convert.ToDecimal(txt_cost.Text),
+                    Price = Convert.ToDecimal(txt_price.Text),
+                    Quantity = Convert.ToInt32(txt_qty.Text),
+                    min_quantity = Convert.ToInt32(txt_qty_min.Text),
 
+
+                };
+            }
+            else
+            {
+                newProduct = new cls_ml_Products()
+                {
+                    Reference = txt_reffrence.Text,
+                    ProductName = txt_name.Text,
+                    ProductBrand = txt_brand.Text,
+                    Quantity = Convert.ToInt32(txt_qty.Text),
+
+                };
+            }
+
+
+            if (Mode == frmMode.Update)
+            {
+                newProduct.ID = _productId;
+                if (cls_bl_Products.UpdateProductStock(newProduct, out error_message))
+                {
+                    XtraMessageBox.Show("تم تحديث بيانات المنتج بنجاح", "تحديث منتج", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    add_or_update_product = true;
+                    this.Close();
                 }
             }
-                
+            else if (Mode == frmMode.Add)
+            {
+                if (cls_bl_Products.AddProductStock(newProduct, out error_message))
+                {
+                    XtraMessageBox.Show("تمت إضافة المنتج بنجاح", "إضافة منتج جديد", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    add_or_update_product = true;
+                    this.Close();
+                }
+            }
+            else if (Mode == frmMode.recommended)
+            {
+                if (cls_bl_recomendations.AddRecommendation(newProduct, true, out error_message))
+                {
+                    XtraMessageBox.Show("تمت إضافة المنتج الموصى به بنجاح", "إضافة منتج موصى به", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    add_or_update_product = true;
+                    this.Close();
+                }
+            }
+            if (!string.IsNullOrEmpty(error_message))
+            {
+                XtraMessageBox.Show(error_message, "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
         }
 
         private void txt_cost_Click(object sender, EventArgs e)

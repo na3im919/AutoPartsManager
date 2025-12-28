@@ -12,7 +12,7 @@ namespace DAL
     {
         static string connectionString = cls_dal_Connections.connectionString;
 
-        public static bool AddRecommendation(cls_ml_Products product, out string error_message)
+        public static bool AddRecommendation(cls_ml_Products product, bool isNew, out string error_message)
         {
             error_message = string.Empty;
             using (SqlConnection conn = new SqlConnection(cls_dal_Connections.connectionString))
@@ -20,13 +20,19 @@ namespace DAL
                 try
                 {
                     conn.Open();
-                    string query = "INSERT INTO ProductsRecomendations (Refference, ProductName, ProductBrand) " +
-                                   "VALUES (@Refference, @ProductName, @ProductBrand)";
+                    string query = @"INSERT INTO ProductsRecomendations 
+                             (Refference, ProductName, ProductBrand, Quantity) 
+                             VALUES (@Refference, @ProductName, @ProductBrand, @Quantity)";
+
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@Refference", product.Reference);
                         cmd.Parameters.AddWithValue("@ProductName", product.ProductName);
                         cmd.Parameters.AddWithValue("@ProductBrand", product.ProductBrand);
+
+                        // إذا كان المنتج جديد نضع الكمية من cls_ml_Products وإلا نضع 0
+                        cmd.Parameters.AddWithValue("@Quantity", isNew ? product.Quantity : 0);
+
                         cmd.ExecuteNonQuery();
                     }
                     return true;

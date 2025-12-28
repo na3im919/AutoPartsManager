@@ -250,7 +250,7 @@ namespace AutoPartsManager.Forms.Inventory
         {
             string error = string.Empty;
             var products = new List<cls_ml_Products>();
-            foreach(DataGridViewRow row in dgv_inventory.Rows)
+            foreach (DataGridViewRow row in dgv_inventory.Rows)
             {
                 if (row.IsNewRow) continue;
                 int quantity = Convert.ToInt32(row.Cells["Quantity"].Value ?? 0);
@@ -264,7 +264,7 @@ namespace AutoPartsManager.Forms.Inventory
                 };
                 products.Add(product);
             }
-            if(!cls_bl_recomendations.UpdateRecommendedProduct(products, out error))
+            if (!cls_bl_recomendations.UpdateRecommendedProduct(products, out error))
             {
                 XtraMessageBox.Show(error);
             }
@@ -274,6 +274,16 @@ namespace AutoPartsManager.Forms.Inventory
             UpdateRecommendedProducts();
             ExportInventoryToExcel(dgv_inventory);
             LoadRecommendedProducts();
+        }
+
+        private void btn_add_recomended_product_Click(object sender, EventArgs e)
+        {
+            frm_add_updat_products recomended = new frm_add_updat_products(true);
+            recomended.ShowDialog();
+            if (recomended.add_or_update_product)
+            {
+                LoadRecommendedProducts();
+            }
         }
     }
 }
