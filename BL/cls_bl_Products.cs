@@ -64,5 +64,8 @@ namespace BL
             return cls_dal_Products.GetDepletedProducts(out error_message);
         }
 
+
+       
+
     }
 }

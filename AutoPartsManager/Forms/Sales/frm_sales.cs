@@ -1,4 +1,5 @@
-﻿using AutoPartsManager.Forms.Sales;
+﻿using AutoPartsManager.Forms.Inventory;
+using AutoPartsManager.Forms.Sales;
 using BL;
 using DevExpress.XtraEditors;
 using Moldels;

@@ -1,4 +1,5 @@
-﻿using DevExpress.XtraBars;
+﻿using AutoPartsManager.Forms.Inventory;
+using DevExpress.XtraBars;
 using DevExpress.XtraEditors;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,8 @@ namespace AutoPartsManager
 {
     public partial class frm_main : DevExpress.XtraBars.FluentDesignSystem.FluentDesignForm
     {
+        private Timer lowQuantityTimer;
+
         public frm_main()
         {
             InitializeComponent();
@@ -103,6 +106,22 @@ namespace AutoPartsManager
                     XtraMessageBox.Show($"النموذج '{formName}' غير موجود!", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
+        }
+
+        private void frm_main_Load(object sender, EventArgs e)
+        {
+            lowQuantityTimer = new Timer();
+            lowQuantityTimer.Interval = 2 * 60 * 60 * 1000; // ساعتان
+            lowQuantityTimer.Tick += LowQuantityTimer_Tick;
+            lowQuantityTimer.Start();
+
+            LowQuantitiesChecker.NotifyOfLowQuantities();
+            OpenFormsFrom("frm_sales");
+        }
+
+        private void LowQuantityTimer_Tick(object sender, EventArgs e)
+        {
+            LowQuantitiesChecker.NotifyOfLowQuantities();
         }
 
 

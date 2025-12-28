@@ -546,4 +546,49 @@ namespace AutoPartsManager.Forms.Inventory
 
         }
     }
+
+    public class LowQuantitiesChecker
+    {
+        private static NotifyIcon _notifyIcon;
+
+        public static void NotifyOfLowQuantities()
+        {
+            string error = string.Empty;
+
+            var depletedProducts = cls_bl_Products.GetDepletedProducts(out error);
+
+            if (!string.IsNullOrEmpty(error))
+                return;
+
+            if (depletedProducts == null || depletedProducts.Count == 0)
+                return;
+
+            // إنشاء NotifyIcon مرة واحدة فقط
+            if (_notifyIcon == null)
+            {
+                _notifyIcon = new NotifyIcon
+                {
+                    Icon = SystemIcons.Warning,
+                    BalloonTipIcon = ToolTipIcon.Warning,
+                    Visible = true
+                };
+            }
+
+            // بناء نص الإشعار (حد أقصى 5 منتجات)
+            string message = "المنتجات ذات الكمية المنخفضة:\n";
+
+            foreach (var product in depletedProducts.Take(5))
+            {
+                message += $"- {product.ProductName} ({product.Quantity})\n";
+            }
+
+            if (depletedProducts.Count > 5)
+                message += $"و {depletedProducts.Count - 5} منتجات أخرى...";
+
+            _notifyIcon.BalloonTipTitle = "تنبيه المخزون";
+            _notifyIcon.BalloonTipText = message;
+
+            _notifyIcon.ShowBalloonTip(5000);
+        }
+    }
 }

@@ -9,7 +9,7 @@ internal static class Program
     {
         Application.EnableVisualStyles();
         Application.SetCompatibleTextRenderingDefault(false);
-
+        
         // --- عمليات التحقق والتحديث عند بدء التشغيل ---
         // هذه فكرة ممتازة لضمان أن البيانات في حالة متسقة عند بدء التطبيق
         // --- تشغيل الفورم الرئيسية ---
