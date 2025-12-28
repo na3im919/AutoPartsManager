@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BL", "BL\BL.csproj", "{F72A83CE-13D8-4046-BD13-AD6C162F55CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moldels", "Moldels\Moldels.csproj", "{221B03C0-1A0D-4268-936A-4AEA20CB3892}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Moldels\Model.csproj", "{221B03C0-1A0D-4268-936A-4AEA20CB3892}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

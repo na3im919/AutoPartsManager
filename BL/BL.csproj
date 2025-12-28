@@ -44,6 +44,7 @@
     <Compile Include="cls_bl_Clients.cs" />
     <Compile Include="cls_bl_Invoices.cs" />
     <Compile Include="cls_bl_Products.cs" />
+    <Compile Include="cls_bl_recomendations.cs" />
     <Compile Include="cls_bl_Suppliers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -52,9 +53,9 @@
       <Project>{e5d46de0-611c-4ee0-ab63-d8ad2bd3500a}</Project>
       <Name>DAL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Moldels\Moldels.csproj">
+    <ProjectReference Include="..\Moldels\Model.csproj">
       <Project>{221b03c0-1a0d-4268-936a-4aea20cb3892}</Project>
-      <Name>Moldels</Name>
+      <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -223,9 +223,9 @@
       <Project>{f72a83ce-13d8-4046-bd13-ad6c162f55ca}</Project>
       <Name>BL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Moldels\Moldels.csproj">
+    <ProjectReference Include="..\Moldels\Model.csproj">
       <Project>{221b03c0-1a0d-4268-936a-4aea20cb3892}</Project>
-      <Name>Moldels</Name>
+      <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -263,6 +263,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\box.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\quality.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

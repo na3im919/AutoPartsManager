@@ -29,14 +29,20 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_inventory));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_inventory));
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.chk_non_active_product = new System.Windows.Forms.CheckBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.rad_non_zero = new System.Windows.Forms.RadioButton();
+            this.rad_zero = new System.Windows.Forms.RadioButton();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel8 = new System.Windows.Forms.Panel();
@@ -58,6 +64,8 @@
             this.pnl_price_title = new System.Windows.Forms.Panel();
             this.lbl_price_title = new System.Windows.Forms.Label();
             this.dgv_inventory = new System.Windows.Forms.DataGridView();
+            this.btn_import_excel = new DevExpress.XtraEditors.SimpleButton();
+            this.btn_add_new_product = new DevExpress.XtraEditors.SimpleButton();
             this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Reference = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ProductName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -68,16 +76,12 @@
             this.Edit = new System.Windows.Forms.DataGridViewImageColumn();
             this.Delete = new System.Windows.Forms.DataGridViewImageColumn();
             this.Restore = new System.Windows.Forms.DataGridViewImageColumn();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.rad_non_zero = new System.Windows.Forms.RadioButton();
-            this.rad_zero = new System.Windows.Forms.RadioButton();
-            this.panel6 = new System.Windows.Forms.Panel();
-            this.chk_non_active_product = new System.Windows.Forms.CheckBox();
-            this.btn_add_new_product = new DevExpress.XtraEditors.SimpleButton();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.btn_import_excel = new DevExpress.XtraEditors.SimpleButton();
+            this.Recomendation = new System.Windows.Forms.DataGridViewImageColumn();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
+            this.panel4.SuspendLayout();
+            this.panel6.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel8.SuspendLayout();
@@ -92,9 +96,6 @@
             this.panel10.SuspendLayout();
             this.pnl_price_title.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_inventory)).BeginInit();
-            this.groupBox1.SuspendLayout();
-            this.panel6.SuspendLayout();
-            this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelControl1
@@ -106,14 +107,80 @@
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelControl1.Location = new System.Drawing.Point(0, 0);
             this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(1378, 88);
+            this.panelControl1.Size = new System.Drawing.Size(1664, 88);
             this.panelControl1.TabIndex = 2;
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.btn_import_excel);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel4.Location = new System.Drawing.Point(1178, 2);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(256, 84);
+            this.panel4.TabIndex = 14;
+            // 
+            // panel6
+            // 
+            this.panel6.Controls.Add(this.chk_non_active_product);
+            this.panel6.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel6.Location = new System.Drawing.Point(434, 2);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(238, 84);
+            this.panel6.TabIndex = 13;
+            // 
+            // chk_non_active_product
+            // 
+            this.chk_non_active_product.AutoSize = true;
+            this.chk_non_active_product.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chk_non_active_product.Location = new System.Drawing.Point(10, 20);
+            this.chk_non_active_product.Name = "chk_non_active_product";
+            this.chk_non_active_product.Size = new System.Drawing.Size(214, 33);
+            this.chk_non_active_product.TabIndex = 0;
+            this.chk_non_active_product.Text = "منتجات محذوفة";
+            this.chk_non_active_product.UseVisualStyleBackColor = true;
+            this.chk_non_active_product.CheckedChanged += new System.EventHandler(this.chk_non_active_product_CheckedChanged);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.rad_non_zero);
+            this.groupBox1.Controls.Add(this.rad_zero);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.groupBox1.Location = new System.Drawing.Point(2, 2);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(432, 84);
+            this.groupBox1.TabIndex = 12;
+            this.groupBox1.TabStop = false;
+            // 
+            // rad_non_zero
+            // 
+            this.rad_non_zero.AutoSize = true;
+            this.rad_non_zero.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rad_non_zero.Location = new System.Drawing.Point(211, 27);
+            this.rad_non_zero.Name = "rad_non_zero";
+            this.rad_non_zero.Size = new System.Drawing.Size(215, 33);
+            this.rad_non_zero.TabIndex = 1;
+            this.rad_non_zero.TabStop = true;
+            this.rad_non_zero.Text = "كمية غير صفرية";
+            this.rad_non_zero.UseVisualStyleBackColor = true;
+            // 
+            // rad_zero
+            // 
+            this.rad_zero.AutoSize = true;
+            this.rad_zero.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rad_zero.Location = new System.Drawing.Point(12, 27);
+            this.rad_zero.Name = "rad_zero";
+            this.rad_zero.Size = new System.Drawing.Size(171, 33);
+            this.rad_zero.TabIndex = 0;
+            this.rad_zero.TabStop = true;
+            this.rad_zero.Text = "كمية صفرية";
+            this.rad_zero.UseVisualStyleBackColor = true;
+            this.rad_zero.CheckedChanged += new System.EventHandler(this.rad_zero_CheckedChanged);
             // 
             // panel2
             // 
             this.panel2.Controls.Add(this.btn_add_new_product);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel2.Location = new System.Drawing.Point(1148, 2);
+            this.panel2.Location = new System.Drawing.Point(1434, 2);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(228, 84);
             this.panel2.TabIndex = 6;
@@ -128,14 +195,14 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 88);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1378, 39);
+            this.panel1.Size = new System.Drawing.Size(1664, 39);
             this.panel1.TabIndex = 3;
             // 
             // panel8
             // 
             this.panel8.Controls.Add(this.lbl_products_number);
             this.panel8.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel8.Location = new System.Drawing.Point(1101, 0);
+            this.panel8.Location = new System.Drawing.Point(1387, 0);
             this.panel8.Name = "panel8";
             this.panel8.Size = new System.Drawing.Size(155, 37);
             this.panel8.TabIndex = 9;
@@ -156,7 +223,7 @@
             // 
             this.panel7.Controls.Add(this.label1);
             this.panel7.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel7.Location = new System.Drawing.Point(1256, 0);
+            this.panel7.Location = new System.Drawing.Point(1542, 0);
             this.panel7.Name = "panel7";
             this.panel7.Size = new System.Drawing.Size(120, 37);
             this.panel7.TabIndex = 8;
@@ -211,7 +278,7 @@
             this.pnl_bottm.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnl_bottm.Location = new System.Drawing.Point(0, 428);
             this.pnl_bottm.Name = "pnl_bottm";
-            this.pnl_bottm.Size = new System.Drawing.Size(1378, 117);
+            this.pnl_bottm.Size = new System.Drawing.Size(1664, 117);
             this.pnl_bottm.TabIndex = 4;
             // 
             // pnl_total_cost
@@ -219,7 +286,7 @@
             this.pnl_total_cost.Controls.Add(this.panel9);
             this.pnl_total_cost.Controls.Add(this.panel11);
             this.pnl_total_cost.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnl_total_cost.Location = new System.Drawing.Point(552, 0);
+            this.pnl_total_cost.Location = new System.Drawing.Point(838, 0);
             this.pnl_total_cost.Name = "pnl_total_cost";
             this.pnl_total_cost.Size = new System.Drawing.Size(415, 115);
             this.pnl_total_cost.TabIndex = 1;
@@ -271,7 +338,7 @@
             this.pnl_total_price.Controls.Add(this.panel10);
             this.pnl_total_price.Controls.Add(this.pnl_price_title);
             this.pnl_total_price.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnl_total_price.Location = new System.Drawing.Point(967, 0);
+            this.pnl_total_price.Location = new System.Drawing.Point(1253, 0);
             this.pnl_total_price.Name = "pnl_total_price";
             this.pnl_total_price.Size = new System.Drawing.Size(409, 115);
             this.pnl_total_price.TabIndex = 0;
@@ -343,7 +410,8 @@
             this.Quantity,
             this.Edit,
             this.Delete,
-            this.Restore});
+            this.Restore,
+            this.Recomendation});
             this.dgv_inventory.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_inventory.EnableHeadersVisualStyles = false;
             this.dgv_inventory.Location = new System.Drawing.Point(0, 127);
@@ -355,9 +423,42 @@
             this.dgv_inventory.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.Color.White;
             this.dgv_inventory.RowTemplate.Height = 28;
             this.dgv_inventory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv_inventory.Size = new System.Drawing.Size(1378, 301);
+            this.dgv_inventory.Size = new System.Drawing.Size(1664, 301);
             this.dgv_inventory.TabIndex = 5;
             this.dgv_inventory.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_inventory_CellClick);
+            // 
+            // btn_import_excel
+            // 
+            this.btn_import_excel.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(90)))), ((int)(((byte)(156)))));
+            this.btn_import_excel.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_import_excel.Appearance.Options.UseBackColor = true;
+            this.btn_import_excel.Appearance.Options.UseFont = true;
+            this.btn_import_excel.AppearancePressed.Options.UseBackColor = true;
+            this.btn_import_excel.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_import_excel.ImageOptions.Image")));
+            this.btn_import_excel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btn_import_excel.Location = new System.Drawing.Point(32, 9);
+            this.btn_import_excel.Name = "btn_import_excel";
+            this.btn_import_excel.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.btn_import_excel.Size = new System.Drawing.Size(202, 66);
+            this.btn_import_excel.TabIndex = 4;
+            this.btn_import_excel.Text = "إستيراد EXCEL";
+            this.btn_import_excel.Click += new System.EventHandler(this.btn_import_excel_Click);
+            // 
+            // btn_add_new_product
+            // 
+            this.btn_add_new_product.Appearance.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.btn_add_new_product.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_add_new_product.Appearance.Options.UseBackColor = true;
+            this.btn_add_new_product.Appearance.Options.UseFont = true;
+            this.btn_add_new_product.AppearancePressed.Options.UseBackColor = true;
+            this.btn_add_new_product.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_add_new_product.ImageOptions.Image")));
+            this.btn_add_new_product.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
+            this.btn_add_new_product.Location = new System.Drawing.Point(16, 9);
+            this.btn_add_new_product.Name = "btn_add_new_product";
+            this.btn_add_new_product.Size = new System.Drawing.Size(181, 66);
+            this.btn_add_new_product.TabIndex = 4;
+            this.btn_add_new_product.Text = "إضافة منتج";
+            this.btn_add_new_product.Click += new System.EventHandler(this.btn_add_new_product_Click);
             // 
             // ID
             // 
@@ -460,104 +561,16 @@
             this.Restore.Visible = false;
             this.Restore.Width = 8;
             // 
-            // groupBox1
+            // Recomendation
             // 
-            this.groupBox1.Controls.Add(this.rad_non_zero);
-            this.groupBox1.Controls.Add(this.rad_zero);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.groupBox1.Location = new System.Drawing.Point(2, 2);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(432, 84);
-            this.groupBox1.TabIndex = 12;
-            this.groupBox1.TabStop = false;
-            // 
-            // rad_non_zero
-            // 
-            this.rad_non_zero.AutoSize = true;
-            this.rad_non_zero.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rad_non_zero.Location = new System.Drawing.Point(211, 27);
-            this.rad_non_zero.Name = "rad_non_zero";
-            this.rad_non_zero.Size = new System.Drawing.Size(215, 33);
-            this.rad_non_zero.TabIndex = 1;
-            this.rad_non_zero.TabStop = true;
-            this.rad_non_zero.Text = "كمية غير صفرية";
-            this.rad_non_zero.UseVisualStyleBackColor = true;
-            // 
-            // rad_zero
-            // 
-            this.rad_zero.AutoSize = true;
-            this.rad_zero.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rad_zero.Location = new System.Drawing.Point(12, 27);
-            this.rad_zero.Name = "rad_zero";
-            this.rad_zero.Size = new System.Drawing.Size(171, 33);
-            this.rad_zero.TabIndex = 0;
-            this.rad_zero.TabStop = true;
-            this.rad_zero.Text = "كمية صفرية";
-            this.rad_zero.UseVisualStyleBackColor = true;
-            this.rad_zero.CheckedChanged += new System.EventHandler(this.rad_zero_CheckedChanged);
-            // 
-            // panel6
-            // 
-            this.panel6.Controls.Add(this.chk_non_active_product);
-            this.panel6.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel6.Location = new System.Drawing.Point(434, 2);
-            this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(238, 84);
-            this.panel6.TabIndex = 13;
-            // 
-            // chk_non_active_product
-            // 
-            this.chk_non_active_product.AutoSize = true;
-            this.chk_non_active_product.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chk_non_active_product.Location = new System.Drawing.Point(10, 20);
-            this.chk_non_active_product.Name = "chk_non_active_product";
-            this.chk_non_active_product.Size = new System.Drawing.Size(214, 33);
-            this.chk_non_active_product.TabIndex = 0;
-            this.chk_non_active_product.Text = "منتجات محذوفة";
-            this.chk_non_active_product.UseVisualStyleBackColor = true;
-            this.chk_non_active_product.CheckedChanged += new System.EventHandler(this.chk_non_active_product_CheckedChanged);
-            // 
-            // btn_add_new_product
-            // 
-            this.btn_add_new_product.Appearance.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.btn_add_new_product.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_add_new_product.Appearance.Options.UseBackColor = true;
-            this.btn_add_new_product.Appearance.Options.UseFont = true;
-            this.btn_add_new_product.AppearancePressed.Options.UseBackColor = true;
-            this.btn_add_new_product.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_add_new_product.ImageOptions.Image")));
-            this.btn_add_new_product.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.btn_add_new_product.Location = new System.Drawing.Point(16, 9);
-            this.btn_add_new_product.Name = "btn_add_new_product";
-            this.btn_add_new_product.Size = new System.Drawing.Size(181, 66);
-            this.btn_add_new_product.TabIndex = 4;
-            this.btn_add_new_product.Text = "إضافة منتج";
-            this.btn_add_new_product.Click += new System.EventHandler(this.btn_add_new_product_Click);
-            // 
-            // panel4
-            // 
-            this.panel4.Controls.Add(this.btn_import_excel);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel4.Location = new System.Drawing.Point(892, 2);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(256, 84);
-            this.panel4.TabIndex = 14;
-            // 
-            // btn_import_excel
-            // 
-            this.btn_import_excel.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(90)))), ((int)(((byte)(156)))));
-            this.btn_import_excel.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_import_excel.Appearance.Options.UseBackColor = true;
-            this.btn_import_excel.Appearance.Options.UseFont = true;
-            this.btn_import_excel.AppearancePressed.Options.UseBackColor = true;
-            this.btn_import_excel.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton1.ImageOptions.Image")));
-            this.btn_import_excel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btn_import_excel.Location = new System.Drawing.Point(32, 9);
-            this.btn_import_excel.Name = "btn_import_excel";
-            this.btn_import_excel.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.btn_import_excel.Size = new System.Drawing.Size(202, 66);
-            this.btn_import_excel.TabIndex = 4;
-            this.btn_import_excel.Text = "إستيراد EXCEL";
-            this.btn_import_excel.Click += new System.EventHandler(this.btn_import_excel_Click);
+            this.Recomendation.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Recomendation.HeaderText = "";
+            this.Recomendation.MinimumWidth = 8;
+            this.Recomendation.Name = "Recomendation";
+            this.Recomendation.ReadOnly = true;
+            this.Recomendation.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Recomendation.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Recomendation.Width = 29;
             // 
             // frm_inventory
             // 
@@ -565,7 +578,7 @@
             this.Appearance.Options.UseBackColor = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1378, 545);
+            this.ClientSize = new System.Drawing.Size(1664, 545);
             this.Controls.Add(this.dgv_inventory);
             this.Controls.Add(this.pnl_bottm);
             this.Controls.Add(this.panel1);
@@ -575,6 +588,11 @@
             this.Load += new System.EventHandler(this.frm_inventory_Load);
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
             this.panelControl1.ResumeLayout(false);
+            this.panel4.ResumeLayout(false);
+            this.panel6.ResumeLayout(false);
+            this.panel6.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel8.ResumeLayout(false);
@@ -596,11 +614,6 @@
             this.pnl_price_title.ResumeLayout(false);
             this.pnl_price_title.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_inventory)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.panel6.ResumeLayout(false);
-            this.panel6.PerformLayout();
-            this.panel4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -620,16 +633,6 @@
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.Panel pnl_bottm;
         private System.Windows.Forms.DataGridView dgv_inventory;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Reference;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ProductName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ProductBrand;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Cost;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Price;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
-        private System.Windows.Forms.DataGridViewImageColumn Edit;
-        private System.Windows.Forms.DataGridViewImageColumn Delete;
-        private System.Windows.Forms.DataGridViewImageColumn Restore;
         private System.Windows.Forms.Panel pnl_total_cost;
         private System.Windows.Forms.Panel pnl_total_price;
         private System.Windows.Forms.Panel pnl_price_title;
@@ -647,5 +650,16 @@
         private System.Windows.Forms.RadioButton rad_zero;
         private System.Windows.Forms.Panel panel4;
         private DevExpress.XtraEditors.SimpleButton btn_import_excel;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Reference;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ProductName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ProductBrand;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Cost;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Price;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
+        private System.Windows.Forms.DataGridViewImageColumn Edit;
+        private System.Windows.Forms.DataGridViewImageColumn Delete;
+        private System.Windows.Forms.DataGridViewImageColumn Restore;
+        private System.Windows.Forms.DataGridViewImageColumn Recomendation;
     }
 }

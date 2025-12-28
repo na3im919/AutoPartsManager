@@ -267,7 +267,8 @@ namespace AutoPartsManager.Forms.Inventory
                     product.Quantity,
                     Properties.Resources.edit__1_,    // عمود Edit
                     Properties.Resources.bin, // عمود Delete
-                    Properties.Resources._return
+                    Properties.Resources._return,
+                    Properties.Resources.quality
                 );
             }
             GetTotalQuantity();
@@ -275,7 +276,17 @@ namespace AutoPartsManager.Forms.Inventory
             GetTotalCost();
         }
 
-
+        cls_ml_Products PrepareRecommendedProduct(DataGridViewCellEventArgs e, DataGridView dgvProducts)
+        {
+            cls_ml_Products recommendedProduct = new cls_ml_Products
+            {
+                Reference = dgvProducts.Rows[e.RowIndex].Cells["Reference"].Value.ToString(),
+                ProductName = dgvProducts.Rows[e.RowIndex].Cells["ProductName"].Value.ToString(),
+                ProductBrand = dgvProducts.Rows[e.RowIndex].Cells["ProductBrand"].Value.ToString(),
+                Quantity = Convert.ToInt32(dgvProducts.Rows[e.RowIndex].Cells["Quantity"].Value)
+            };
+            return recommendedProduct;
+        }
 
         private void frm_inventory_Load(object sender, EventArgs e)
         {
@@ -317,7 +328,7 @@ namespace AutoPartsManager.Forms.Inventory
             string columnName = dgv_inventory.Columns[e.ColumnIndex].Name;
 
             // نتحقق فقط من أعمدة الأزرار
-            if (columnName != "Delete" && columnName != "Restore" && columnName != "Edit")
+            if (columnName != "Delete" && columnName != "Restore" && columnName != "Edit" && columnName != "Recomendation")
                 return;
 
             int productId = Convert.ToInt32(
@@ -387,6 +398,14 @@ namespace AutoPartsManager.Forms.Inventory
                     if(updateProductForm.add_or_update_product)
                         LoadInventoryList();
                     break;
+                case "Recomendation":
+                    string recomendError = string.Empty;
+                    cls_ml_Products recommendedProduct = PrepareRecommendedProduct(e, dgv_inventory);
+                    if (!cls_bl_recomendations.AddRecommendation(recommendedProduct, out recomendError))
+                        XtraMessageBox.Show(recomendError, "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    else
+                        XtraMessageBox.Show("تمت إضافة المنتج الى قائمة المنتجات الموصى بها", "نجاح الإضافة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        break;
             }
         }
 
