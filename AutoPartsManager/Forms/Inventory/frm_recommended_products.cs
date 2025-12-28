@@ -1,5 +1,7 @@
 ﻿using BL;
+using ClosedXML.Excel;
 using DevExpress.XtraEditors;
+using Moldels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -41,7 +43,12 @@ namespace AutoPartsManager.Forms.Inventory
                         imageValue = Properties.Resources.check; // مثال: صورة علامة صح من Resources
                     }
                     else
+                    {
+
                         imageValue = Properties.Resources.close__2_;
+                    }
+
+
                     dgv_inventory.Rows.Add
                             (
                            product.ID,
@@ -49,7 +56,8 @@ namespace AutoPartsManager.Forms.Inventory
                            product.ProductName,
                            product.ProductBrand,
                            product.Quantity,
-                           imageValue
+                           imageValue,
+                           Properties.Resources.bin
                             );
                 }
             }
@@ -137,5 +145,109 @@ namespace AutoPartsManager.Forms.Inventory
             }
         }
 
+
+        public static void ExportInventoryToExcel(DataGridView dgv_inventory)
+        {
+            if (dgv_inventory.Rows.Count == 0)
+                return;
+
+            using (SaveFileDialog sfd = new SaveFileDialog())
+            {
+                sfd.Filter = "Excel Files (*.xlsx)|*.xlsx";
+                sfd.FileName = "Inventory.xlsx";
+
+                if (sfd.ShowDialog() != DialogResult.OK)
+                    return;
+
+                using (XLWorkbook workbook = new XLWorkbook())
+                {
+                    var ws = workbook.Worksheets.Add("Inventory");
+
+                    int colIndex = 1;
+
+                    // 🔹 Headers
+                    foreach (DataGridViewColumn col in dgv_inventory.Columns)
+                    {
+                        ws.Cell(1, colIndex).Value = col.HeaderText;
+                        ws.Cell(1, colIndex).Style.Font.Bold = true;
+                        colIndex++;
+                    }
+
+                    int rowIndex = 2;
+
+                    foreach (DataGridViewRow row in dgv_inventory.Rows)
+                    {
+                        if (row.IsNewRow) continue;
+
+                        int quantity = Convert.ToInt32(row.Cells["Quantity"].Value ?? 0);
+                        if (quantity <= 0) continue;
+
+                        colIndex = 1;
+
+                        foreach (DataGridViewColumn col in dgv_inventory.Columns)
+                        {
+                            var cell = ws.Cell(rowIndex, colIndex);
+                            object value = row.Cells[col.Index].Value;
+
+                            if (col.Name == "Quantity")
+                            {
+                                cell.Value = Convert.ToInt32(value ?? 0);
+                            }
+                            else if (col.Name == "Price")
+                            {
+                                cell.Value = Convert.ToDecimal(value ?? 0);
+                                cell.Style.NumberFormat.Format = "#,##0.00";
+                            }
+                            else
+                            {
+                                cell.Value = value?.ToString() ?? "";
+                            }
+
+                            colIndex++;
+                        }
+
+                        rowIndex++;
+                    }
+
+                    ws.Columns().AdjustToContents();
+                    workbook.SaveAs(sfd.FileName);
+                }
+
+                MessageBox.Show("تم تصدير المخزون إلى Excel بنجاح ✅",
+                                "Export",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+            }
+        }
+
+        void UpdateRecommendedProducts()
+        {
+            string error = string.Empty;
+            var products = new List<cls_ml_Products>();
+            foreach(DataGridViewRow row in dgv_inventory.Rows)
+            {
+                if (row.IsNewRow) continue;
+                int quantity = Convert.ToInt32(row.Cells["Quantity"].Value ?? 0);
+                if (quantity <= 0) continue;
+                int ID = Convert.ToInt32(row.Cells["ID"].Value);
+                cls_ml_Products product = new cls_ml_Products()
+                {
+                    ID = ID,
+                    AlreadyRecomended = true,
+                    Quantity = quantity
+                };
+                products.Add(product);
+            }
+            if(!cls_bl_recomendations.UpdateRecommendedProduct(products, out error))
+            {
+                XtraMessageBox.Show(error);
+            }
+        }
+        private void btn_export_excel_Click(object sender, EventArgs e)
+        {
+            UpdateRecommendedProducts();
+            ExportInventoryToExcel(dgv_inventory);
+            LoadRecommendedProducts();
+        }
     }
 }

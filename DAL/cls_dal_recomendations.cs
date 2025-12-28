@@ -20,14 +20,13 @@ namespace DAL
                 try
                 {
                     conn.Open();
-                    string query = "INSERT INTO ProductsRecomendations (Reference, ProductName, ProductBrand, Quantity) " +
-                                   "VALUES (@Reference, @ProductName, @ProductBrand,@Quantity)";
+                    string query = "INSERT INTO ProductsRecomendations (Refference, ProductName, ProductBrand) " +
+                                   "VALUES (@Refference, @ProductName, @ProductBrand)";
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
-                        cmd.Parameters.AddWithValue("@Reference", product.Reference);
+                        cmd.Parameters.AddWithValue("@Refference", product.Reference);
                         cmd.Parameters.AddWithValue("@ProductName", product.ProductName);
                         cmd.Parameters.AddWithValue("@ProductBrand", product.ProductBrand);
-                        cmd.Parameters.AddWithValue("@Quantity", product.Quantity);
                         cmd.ExecuteNonQuery();
                     }
                     return true;
@@ -66,8 +65,8 @@ namespace DAL
                                     ProductName = reader["ProductName"].ToString(),
                                     ProductBrand = ProductBrand,
                                     Reference = refference,
-                                    AlreadyRecomended = Convert.ToBoolean(reader["AlreadyRecomended"])
-                                    
+                                    AlreadyRecomended = Convert.ToBoolean(reader["AlreadyRecomended"]),
+                                    Quantity = Convert.ToInt32(reader["Quantity"])
                                 };
                                 recomended.Add(product);
                             }
@@ -80,6 +79,51 @@ namespace DAL
                 }
             }
             return recomended;
+        }
+        public static bool UpdateRecommendedProduct(
+            List<cls_ml_Products> products,
+            out string error_message)
+        {
+            error_message = string.Empty;
+            bool success = true;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    string query = @"
+                UPDATE ProductsRecomendations
+                SET 
+                    AlreadyRecomended = @AlreadyRecomended,
+                    Quantity = @Quantity
+                WHERE ID = @ID";
+
+                    using (SqlCommand cmd = new SqlCommand(query, connection))
+                    {
+                        foreach (var p in products)
+                        {
+                            cmd.Parameters.Clear();
+
+                            cmd.Parameters.AddWithValue("@AlreadyRecomended", p.AlreadyRecomended);
+                            cmd.Parameters.AddWithValue("@Quantity", p.Quantity);
+                            cmd.Parameters.AddWithValue("@ID", p.ID);
+
+                            int result = cmd.ExecuteNonQuery();
+                            if (result == 0)
+                                success = false;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    error_message = ex.Message;
+                    success = false;
+                }
+            }
+
+            return success;
         }
     }
 }

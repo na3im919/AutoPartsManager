@@ -29,18 +29,12 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_recommended_products));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_recommended_products));
             this.dgv_inventory = new System.Windows.Forms.DataGridView();
-            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Reference = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ProductName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ProductBrand = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Delete = new System.Windows.Forms.DataGridViewImageColumn();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.btn_add_recomended_product = new DevExpress.XtraEditors.SimpleButton();
@@ -50,6 +44,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.btn_export_excel = new DevExpress.XtraEditors.SimpleButton();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Reference = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ProductName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ProductBrand = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Status = new System.Windows.Forms.DataGridViewImageColumn();
+            this.Delete = new System.Windows.Forms.DataGridViewImageColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_inventory)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -79,6 +80,7 @@
             this.ProductName,
             this.ProductBrand,
             this.Quantity,
+            this.Status,
             this.Delete});
             this.dgv_inventory.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_inventory.EnableHeadersVisualStyles = false;
@@ -94,61 +96,6 @@
             this.dgv_inventory.TabIndex = 7;
             this.dgv_inventory.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_inventory_CellEndEdit);
             this.dgv_inventory.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dgv_inventory_CellValidating);
-            // 
-            // ID
-            // 
-            this.ID.HeaderText = "ID";
-            this.ID.MinimumWidth = 8;
-            this.ID.Name = "ID";
-            this.ID.Visible = false;
-            this.ID.Width = 150;
-            // 
-            // Reference
-            // 
-            this.Reference.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Reference.DefaultCellStyle = dataGridViewCellStyle2;
-            this.Reference.HeaderText = "كود المنتج";
-            this.Reference.MinimumWidth = 8;
-            this.Reference.Name = "Reference";
-            this.Reference.Width = 114;
-            // 
-            // ProductName
-            // 
-            this.ProductName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ProductName.DefaultCellStyle = dataGridViewCellStyle3;
-            this.ProductName.HeaderText = "إسم المنتج";
-            this.ProductName.MinimumWidth = 8;
-            this.ProductName.Name = "ProductName";
-            // 
-            // ProductBrand
-            // 
-            this.ProductBrand.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ProductBrand.DefaultCellStyle = dataGridViewCellStyle4;
-            this.ProductBrand.HeaderText = "العلامة التجارية";
-            this.ProductBrand.MinimumWidth = 8;
-            this.ProductBrand.Name = "ProductBrand";
-            this.ProductBrand.Width = 145;
-            // 
-            // Quantity
-            // 
-            this.Quantity.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Quantity.DefaultCellStyle = dataGridViewCellStyle5;
-            this.Quantity.HeaderText = "الكمية";
-            this.Quantity.MinimumWidth = 8;
-            this.Quantity.Name = "Quantity";
-            this.Quantity.Width = 88;
-            // 
-            // Delete
-            // 
-            this.Delete.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Delete.HeaderText = "";
-            this.Delete.MinimumWidth = 8;
-            this.Delete.Name = "Delete";
-            this.Delete.Width = 8;
             // 
             // panel1
             // 
@@ -247,6 +194,70 @@
             this.btn_export_excel.Size = new System.Drawing.Size(236, 50);
             this.btn_export_excel.TabIndex = 0;
             this.btn_export_excel.Text = "تصدير ملف Excel";
+            this.btn_export_excel.Click += new System.EventHandler(this.btn_export_excel_Click);
+            // 
+            // ID
+            // 
+            this.ID.HeaderText = "ID";
+            this.ID.MinimumWidth = 8;
+            this.ID.Name = "ID";
+            this.ID.Visible = false;
+            this.ID.Width = 150;
+            // 
+            // Reference
+            // 
+            this.Reference.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Reference.DefaultCellStyle = dataGridViewCellStyle2;
+            this.Reference.HeaderText = "كود المنتج";
+            this.Reference.MinimumWidth = 8;
+            this.Reference.Name = "Reference";
+            this.Reference.Width = 114;
+            // 
+            // ProductName
+            // 
+            this.ProductName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ProductName.DefaultCellStyle = dataGridViewCellStyle3;
+            this.ProductName.HeaderText = "إسم المنتج";
+            this.ProductName.MinimumWidth = 8;
+            this.ProductName.Name = "ProductName";
+            // 
+            // ProductBrand
+            // 
+            this.ProductBrand.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ProductBrand.DefaultCellStyle = dataGridViewCellStyle4;
+            this.ProductBrand.HeaderText = "العلامة التجارية";
+            this.ProductBrand.MinimumWidth = 8;
+            this.ProductBrand.Name = "ProductBrand";
+            this.ProductBrand.Width = 145;
+            // 
+            // Quantity
+            // 
+            this.Quantity.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Quantity.DefaultCellStyle = dataGridViewCellStyle5;
+            this.Quantity.HeaderText = "الكمية";
+            this.Quantity.MinimumWidth = 8;
+            this.Quantity.Name = "Quantity";
+            this.Quantity.Width = 88;
+            // 
+            // Status
+            // 
+            this.Status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Status.HeaderText = "";
+            this.Status.MinimumWidth = 8;
+            this.Status.Name = "Status";
+            this.Status.Width = 8;
+            // 
+            // Delete
+            // 
+            this.Delete.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Delete.HeaderText = "";
+            this.Delete.MinimumWidth = 8;
+            this.Delete.Name = "Delete";
+            this.Delete.Width = 8;
             // 
             // frm_recommended_products
             // 
@@ -281,13 +292,14 @@
         private System.Windows.Forms.Label lbl_products_number;
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Panel panel3;
+        private DevExpress.XtraEditors.SimpleButton btn_export_excel;
         private System.Windows.Forms.DataGridViewTextBoxColumn ID;
         private System.Windows.Forms.DataGridViewTextBoxColumn Reference;
         private System.Windows.Forms.DataGridViewTextBoxColumn ProductName;
         private System.Windows.Forms.DataGridViewTextBoxColumn ProductBrand;
         private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
+        private System.Windows.Forms.DataGridViewImageColumn Status;
         private System.Windows.Forms.DataGridViewImageColumn Delete;
-        private System.Windows.Forms.Panel panel3;
-        private DevExpress.XtraEditors.SimpleButton btn_export_excel;
     }
 }
