@@ -99,6 +99,32 @@ namespace AutoPartsManager.Forms.Inventory
             }
         }
 
+        // افترض أن عمود الحذف هو العمود الأخير في dgv_inventory
+        private void dgv_inventory_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // تأكد أن المستخدم ضغط داخل الصف وليس على رأس العمود
+            if (e.RowIndex >= 0)
+            {
+                // افحص إذا العمود هو عمود الحذف (مثلاً العمود الأخير)
+                if (dgv_inventory.Columns[e.ColumnIndex] is DataGridViewImageColumn &&
+                    e.ColumnIndex == dgv_inventory.Columns["Delete"].Index) // غيّر "DeleteColumn" باسم العمود الفعلي
+                {
+                    int productId = Convert.ToInt32(dgv_inventory.Rows[e.RowIndex].Cells["ID"].Value);
+                    string error = string.Empty;
+
+                    bool success = cls_bl_recomendations.DeleteRecommendedProduct(productId, out error);
+                    if (!success)
+                    {
+                        XtraMessageBox.Show("حدث خطأ أثناء الحذف: " + error);
+                    }
+                    else
+                    {
+                        // إزالة الصف من DataGridView بعد الحذف
+                        dgv_inventory.Rows.RemoveAt(e.RowIndex);
+                    }
+                }
+            }
+        }
 
 
 

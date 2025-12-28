@@ -29,21 +29,12 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_recommended_products));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_recommended_products));
             this.dgv_inventory = new System.Windows.Forms.DataGridView();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.btn_add_recomended_product = new DevExpress.XtraEditors.SimpleButton();
-            this.panel8 = new System.Windows.Forms.Panel();
-            this.lbl_products_number = new System.Windows.Forms.Label();
-            this.panel7 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.btn_export_excel = new DevExpress.XtraEditors.SimpleButton();
             this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Reference = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ProductName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -51,12 +42,21 @@
             this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Status = new System.Windows.Forms.DataGridViewImageColumn();
             this.Delete = new System.Windows.Forms.DataGridViewImageColumn();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.btn_export_excel = new DevExpress.XtraEditors.SimpleButton();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.btn_add_recomended_product = new DevExpress.XtraEditors.SimpleButton();
+            this.panel8 = new System.Windows.Forms.Panel();
+            this.lbl_products_number = new System.Windows.Forms.Label();
+            this.panel7 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_inventory)).BeginInit();
             this.panel1.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel8.SuspendLayout();
             this.panel7.SuspendLayout();
-            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgv_inventory
@@ -94,107 +94,9 @@
             this.dgv_inventory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgv_inventory.Size = new System.Drawing.Size(956, 394);
             this.dgv_inventory.TabIndex = 7;
+            this.dgv_inventory.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_inventory_CellContentClick);
             this.dgv_inventory.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_inventory_CellEndEdit);
             this.dgv_inventory.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dgv_inventory_CellValidating);
-            // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(244)))), ((int)(((byte)(244)))));
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.panel3);
-            this.panel1.Controls.Add(this.panel2);
-            this.panel1.Controls.Add(this.panel8);
-            this.panel1.Controls.Add(this.panel7);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(956, 56);
-            this.panel1.TabIndex = 6;
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.btn_add_recomended_product);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel2.Location = new System.Drawing.Point(0, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(251, 54);
-            this.panel2.TabIndex = 10;
-            // 
-            // btn_add_recomended_product
-            // 
-            this.btn_add_recomended_product.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_add_recomended_product.Appearance.Options.UseFont = true;
-            this.btn_add_recomended_product.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("btn_add_recomended_product.ImageOptions.SvgImage")));
-            this.btn_add_recomended_product.Location = new System.Drawing.Point(15, 3);
-            this.btn_add_recomended_product.Name = "btn_add_recomended_product";
-            this.btn_add_recomended_product.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.btn_add_recomended_product.Size = new System.Drawing.Size(194, 50);
-            this.btn_add_recomended_product.TabIndex = 0;
-            this.btn_add_recomended_product.Text = "إضافة منتج";
-            // 
-            // panel8
-            // 
-            this.panel8.Controls.Add(this.lbl_products_number);
-            this.panel8.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel8.Location = new System.Drawing.Point(679, 0);
-            this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(155, 54);
-            this.panel8.TabIndex = 9;
-            // 
-            // lbl_products_number
-            // 
-            this.lbl_products_number.AutoSize = true;
-            this.lbl_products_number.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lbl_products_number.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_products_number.Location = new System.Drawing.Point(126, 0);
-            this.lbl_products_number.Name = "lbl_products_number";
-            this.lbl_products_number.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.lbl_products_number.Size = new System.Drawing.Size(29, 19);
-            this.lbl_products_number.TabIndex = 7;
-            this.lbl_products_number.Text = "00";
-            // 
-            // panel7
-            // 
-            this.panel7.Controls.Add(this.label1);
-            this.panel7.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel7.Location = new System.Drawing.Point(834, 0);
-            this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(120, 54);
-            this.panel7.TabIndex = 8;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.label1.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(2, 0);
-            this.label1.Name = "label1";
-            this.label1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.label1.Size = new System.Drawing.Size(118, 19);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "عدد المنتجات: ";
-            // 
-            // panel3
-            // 
-            this.panel3.Controls.Add(this.btn_export_excel);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel3.Location = new System.Drawing.Point(251, 0);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(251, 54);
-            this.panel3.TabIndex = 11;
-            // 
-            // btn_export_excel
-            // 
-            this.btn_export_excel.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_export_excel.Appearance.Options.UseFont = true;
-            this.btn_export_excel.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton1.ImageOptions.Image")));
-            this.btn_export_excel.Location = new System.Drawing.Point(15, 3);
-            this.btn_export_excel.Name = "btn_export_excel";
-            this.btn_export_excel.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.btn_export_excel.Size = new System.Drawing.Size(236, 50);
-            this.btn_export_excel.TabIndex = 0;
-            this.btn_export_excel.Text = "تصدير ملف Excel";
-            this.btn_export_excel.Click += new System.EventHandler(this.btn_export_excel_Click);
             // 
             // ID
             // 
@@ -259,6 +161,105 @@
             this.Delete.Name = "Delete";
             this.Delete.Width = 8;
             // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(244)))), ((int)(((byte)(244)))));
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.panel3);
+            this.panel1.Controls.Add(this.panel2);
+            this.panel1.Controls.Add(this.panel8);
+            this.panel1.Controls.Add(this.panel7);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(956, 56);
+            this.panel1.TabIndex = 6;
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.btn_export_excel);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel3.Location = new System.Drawing.Point(251, 0);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(251, 54);
+            this.panel3.TabIndex = 11;
+            // 
+            // btn_export_excel
+            // 
+            this.btn_export_excel.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_export_excel.Appearance.Options.UseFont = true;
+            this.btn_export_excel.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_export_excel.ImageOptions.Image")));
+            this.btn_export_excel.Location = new System.Drawing.Point(15, 3);
+            this.btn_export_excel.Name = "btn_export_excel";
+            this.btn_export_excel.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.btn_export_excel.Size = new System.Drawing.Size(236, 50);
+            this.btn_export_excel.TabIndex = 0;
+            this.btn_export_excel.Text = "تصدير ملف Excel";
+            this.btn_export_excel.Click += new System.EventHandler(this.btn_export_excel_Click);
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.btn_add_recomended_product);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(251, 54);
+            this.panel2.TabIndex = 10;
+            // 
+            // btn_add_recomended_product
+            // 
+            this.btn_add_recomended_product.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_add_recomended_product.Appearance.Options.UseFont = true;
+            this.btn_add_recomended_product.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("btn_add_recomended_product.ImageOptions.SvgImage")));
+            this.btn_add_recomended_product.Location = new System.Drawing.Point(15, 3);
+            this.btn_add_recomended_product.Name = "btn_add_recomended_product";
+            this.btn_add_recomended_product.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.btn_add_recomended_product.Size = new System.Drawing.Size(194, 50);
+            this.btn_add_recomended_product.TabIndex = 0;
+            this.btn_add_recomended_product.Text = "إضافة منتج";
+            // 
+            // panel8
+            // 
+            this.panel8.Controls.Add(this.lbl_products_number);
+            this.panel8.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel8.Location = new System.Drawing.Point(679, 0);
+            this.panel8.Name = "panel8";
+            this.panel8.Size = new System.Drawing.Size(155, 54);
+            this.panel8.TabIndex = 9;
+            // 
+            // lbl_products_number
+            // 
+            this.lbl_products_number.AutoSize = true;
+            this.lbl_products_number.Dock = System.Windows.Forms.DockStyle.Right;
+            this.lbl_products_number.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_products_number.Location = new System.Drawing.Point(126, 0);
+            this.lbl_products_number.Name = "lbl_products_number";
+            this.lbl_products_number.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.lbl_products_number.Size = new System.Drawing.Size(29, 19);
+            this.lbl_products_number.TabIndex = 7;
+            this.lbl_products_number.Text = "00";
+            // 
+            // panel7
+            // 
+            this.panel7.Controls.Add(this.label1);
+            this.panel7.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel7.Location = new System.Drawing.Point(834, 0);
+            this.panel7.Name = "panel7";
+            this.panel7.Size = new System.Drawing.Size(120, 54);
+            this.panel7.TabIndex = 8;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.label1.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(2, 0);
+            this.label1.Name = "label1";
+            this.label1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.label1.Size = new System.Drawing.Size(118, 19);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "عدد المنتجات: ";
+            // 
             // frm_recommended_products
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
@@ -272,12 +273,12 @@
             this.Load += new System.EventHandler(this.frm_recommended_products_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_inventory)).EndInit();
             this.panel1.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel8.ResumeLayout(false);
             this.panel8.PerformLayout();
             this.panel7.ResumeLayout(false);
             this.panel7.PerformLayout();
-            this.panel3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

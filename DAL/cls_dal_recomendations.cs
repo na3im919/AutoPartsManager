@@ -125,5 +125,41 @@ namespace DAL
 
             return success;
         }
+
+
+        public static bool DeleteRecommendedProduct(int productId, out string errorMessage)
+        {
+            errorMessage = string.Empty;
+            bool success = false;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    string query = "DELETE FROM ProductsRecomendations WHERE ID = @ID";
+
+                    using (SqlCommand cmd = new SqlCommand(query, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@ID", productId);
+
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        success = rowsAffected > 0;
+
+                        if (!success)
+                        {
+                            errorMessage = "لم يتم العثور على المنتج للحذف.";
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    errorMessage = ex.Message;
+                }
+            }
+
+            return success;
+        }
     }
 }
