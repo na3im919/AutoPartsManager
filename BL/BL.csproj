@@ -45,6 +45,7 @@
     <Compile Include="cls_bl_Invoices.cs" />
     <Compile Include="cls_bl_Products.cs" />
     <Compile Include="cls_bl_recomendations.cs" />
+    <Compile Include="cls_bl_reportes.cs" />
     <Compile Include="cls_bl_Suppliers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

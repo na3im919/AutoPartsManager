@@ -237,6 +237,7 @@ namespace AutoPartsManager.Forms.Inventory
             panel1.Visible = true;
             panel5.Visible = true;
             panel4.Visible = true;
+            panel6.Visible = true;
             groupBox1.Visible = true;
             pnl_bottm.Visible = true;
             List<cls_ml_Products> products =
@@ -250,6 +251,10 @@ namespace AutoPartsManager.Forms.Inventory
             }
 
             dgv_inventory.Rows.Clear();
+            if(ActiveOnly)
+                dgv_inventory.Columns["Delete"].Visible = true;
+            dgv_inventory.Columns["Cost"].Visible = true;
+            dgv_inventory.Columns["Price"].Visible = true;
 
             if (products == null || products.Count == 0)
             {
@@ -287,10 +292,10 @@ namespace AutoPartsManager.Forms.Inventory
             panel1.Visible = false;
             panel4.Visible = false;
             panel5.Visible = false;
+            panel6.Visible = false;
             groupBox1.Visible = false;
             pnl_bottm.Visible = false;
             dgv_inventory.Columns["Delete"].Visible = false;
-            dgv_inventory.Columns["Recomendation"].Visible = false;
             dgv_inventory.Columns["Restore"].Visible = false;
             dgv_inventory.Columns["Cost"].Visible = false;
             dgv_inventory.Columns["Price"].Visible = false;
@@ -318,7 +323,10 @@ namespace AutoPartsManager.Forms.Inventory
                     product.Cost,
                     product.Price,
                     product.Quantity,
-                    Properties.Resources.edit__1_
+                    Properties.Resources.edit__1_,
+                    null,
+                    null,
+                    Properties.Resources.quality
                     
                 );
             }
@@ -360,12 +368,14 @@ namespace AutoPartsManager.Forms.Inventory
                 dgv_inventory.Columns["Delete"].Visible = true;
                 dgv_inventory.Columns["Edit"].Visible = true;
                 dgv_inventory.Columns["Restore"].Visible = false;
+                dgv_inventory.Columns["Recomendation"].Visible = true;
             }
             else
             {
                 dgv_inventory.Columns["Delete"].Visible = false;
                 dgv_inventory.Columns["Edit"].Visible = false;
                 dgv_inventory.Columns["Restore"].Visible = true;
+                dgv_inventory.Columns["Recomendation"].Visible = false;
             }
         }
 
@@ -477,8 +487,8 @@ namespace AutoPartsManager.Forms.Inventory
                 ZeroQtyOnly = false;
                 rad_non_zero.Checked = true;
             }
-            LoadInventoryList();
             InventoryListButtonsManager(ActiveOnly);
+            LoadInventoryList();
         }
 
         private void rad_zero_CheckedChanged(object sender, EventArgs e)
@@ -541,6 +551,7 @@ namespace AutoPartsManager.Forms.Inventory
         {
             if(chk_low_quantity.Checked)
             {
+                chk_non_active_product.Checked = false;
                 LoadLowQuantities();
                
             }
