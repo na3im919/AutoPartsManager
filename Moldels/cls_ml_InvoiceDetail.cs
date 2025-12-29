@@ -14,6 +14,7 @@ namespace Moldels
         public decimal UnitPrice { get; set; }
         public decimal Cost { get; set; }
         public int Quantity { get; set; }
+        public decimal DiscountAmount { get; set; }
 
         // 🔸 خصائص مساعدة (Runtime Only)
         public string ProductName { get; set; }

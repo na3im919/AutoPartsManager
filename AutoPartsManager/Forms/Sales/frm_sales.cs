@@ -14,9 +14,7 @@ namespace AutoPartsManager.Forms
     public partial class frm_sales : XtraForm
     {
         private decimal _currentDiscountValue;
-        private decimal _currentDiscountPercentage;
         private bool _hasDiscount = false;
-        private bool _isPercentageDiscount = false;
         private int NewProductsNumber = 0;
         protected virtual string InvoiceType => "بيع";
         protected virtual bool AllowDiscount => true;
@@ -150,7 +148,7 @@ namespace AutoPartsManager.Forms
            
 
         }
-        
+
 
         // ===== خصم =====
         protected void ApplyDiscountAndCalculateTotal()
@@ -160,8 +158,9 @@ namespace AutoPartsManager.Forms
 
             if (_hasDiscount)
             {
-                discountAmount = _isPercentageDiscount ? total * (_currentDiscountPercentage / 100) : _currentDiscountValue;
-                if (discountAmount > total) discountAmount = total;
+                discountAmount = _currentDiscountValue;
+                if (discountAmount > total)
+                    discountAmount = total;
             }
 
             lbl_discount.Text = discountAmount.ToString("N2") + " DZD";
@@ -172,7 +171,6 @@ namespace AutoPartsManager.Forms
         {
             _hasDiscount = false;
             _currentDiscountValue = 0;
-            _currentDiscountPercentage = 0;
             lbl_discount.Text = "0.00 DZD";
             lbl_total.Text = GetCurrentGrandTotal().ToString("N2") + " DZD";
         }
@@ -276,21 +274,22 @@ namespace AutoPartsManager.Forms
         private void btn_clear_invoice_Click(object sender, EventArgs e) => ClearInvoiceList();
         protected void btn_discount_Click(object sender, EventArgs e)
         {
-            frm_discount discountForm = new frm_discount { GrandTotal = GetCurrentGrandTotal() };
+            frm_discount discountForm = new frm_discount
+            {
+                GrandTotal = GetCurrentGrandTotal()
+            };
+
             discountForm.ShowDialog();
-            if (!discountForm.IsConfirmed) { CancelDiscount(); return; }
+
+            if (!discountForm.IsConfirmed)
+            {
+                CancelDiscount();
+                return;
+            }
 
             _hasDiscount = true;
-            if (discountForm.SelectedDiscountType == frm_discount.DiscountType.Percentage)
-            {
-                _isPercentageDiscount = true;
-                _currentDiscountPercentage = discountForm.DiscountValue;
-            }
-            else
-            {
-                _isPercentageDiscount = false;
-                _currentDiscountValue = discountForm.DiscountValue;
-            }
+            _currentDiscountValue = discountForm.DiscountValue;
+
             ApplyDiscountAndCalculateTotal();
         }
 

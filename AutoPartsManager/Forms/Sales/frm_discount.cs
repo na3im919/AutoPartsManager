@@ -15,55 +15,17 @@ namespace AutoPartsManager.Forms
 
 
     {
-        public enum DiscountType
-        {
-            Percentage,
-            FixedAmount
-        }
-        public DiscountType SelectedDiscountType
-        {
-            get { return Discount; }
-            set { Discount = value; }
-        }
-
-
-        DiscountType Discount;
-
-
         public bool IsCanceled { get; private set; }
-
-        public decimal DiscountValue { get; private set; }   // قيمة الخصم
-        public bool IsConfirmed { get; private set; }         // هل تم التأكيد
-        public decimal GrandTotal { get; set; }               // المجموع قبل الخصم
+        public bool IsConfirmed { get; private set; }
+        public decimal DiscountValue { get; private set; } // مبلغ ثابت فقط
+        public decimal GrandTotal { get; set; }
 
         public frm_discount()
         {
             InitializeComponent();
-            Discount = DiscountType.FixedAmount;
             
         }
 
-        private decimal CalculateDiscount()
-        {
-            decimal inputValue;
-
-            if (!decimal.TryParse(textBox1.Text, out inputValue) || inputValue < 0)
-                return 0;
-
-            if (Discount == DiscountType.FixedAmount)
-            {
-                // خصم مبلغ ثابت
-                return Math.Min(inputValue, GrandTotal);
-            }
-            else
-            {
-                // خصم نسبة مئوية
-                if (inputValue > 100)
-                    inputValue = 100;
-
-                return GrandTotal * (inputValue / 100);
-            }
-        }
 
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -104,21 +66,7 @@ namespace AutoPartsManager.Forms
         }
 
 
-        private void btn_fixed_amount_Click(object sender, EventArgs e)
-        {
-            SelectedDiscountType = DiscountType.FixedAmount;
-            pictureBox1.Image = Properties.Resources.dollar_symbol;
-            textBox1.Focus();
-            textBox1.SelectAll();
-        }
-
-        private void btn_percentage_Click(object sender, EventArgs e)
-        {
-            SelectedDiscountType = DiscountType.Percentage;
-            pictureBox1.Image = Properties.Resources.percentage;
-            textBox1.Focus();
-            textBox1.SelectAll();
-        }
+      
 
 
         private void textBox1_Click(object sender, EventArgs e)
@@ -138,11 +86,17 @@ namespace AutoPartsManager.Forms
             if (string.IsNullOrWhiteSpace(textBox1.Text))
                 return;
 
-            decimal inputValue;
-            if (!decimal.TryParse(textBox1.Text, out inputValue) || inputValue < 0)
+            if (!decimal.TryParse(textBox1.Text, out decimal inputValue))
                 return;
 
-            DiscountValue = inputValue; // فقط القيمة كما ادخلها المستخدم
+            if (inputValue < 0)
+                return;
+
+            // لا يتجاوز إجمالي الفاتورة
+            if (inputValue > GrandTotal)
+                inputValue = GrandTotal;
+
+            DiscountValue = inputValue;
             IsConfirmed = true;
             IsCanceled = false;
             this.Close();

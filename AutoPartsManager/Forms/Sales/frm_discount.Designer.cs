@@ -31,24 +31,17 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_discount));
             this.panel1 = new System.Windows.Forms.Panel();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.btn_percentage = new DevExpress.XtraEditors.SimpleButton();
-            this.btn_fixed_amount = new DevExpress.XtraEditors.SimpleButton();
             this.btn_confirm_discount = new DevExpress.XtraEditors.SimpleButton();
             this.btn_cancel_discount = new DevExpress.XtraEditors.SimpleButton();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(66)))), ((int)(((byte)(66)))));
-            this.panel1.Controls.Add(this.btn_percentage);
-            this.panel1.Controls.Add(this.btn_fixed_amount);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(450, 104);
+            this.panel1.Size = new System.Drawing.Size(450, 77);
             this.panel1.TabIndex = 2;
             // 
             // textBox1
@@ -64,42 +57,6 @@
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox1.Click += new System.EventHandler(this.textBox1_Click);
             this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::AutoPartsManager.Properties.Resources.dollar_symbol;
-            this.pictureBox1.Location = new System.Drawing.Point(340, 137);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(98, 96);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 4;
-            this.pictureBox1.TabStop = false;
-            // 
-            // btn_percentage
-            // 
-            this.btn_percentage.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(90)))), ((int)(((byte)(156)))));
-            this.btn_percentage.Appearance.Options.UseBackColor = true;
-            this.btn_percentage.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btn_percentage.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_percentage.ImageOptions.Image")));
-            this.btn_percentage.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.btn_percentage.Location = new System.Drawing.Point(0, 0);
-            this.btn_percentage.Name = "btn_percentage";
-            this.btn_percentage.Size = new System.Drawing.Size(225, 104);
-            this.btn_percentage.TabIndex = 1;
-            this.btn_percentage.Click += new System.EventHandler(this.btn_percentage_Click);
-            // 
-            // btn_fixed_amount
-            // 
-            this.btn_fixed_amount.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(66)))), ((int)(((byte)(66)))));
-            this.btn_fixed_amount.Appearance.Options.UseBackColor = true;
-            this.btn_fixed_amount.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btn_fixed_amount.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_fixed_amount.ImageOptions.Image")));
-            this.btn_fixed_amount.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.btn_fixed_amount.Location = new System.Drawing.Point(225, 0);
-            this.btn_fixed_amount.Name = "btn_fixed_amount";
-            this.btn_fixed_amount.Size = new System.Drawing.Size(225, 104);
-            this.btn_fixed_amount.TabIndex = 0;
-            this.btn_fixed_amount.Click += new System.EventHandler(this.btn_fixed_amount_Click);
             // 
             // btn_confirm_discount
             // 
@@ -148,7 +105,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(450, 536);
-            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btn_confirm_discount);
@@ -158,8 +114,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frm_discount";
             this.Shown += new System.EventHandler(this.frm_discount_Shown);
-            this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -170,9 +124,6 @@
         private DevExpress.XtraEditors.SimpleButton btn_cancel_discount;
         private DevExpress.XtraEditors.SimpleButton btn_confirm_discount;
         private System.Windows.Forms.Panel panel1;
-        private DevExpress.XtraEditors.SimpleButton btn_percentage;
-        private DevExpress.XtraEditors.SimpleButton btn_fixed_amount;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
