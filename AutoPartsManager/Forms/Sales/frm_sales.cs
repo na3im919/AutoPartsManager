@@ -148,8 +148,22 @@ namespace AutoPartsManager.Forms
             dgv_invoice_list.RowHeadersVisible = false;
             dgv_invoice_list.ColumnHeadersDefaultCellStyle.BackColor = Color.LightGray;
             dgv_invoice_list.Font = new Font("Segoe UI", 16, FontStyle.Regular);
-           
 
+            // إضافة أعمدة موجودة بالفعل (ID, ProductName, Price, Quantity, Total...)
+            // ...
+
+            // 🔹 عمود خصم لكل سطر
+            if (!dgv_invoice_list.Columns.Contains("Discount"))
+            {
+                DataGridViewTextBoxColumn discountColumn = new DataGridViewTextBoxColumn();
+                discountColumn.Name = "Discount";
+                discountColumn.HeaderText = "خصم";
+                discountColumn.ValueType = typeof(decimal);
+                discountColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                discountColumn.DefaultCellStyle.Format = "N2";
+                discountColumn.Width = 100;
+                dgv_invoice_list.Columns.Add(discountColumn);
+            }
         }
 
 
@@ -157,18 +171,9 @@ namespace AutoPartsManager.Forms
         protected void ApplyDiscountAndCalculateTotal()
         {
             decimal total = GetCurrentGrandTotal();
-            decimal discountAmount = 0;
 
-            if (HasDiscount)
-            {
-                discountAmount = _invoiceDiscountAmount;
-
-                if (discountAmount > total)
-                    discountAmount = total;
-            }
-
-            lbl_discount.Text = discountAmount.ToString("N2") + " DZD";
-            lbl_total.Text = (total - discountAmount).ToString("N2") + " DZD";
+            lbl_discount.Text = "0.00 DZD"; // الخصم العام غير مستخدم الآن
+            lbl_total.Text = total.ToString("N2") + " DZD";
         }
 
         private void CancelDiscount()
@@ -183,8 +188,13 @@ namespace AutoPartsManager.Forms
             decimal total = 0;
             foreach (DataGridViewRow row in dgv_invoice_list.Rows)
             {
+                if (row.IsNewRow) continue;
+
+                decimal lineTotal = 0;
                 if (row.Cells["Total"].Value != null)
-                    total += Convert.ToDecimal(row.Cells["Total"].Value);
+                    lineTotal = Convert.ToDecimal(row.Cells["Total"].Value);
+
+                total += lineTotal;
             }
             return total;
         }
@@ -600,6 +610,34 @@ namespace AutoPartsManager.Forms
             }
         }
 
+
+        private void dgv_invoice_list_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgv_invoice_list.Columns[e.ColumnIndex].Name == "Discount")
+            {
+                var row = dgv_invoice_list.Rows[e.RowIndex];
+                decimal discount = 0;
+
+                // التأكد من الرقم
+                if (row.Cells["Discount"].Value == null || !decimal.TryParse(row.Cells["Discount"].Value.ToString(), out discount))
+                    discount = 0;
+
+                // لا يتجاوز إجمالي السطر
+                decimal unitPrice = Convert.ToDecimal(row.Cells["Price"].Value);
+                int qty = Convert.ToInt32(row.Cells["Quantity"].Value);
+                decimal maxDiscount = unitPrice * qty;
+                if (discount > maxDiscount)
+                    discount = maxDiscount;
+
+                row.Cells["Discount"].Value = discount;
+
+                // تحديث LineTotalAfterDiscount (مؤقت على الفورم)
+                row.Cells["Total"].Value = (unitPrice * qty) - discount;
+
+                // تحديث المجموع الكلي
+                ApplyDiscountAndCalculateTotal();
+            }
+        }
 
 
     }

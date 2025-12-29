@@ -350,6 +350,7 @@
             this.dgv_invoice_list.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv_invoice_list.Size = new System.Drawing.Size(698, 745);
             this.dgv_invoice_list.TabIndex = 3;
+            this.dgv_invoice_list.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_invoice_list_CellEndEdit);
             // 
             // ID
             // 
