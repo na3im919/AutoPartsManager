@@ -15,7 +15,6 @@ namespace AutoPartsManager.Forms
 
 
     {
-        public bool IsCanceled { get; private set; }
         public bool IsConfirmed { get; private set; }
         public decimal DiscountValue { get; private set; } // مبلغ ثابت فقط
         public decimal GrandTotal { get; set; }
@@ -76,7 +75,6 @@ namespace AutoPartsManager.Forms
 
         private void btn_cancel_discount_Click(object sender, EventArgs e)
         {
-            IsCanceled = true;
             this.Close();
         }
 
@@ -98,7 +96,6 @@ namespace AutoPartsManager.Forms
 
             DiscountValue = inputValue;
             IsConfirmed = true;
-            IsCanceled = false;
             this.Close();
         }
 

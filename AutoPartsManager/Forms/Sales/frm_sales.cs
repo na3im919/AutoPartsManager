@@ -13,8 +13,11 @@ namespace AutoPartsManager.Forms
 {
     public partial class frm_sales : XtraForm
     {
-        private decimal _currentDiscountValue;
-        private bool _hasDiscount = false;
+        private decimal _invoiceDiscountAmount = 0;
+        private bool HasDiscount => _invoiceDiscountAmount > 0;
+
+      
+
         private int NewProductsNumber = 0;
         protected virtual string InvoiceType => "بيع";
         protected virtual bool AllowDiscount => true;
@@ -156,9 +159,10 @@ namespace AutoPartsManager.Forms
             decimal total = GetCurrentGrandTotal();
             decimal discountAmount = 0;
 
-            if (_hasDiscount)
+            if (HasDiscount)
             {
-                discountAmount = _currentDiscountValue;
+                discountAmount = _invoiceDiscountAmount;
+
                 if (discountAmount > total)
                     discountAmount = total;
             }
@@ -169,10 +173,8 @@ namespace AutoPartsManager.Forms
 
         private void CancelDiscount()
         {
-            _hasDiscount = false;
-            _currentDiscountValue = 0;
-            lbl_discount.Text = "0.00 DZD";
-            lbl_total.Text = GetCurrentGrandTotal().ToString("N2") + " DZD";
+            _invoiceDiscountAmount = 0; // إلغاء الخصم
+            ApplyDiscountAndCalculateTotal(); // تحديث lbl_discount و lbl_total تلقائيًا
         }
 
         // ===== العمليات على الفاتورة =====
@@ -287,8 +289,7 @@ namespace AutoPartsManager.Forms
                 return;
             }
 
-            _hasDiscount = true;
-            _currentDiscountValue = discountForm.DiscountValue;
+            _invoiceDiscountAmount = discountForm.DiscountValue;
 
             ApplyDiscountAndCalculateTotal();
         }

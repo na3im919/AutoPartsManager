@@ -14,21 +14,18 @@ namespace Moldels
         public decimal UnitPrice { get; set; }
         public decimal Cost { get; set; }
         public int Quantity { get; set; }
-        public decimal DiscountAmount { get; set; }
+        public decimal DiscountAmount { get; set; } = 0; // خصم لكل سطر
 
         // 🔸 خصائص مساعدة (Runtime Only)
         public string ProductName { get; set; }
         public string Reference { get; set; }
         public string ProductBrand { get; set; }
         public bool IsNewProduct { get; set; }
-        // LineTotal محسوب تلقائيًا
-        public decimal LineTotal
-        {
-            get
-            {
-                return UnitPrice * Quantity;
-            }
-        }
 
+        // إجمالي السطر قبل الخصم
+        public decimal LineTotal => UnitPrice * Quantity;
+
+        // إجمالي السطر بعد الخصم
+        public decimal LineTotalAfterDiscount => (UnitPrice * Quantity) - DiscountAmount;
     }
 }
