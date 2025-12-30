@@ -126,25 +126,25 @@ namespace AutoPartsManager.Forms.frm_reports
         private void btn_daily_Click(object sender, EventArgs e)
         {
             startDate = DateTime.Today;
-            endDate = DateTime.Today;
+            endDate = DateTime.Now;
         }
 
         private void btn_weekly_Click(object sender, EventArgs e)
         {
             startDate = DateTime.Today.AddDays(-7);
-            endDate = DateTime.Today;
+            endDate = DateTime.Now;
         }
 
         private void btn_monthly_Click(object sender, EventArgs e)
         {
             startDate = DateTime.Today.AddMonths(-1);
-            endDate = DateTime.Today;
+            endDate = DateTime.Now;
         }
 
         private void btn_yearly_Click(object sender, EventArgs e)
         {
             startDate = DateTime.Today.AddYears(-1);
-            endDate = DateTime.Today;
+            endDate = DateTime.Now;
         }
 
         private void btn_add_report_Click(object sender, EventArgs e)

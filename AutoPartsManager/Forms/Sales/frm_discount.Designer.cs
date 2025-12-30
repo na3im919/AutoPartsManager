@@ -37,10 +37,11 @@
             // txt_product_name
             // 
             this.txt_product_name.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.txt_product_name.Location = new System.Drawing.Point(16, 40);
+            this.txt_product_name.Location = new System.Drawing.Point(1, 40);
             this.txt_product_name.Name = "txt_product_name";
-            this.txt_product_name.Size = new System.Drawing.Size(357, 39);
-            this.txt_product_name.TabIndex = 1;
+            this.txt_product_name.ReadOnly = true;
+            this.txt_product_name.Size = new System.Drawing.Size(372, 39);
+            this.txt_product_name.TabIndex = 5;
             // 
             // btn_confirm_discount
             // 
@@ -66,18 +67,21 @@
             // 
             // txt_discount
             // 
-            this.txt_discount.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txt_discount.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txt_discount.Font = new System.Drawing.Font("Tahoma", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_discount.Location = new System.Drawing.Point(85, 111);
             this.txt_discount.Multiline = true;
             this.txt_discount.Name = "txt_discount";
             this.txt_discount.Size = new System.Drawing.Size(204, 82);
-            this.txt_discount.TabIndex = 4;
+            this.txt_discount.TabIndex = 1;
             this.txt_discount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txt_discount.Click += new System.EventHandler(this.txt_discount_Click);
             this.txt_discount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_discount_KeyPress);
             // 
             // frm_discount
             // 
+            this.Appearance.BackColor = System.Drawing.Color.White;
+            this.Appearance.Options.UseBackColor = true;
             this.ClientSize = new System.Drawing.Size(375, 353);
             this.Controls.Add(this.txt_discount);
             this.Controls.Add(this.btn_delete_discount);

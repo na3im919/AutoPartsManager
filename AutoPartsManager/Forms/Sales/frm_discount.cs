@@ -52,14 +52,14 @@ namespace AutoPartsManager.Forms
         {
             if (char.IsControl(e.KeyChar)) return;
             if (char.IsDigit(e.KeyChar)) return;
-            if (e.KeyChar == '.' && !txt_product_name.Text.Contains(".")) return;
+            if (e.KeyChar == '.' && !txt_discount.Text.Contains(".")) return;
             e.Handled = true;
 
         }
 
         private void txt_discount_Click(object sender, EventArgs e)
         {
-            txt_product_name.SelectAll();
+            txt_discount.SelectAll();
 
         }
     }
