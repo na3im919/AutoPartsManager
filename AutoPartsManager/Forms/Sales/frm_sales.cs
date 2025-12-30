@@ -141,7 +141,7 @@ namespace AutoPartsManager.Forms
             dgv_invoice_list.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dgv_invoice_list.RowHeadersVisible = false;
             dgv_invoice_list.ColumnHeadersDefaultCellStyle.BackColor = Color.LightGray;
-            dgv_invoice_list.Font = new Font("Segoe UI", 16, FontStyle.Regular);
+            dgv_invoice_list.Font = new Font("Segoe UI", 20, FontStyle.Regular);
 
             // إضافة أعمدة موجودة بالفعل (ID, ProductName, Price, Quantity, Total...)
             // ...
@@ -326,7 +326,8 @@ namespace AutoPartsManager.Forms
 
             frm_discount discountForm = new frm_discount
             {
-                ProductName = row.Cells["ProductName"].Value.ToString()
+                ProductName = row.Cells["ProductName"].Value.ToString(),
+                currentDiscount = row.Cells["Discount"].Value?.ToString() ?? "0"
             };
 
             discountForm.ShowDialog();
