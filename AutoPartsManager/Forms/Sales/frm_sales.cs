@@ -67,23 +67,17 @@ namespace AutoPartsManager.Forms
             {
                 if (row.IsNewRow) continue;
 
-                decimal unitPrice = 0;
-                decimal cost = 0;
-                
-                bool IsNew = Convert.ToBoolean(row.Cells["IsNew"].Value);
-                if (IsNew)
-                    NewProductsNumber++;
+                decimal unitPrice = Convert.ToDecimal(row.Cells["Price"].Value);
+                decimal cost = Convert.ToDecimal(row.Cells["Cost"].Value);
+                int quantity = Convert.ToInt32(row.Cells["Quantity"].Value);
 
-                // تحقق من نوع الفاتورة
-                if (InvoiceType == "بيع")
-                {
-                    unitPrice = Convert.ToDecimal(row.Cells["Price"].Value);
-                }
-                else
-                {
-                    unitPrice = 0;
-                    cost = Convert.ToDecimal(row.Cells["Price"].Value);
-                }
+                // قراءة الخصم لكل سطر
+                decimal discountAmount = 0;
+                if (row.Cells["Discount"].Value != null)
+                    decimal.TryParse(row.Cells["Discount"].Value.ToString(), out discountAmount);
+
+                bool isNew = Convert.ToBoolean(row.Cells["IsNew"].Value);
+                if (isNew) NewProductsNumber++;
 
                 list.Add(new cls_ml_InvoiceDetail
                 {
@@ -91,13 +85,13 @@ namespace AutoPartsManager.Forms
                     ProductName = row.Cells["ProductName"].Value.ToString(),
                     Reference = row.Cells["Reference"].Value?.ToString(),
                     ProductBrand = row.Cells["ProductBrand"].Value.ToString(),
-                    Quantity = Convert.ToInt32(row.Cells["Quantity"].Value),
+                    Quantity = quantity,
                     UnitPrice = unitPrice,
                     Cost = cost,
-                    IsNewProduct = IsNew
+                    DiscountAmount = discountAmount,
+                    IsNewProduct = isNew
                 });
             }
-
 
             return list;
         }
@@ -170,10 +164,27 @@ namespace AutoPartsManager.Forms
         // ===== خصم =====
         protected void ApplyDiscountAndCalculateTotal()
         {
-            decimal total = GetCurrentGrandTotal();
+            decimal grandTotal = 0;
+            decimal totalDiscount = 0;
 
-            lbl_discount.Text = "0.00 DZD"; // الخصم العام غير مستخدم الآن
-            lbl_total.Text = total.ToString("N2") + " DZD";
+            foreach (DataGridViewRow row in dgv_invoice_list.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                decimal lineTotal = 0;
+                decimal discount = 0;
+                int qty = Convert.ToInt32(row.Cells["Quantity"].Value);
+                if (row.Cells["Total"].Value != null)
+                    lineTotal = Convert.ToDecimal(row.Cells["Total"].Value);
+                if (row.Cells["Discount"].Value != null)
+                    discount = Convert.ToDecimal(row.Cells["Discount"].Value) * qty;
+
+                grandTotal += lineTotal;
+                totalDiscount += discount;
+            }
+
+            lbl_total.Text = grandTotal.ToString("N2") + " DZD";
+            lbl_discount.Text = totalDiscount.ToString("N2") + " DZD";
         }
 
         private void CancelDiscount()
@@ -191,9 +202,11 @@ namespace AutoPartsManager.Forms
                 if (row.IsNewRow) continue;
 
                 decimal lineTotal = 0;
-                if (row.Cells["Total"].Value != null)
-                    lineTotal = Convert.ToDecimal(row.Cells["Total"].Value);
+                decimal unitPrice = Convert.ToDecimal(row.Cells["Price"].Value);
+                int qty = Convert.ToInt32(row.Cells["Quantity"].Value);
+                decimal discount = Convert.ToDecimal(row.Cells["Discount"].Value ?? 0);
 
+                lineTotal = (unitPrice * qty) - discount;
                 total += lineTotal;
             }
             return total;
@@ -220,6 +233,7 @@ namespace AutoPartsManager.Forms
             int productId = Convert.ToInt32(row.Cells["ID"].Value);
             string productName = row.Cells["ProductName"].Value.ToString();
             decimal price = Convert.ToDecimal(row.Cells["Price"].Value);
+            decimal cost = Convert.ToDecimal(row.Cells["Cost"].Value);
 
             string error;
             int availableQty = cls_bl_Products.GetAvailableQuantity(productId, out error);
@@ -247,6 +261,25 @@ namespace AutoPartsManager.Forms
             dgv_suggest.Visible = false;
             ApplyDiscountAndCalculateTotal();
         }
+
+        private void RecalculateRow(DataGridViewRow row)
+        {
+            if (row.Cells["Price"].Value == null || row.Cells["Quantity"].Value == null)
+                return;
+
+            decimal price = Convert.ToDecimal(row.Cells["Price"].Value);
+            int qty = Convert.ToInt32(row.Cells["Quantity"].Value);
+
+            decimal discount = 0;
+            if (row.Cells["Discount"].Value != null)
+                decimal.TryParse(row.Cells["Discount"].Value.ToString(), out discount);
+
+            if (discount > price)
+                discount = price;
+
+            row.Cells["Total"].Value = qty * (price - discount);
+        }
+
 
         // ===== Event Handlers للأزرار =====
         private void btn_add_invoice_Click(object sender, EventArgs e)
@@ -286,21 +319,24 @@ namespace AutoPartsManager.Forms
         private void btn_clear_invoice_Click(object sender, EventArgs e) => ClearInvoiceList();
         protected void btn_discount_Click(object sender, EventArgs e)
         {
+            if (dgv_invoice_list.SelectedRows.Count == 0)
+                return;
+
+            var row = dgv_invoice_list.SelectedRows[0];
+
             frm_discount discountForm = new frm_discount
             {
-                GrandTotal = GetCurrentGrandTotal()
+                ProductName = row.Cells["ProductName"].Value.ToString()
             };
 
             discountForm.ShowDialog();
 
-            if (!discountForm.IsConfirmed)
-            {
-                CancelDiscount();
-                return;
-            }
+            if (discountForm.IsConfirmed)
+                row.Cells["Discount"].Value = discountForm.DiscountValue;
+            else if (discountForm.IsDeleted)
+                row.Cells["Discount"].Value = 0;
 
-            _invoiceDiscountAmount = discountForm.DiscountValue;
-
+            RecalculateRow(row);
             ApplyDiscountAndCalculateTotal();
         }
 
@@ -613,28 +649,39 @@ namespace AutoPartsManager.Forms
 
         private void dgv_invoice_list_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
+            var row = dgv_invoice_list.Rows[e.RowIndex];
+
+            // تحديث Total (قبل الخصم)
+            if (row.Cells["Price"].Value != null && row.Cells["Quantity"].Value != null)
+            {
+                decimal unitPrice = Convert.ToDecimal(row.Cells["Price"].Value);
+                int quantity = Convert.ToInt32(row.Cells["Quantity"].Value);
+
+                row.Cells["Total"].Value = unitPrice * quantity;
+            }
+
+            // تحديث الخصم لكل صف
             if (dgv_invoice_list.Columns[e.ColumnIndex].Name == "Discount")
             {
-                var row = dgv_invoice_list.Rows[e.RowIndex];
-                decimal discount = 0;
+                decimal discountPerUnit = 0;
 
                 // التأكد من الرقم
-                if (row.Cells["Discount"].Value == null || !decimal.TryParse(row.Cells["Discount"].Value.ToString(), out discount))
-                    discount = 0;
+                if (row.Cells["Discount"].Value == null || !decimal.TryParse(row.Cells["Discount"].Value.ToString(), out discountPerUnit))
+                    discountPerUnit = 0;
 
-                // لا يتجاوز إجمالي السطر
                 decimal unitPrice = Convert.ToDecimal(row.Cells["Price"].Value);
-                int qty = Convert.ToInt32(row.Cells["Quantity"].Value);
-                decimal maxDiscount = unitPrice * qty;
-                if (discount > maxDiscount)
-                    discount = maxDiscount;
+                int quantity = Convert.ToInt32(row.Cells["Quantity"].Value);
 
-                row.Cells["Discount"].Value = discount;
+                // الخصم لا يتجاوز سعر الوحدة
+                if (discountPerUnit > unitPrice)
+                    discountPerUnit = unitPrice;
 
-                // تحديث LineTotalAfterDiscount (مؤقت على الفورم)
-                row.Cells["Total"].Value = (unitPrice * qty) - discount;
+                // حساب الإجمالي بعد الخصم لكل صف
+                row.Cells["Total"].Value = quantity * (unitPrice - discountPerUnit);
 
-                // تحديث المجموع الكلي
+                // تخزين الخصم لكل وحدة (اختياري، حسب حاجتك)
+                // row.Cells["DiscountPerUnit"].Value = discountPerUnit;
+
                 ApplyDiscountAndCalculateTotal();
             }
         }

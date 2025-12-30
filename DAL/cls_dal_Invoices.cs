@@ -157,14 +157,18 @@ namespace DAL
                 InvoiceID,
                 ProductID,
                 ProductPrice,
-                Quantity
+                Quantity,
+                Discount,
+                NetAmount
             )
             VALUES
             (
                 @InvoiceID,
                 @ProductID,
                 @UnitPrice,
-                @Quantity
+                @Quantity,
+                @Discount,
+                @NetAmount
             );";
 
                             using (SqlCommand cmdDetail = new SqlCommand(saleDetailQuery, con, transaction))
@@ -173,6 +177,8 @@ namespace DAL
                                 cmdDetail.Parameters.AddWithValue("@ProductID", productId);
                                 cmdDetail.Parameters.AddWithValue("@UnitPrice", detail.UnitPrice);
                                 cmdDetail.Parameters.AddWithValue("@Quantity", detail.Quantity);
+                                cmdDetail.Parameters.AddWithValue("@Discount", detail.DiscountAmount);
+                                cmdDetail.Parameters.AddWithValue("@NetAmount", detail.LineTotalAfterDiscount);
                                 cmdDetail.ExecuteNonQuery();
                             }
                         }

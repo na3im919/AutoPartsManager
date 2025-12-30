@@ -2,128 +2,100 @@
 {
     partial class frm_discount
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
+        private System.Windows.Forms.Label lbl_productName;
+        private System.Windows.Forms.TextBox txt_product_name;
+        private System.Windows.Forms.Button btn_confirm_discount;
+        private System.Windows.Forms.Button btn_delete_discount;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
-            {
                 components.Dispose();
-            }
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_discount));
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.btn_confirm_discount = new DevExpress.XtraEditors.SimpleButton();
-            this.btn_cancel_discount = new DevExpress.XtraEditors.SimpleButton();
+            this.lbl_productName = new System.Windows.Forms.Label();
+            this.txt_product_name = new System.Windows.Forms.TextBox();
+            this.btn_confirm_discount = new System.Windows.Forms.Button();
+            this.btn_delete_discount = new System.Windows.Forms.Button();
+            this.txt_discount = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
-            // panel1
+            // lbl_productName
             // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(66)))), ((int)(((byte)(66)))));
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(450, 77);
-            this.panel1.TabIndex = 2;
+            this.lbl_productName.AutoSize = true;
+            this.lbl_productName.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.lbl_productName.Location = new System.Drawing.Point(254, 5);
+            this.lbl_productName.Name = "lbl_productName";
+            this.lbl_productName.Size = new System.Drawing.Size(119, 32);
+            this.lbl_productName.TabIndex = 0;
+            this.lbl_productName.Text = "اسم المنتج";
             // 
-            // textBox1
+            // txt_product_name
             // 
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Font = new System.Drawing.Font("Tahoma", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(113, 137);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(209, 109);
-            this.textBox1.TabIndex = 3;
-            this.textBox1.Text = "0";
-            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBox1.Click += new System.EventHandler(this.textBox1_Click);
-            this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
+            this.txt_product_name.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.txt_product_name.Location = new System.Drawing.Point(16, 40);
+            this.txt_product_name.Name = "txt_product_name";
+            this.txt_product_name.Size = new System.Drawing.Size(357, 39);
+            this.txt_product_name.TabIndex = 1;
             // 
             // btn_confirm_discount
             // 
-            this.btn_confirm_discount.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(90)))), ((int)(((byte)(156)))));
-            this.btn_confirm_discount.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_confirm_discount.Appearance.Options.UseBackColor = true;
-            this.btn_confirm_discount.Appearance.Options.UseFont = true;
-            this.btn_confirm_discount.AppearanceHovered.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_confirm_discount.AppearanceHovered.Options.UseFont = true;
-            this.btn_confirm_discount.AppearancePressed.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_confirm_discount.AppearancePressed.Options.UseFont = true;
-            this.btn_confirm_discount.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.btn_confirm_discount.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_confirm_discount.ImageOptions.Image")));
-            this.btn_confirm_discount.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.TopCenter;
-            this.btn_confirm_discount.Location = new System.Drawing.Point(0, 262);
+            this.btn_confirm_discount.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.btn_confirm_discount.Location = new System.Drawing.Point(48, 245);
             this.btn_confirm_discount.Name = "btn_confirm_discount";
-            this.btn_confirm_discount.Size = new System.Drawing.Size(450, 137);
-            this.btn_confirm_discount.TabIndex = 1;
-            this.btn_confirm_discount.Text = "خصم";
+            this.btn_confirm_discount.Size = new System.Drawing.Size(130, 82);
+            this.btn_confirm_discount.TabIndex = 2;
+            this.btn_confirm_discount.Text = "تأكيد";
+            this.btn_confirm_discount.UseVisualStyleBackColor = true;
             this.btn_confirm_discount.Click += new System.EventHandler(this.btn_confirm_discount_Click);
             // 
-            // btn_cancel_discount
+            // btn_delete_discount
             // 
-            this.btn_cancel_discount.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(67)))), ((int)(((byte)(54)))));
-            this.btn_cancel_discount.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_cancel_discount.Appearance.Options.UseBackColor = true;
-            this.btn_cancel_discount.Appearance.Options.UseFont = true;
-            this.btn_cancel_discount.AppearanceHovered.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_cancel_discount.AppearanceHovered.Options.UseFont = true;
-            this.btn_cancel_discount.AppearancePressed.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_cancel_discount.AppearancePressed.Options.UseFont = true;
-            this.btn_cancel_discount.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.btn_cancel_discount.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_cancel_discount.ImageOptions.Image")));
-            this.btn_cancel_discount.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.TopCenter;
-            this.btn_cancel_discount.Location = new System.Drawing.Point(0, 399);
-            this.btn_cancel_discount.Name = "btn_cancel_discount";
-            this.btn_cancel_discount.Size = new System.Drawing.Size(450, 137);
-            this.btn_cancel_discount.TabIndex = 0;
-            this.btn_cancel_discount.Text = "إزالة الخصم";
-            this.btn_cancel_discount.Click += new System.EventHandler(this.btn_cancel_discount_Click);
+            this.btn_delete_discount.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.btn_delete_discount.Location = new System.Drawing.Point(184, 245);
+            this.btn_delete_discount.Name = "btn_delete_discount";
+            this.btn_delete_discount.Size = new System.Drawing.Size(130, 82);
+            this.btn_delete_discount.TabIndex = 3;
+            this.btn_delete_discount.Text = "حذف الخصم";
+            this.btn_delete_discount.UseVisualStyleBackColor = true;
+            this.btn_delete_discount.Click += new System.EventHandler(this.btn_delete_discount_Click);
+            // 
+            // txt_discount
+            // 
+            this.txt_discount.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txt_discount.Location = new System.Drawing.Point(85, 111);
+            this.txt_discount.Multiline = true;
+            this.txt_discount.Name = "txt_discount";
+            this.txt_discount.Size = new System.Drawing.Size(204, 82);
+            this.txt_discount.TabIndex = 4;
+            this.txt_discount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txt_discount.Click += new System.EventHandler(this.txt_discount_Click);
+            this.txt_discount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_discount_KeyPress);
             // 
             // frm_discount
             // 
-            this.Appearance.BackColor = System.Drawing.Color.White;
-            this.Appearance.Options.UseBackColor = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(450, 536);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.panel1);
+            this.ClientSize = new System.Drawing.Size(375, 353);
+            this.Controls.Add(this.txt_discount);
+            this.Controls.Add(this.btn_delete_discount);
             this.Controls.Add(this.btn_confirm_discount);
-            this.Controls.Add(this.btn_cancel_discount);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Controls.Add(this.txt_product_name);
+            this.Controls.Add(this.lbl_productName);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "frm_discount";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "frm_discount";
-            this.Shown += new System.EventHandler(this.frm_discount_Shown);
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "تطبيق الخصم على المنتج";
+            this.Load += new System.EventHandler(this.frm_discount_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
-        #endregion
-
-        private DevExpress.XtraEditors.SimpleButton btn_cancel_discount;
-        private DevExpress.XtraEditors.SimpleButton btn_confirm_discount;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txt_discount;
     }
 }

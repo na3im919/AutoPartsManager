@@ -1,117 +1,66 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
 
 namespace AutoPartsManager.Forms
 {
     public partial class frm_discount : XtraForm
-
-
     {
         public bool IsConfirmed { get; private set; }
-        public decimal DiscountValue { get; private set; } // مبلغ ثابت فقط
-        public decimal GrandTotal { get; set; }
+        public bool IsDeleted { get; private set; }
+        public decimal DiscountValue { get; private set; } // خصم لكل وحدة
+        public string ProductName { get; set; }
 
         public frm_discount()
         {
             InitializeComponent();
-            
         }
-
-
-
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            // Enter = تأكيد
-            if (keyData == Keys.Enter)
-            {
-                btn_confirm_discount_Click(null, null);
-                return true;
-            }
-
-            // Esc = إلغاء
-            if (keyData == Keys.Escape)
-            {
-                btn_cancel_discount_Click(null, null);
-                return true;
-            }
-
-            return base.ProcessCmdKey(ref msg, keyData);
-        }
-
-        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            // السماح بالتحكم
-            if (char.IsControl(e.KeyChar))
-                return;
-
-            // السماح بالأرقام
-            if (char.IsDigit(e.KeyChar))
-                return;
-
-            // السماح بالفاصلة العشرية
-            if (e.KeyChar == '.' && !textBox1.Text.Contains("."))
-                return;
-
-            // منع أي شيء آخر
-            e.Handled = true;
-        }
-
-
-      
-
-
-        private void textBox1_Click(object sender, EventArgs e)
-        {
-            textBox1.SelectAll();
-        }
-
-        private void btn_cancel_discount_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-
-        private void btn_confirm_discount_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(textBox1.Text))
-                return;
-
-            if (!decimal.TryParse(textBox1.Text, out decimal inputValue))
-                return;
-
-            if (inputValue < 0)
-                return;
-
-            // لا يتجاوز إجمالي الفاتورة
-            if (inputValue > GrandTotal)
-                inputValue = GrandTotal;
-
-            DiscountValue = inputValue;
-            IsConfirmed = true;
-            this.Close();
-        }
-
 
         private void frm_discount_Load(object sender, EventArgs e)
         {
-            textBox1.Focus();
-            textBox1.SelectAll();
+            txt_discount.Focus();
+            txt_discount.SelectAll();
+            txt_product_name.Text = ProductName;
+            txt_discount.Text = "0.00";
         }
 
-
-        private void frm_discount_Shown(object sender, EventArgs e)
+        private void btn_confirm_discount_Click(object sender, EventArgs e)
         {
-            textBox1.Focus();
-            textBox1.SelectAll();
+            if (!decimal.TryParse(txt_discount.Text, out decimal value))
+                value = 0;
+
+            if (value < 0)
+                value = 0;
+
+            DiscountValue = value;
+            IsConfirmed = true;
+            IsDeleted = false;
+            this.Close();
         }
 
+        private void btn_delete_discount_Click(object sender, EventArgs e)
+        {
+            DiscountValue = 0;
+            IsConfirmed = false;
+            IsDeleted = true;
+            this.Close();
+        }
+
+       
+
+        private void txt_discount_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (char.IsControl(e.KeyChar)) return;
+            if (char.IsDigit(e.KeyChar)) return;
+            if (e.KeyChar == '.' && !txt_product_name.Text.Contains(".")) return;
+            e.Handled = true;
+
+        }
+
+        private void txt_discount_Click(object sender, EventArgs e)
+        {
+            txt_product_name.SelectAll();
+
+        }
     }
 }
