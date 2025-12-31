@@ -1,6 +1,7 @@
-﻿using BL;
-using Moldels;
+﻿using AutoPartsManager.Forms.Client;
+using BL;
 using DevExpress.XtraEditors;
+using Moldels;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -131,6 +132,7 @@ namespace AutoPartsManager.Forms
                 {
                     string error = string.Empty;
                     bool deleted = cls_bl_Clients.DeleteClient(clientId, out error);
+                    LoadClientsGrid();
                 }
             }
         }
@@ -144,6 +146,13 @@ namespace AutoPartsManager.Forms
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
             kw = txtSearch.Text.Trim();
+            LoadClientsGrid();
+        }
+
+        private void btn_add_client_Click(object sender, EventArgs e)
+        {
+            frm_add_update_clients frm_Add_Update_Clients = new frm_add_update_clients();
+            frm_Add_Update_Clients.ShowDialog();
             LoadClientsGrid();
         }
     }

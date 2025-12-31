@@ -113,6 +113,38 @@ namespace DAL
             return clients;
         }
 
+        public static bool AddClient(cls_ml_Clients client, out string error_message)
+        {
+            error_message = string.Empty;
+            bool isSuccess = false;
+
+            string query = @"
+        INSERT INTO Clients (Name, Phone, Address, isActive)
+        VALUES (@Name, @Phone, @Address, @IsActive)";
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Name", client.Name);
+                    command.Parameters.AddWithValue("@Phone", client.Phone ?? string.Empty);
+                    command.Parameters.AddWithValue("@Address", client.Address ?? string.Empty);
+                    command.Parameters.AddWithValue("@IsActive", client.IsActive);
+
+                    connection.Open();
+                    int rows = command.ExecuteNonQuery();
+                    isSuccess = rows > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                error_message = ex.Message;
+            }
+
+            return isSuccess;
+        }
+
         public static bool DeleteClient(int clientId, out string error_message)
         {
             error_message = string.Empty;

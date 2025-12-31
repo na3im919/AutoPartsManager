@@ -130,6 +130,7 @@
             this.btn_add_client.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
             this.btn_add_client.Size = new System.Drawing.Size(124, 70);
             this.btn_add_client.TabIndex = 2;
+            this.btn_add_client.Click += new System.EventHandler(this.btn_add_client_Click);
             // 
             // flowLayoutPanel1
             // 

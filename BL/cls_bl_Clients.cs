@@ -15,6 +15,10 @@ namespace BL
             return cls_dal_Clients.GetActiveClients(out error_message);
         }
 
+        public static bool AddClient(cls_ml_Clients client, out string error_message)
+        {
+            return cls_dal_Clients.AddClient(client, out error_message);
+        }
         public static bool DeleteClient(int clientId, out string error_message)
         {
             return cls_dal_Clients.DeleteClient(clientId, out error_message);
