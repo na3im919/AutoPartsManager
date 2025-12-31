@@ -47,7 +47,9 @@
     <Compile Include="cls_ml_InvoiceDetail.cs" />
     <Compile Include="cls_ml_Suppliers.cs" />
     <Compile Include="cls_vm_InvoiceList.cs" />
+    <Compile Include="ML_Returns\ReturnDetailItemModel.cs" />
     <Compile Include="ML_Returns\ReturnDetailToSave.cs" />
+    <Compile Include="ML_Returns\ReturnHistoryModel.cs" />
     <Compile Include="ML_Returns\ReturnProductModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

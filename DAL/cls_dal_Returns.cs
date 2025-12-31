@@ -234,5 +234,108 @@ namespace DAL
                 return false;
             }
         }
+
+        public static List<ReturnHistoryModel> GetReturnsHistory(string returnType, out string error)
+        {
+            error = string.Empty;
+            var returnsList = new List<ReturnHistoryModel>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = @"
+                    SELECT 
+                        r.ID AS ReturnID,
+                        r.Date,
+                        r.ReturnType,
+                        r.TotalAmount,
+                        r.Status,
+                        r.InvoiceID,
+                        ISNULL(c.Name, s.Name) AS ClientSupplierName
+                    FROM Returns r
+                    LEFT JOIN Clients c ON r.ClientID = c.ID
+                    LEFT JOIN Suppliers s ON r.SupplierID = s.ID
+                    WHERE r.ReturnType = @ReturnType
+                    ORDER BY r.Date DESC";
+
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@ReturnType", returnType);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                returnsList.Add(new ReturnHistoryModel
+                                {
+                                    ReturnID = Convert.ToInt32(reader["ReturnID"]),
+                                    Date = Convert.ToDateTime(reader["Date"]),
+                                    ReturnType = reader["ReturnType"].ToString(),
+                                    ClientSupplierName = reader["ClientSupplierName"].ToString(),
+                                    TotalAmount = Convert.ToDecimal(reader["TotalAmount"]),
+                                    Status = reader["Status"].ToString(),
+                                    InvoiceID = Convert.ToInt32(reader["InvoiceID"])
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                error = ex.Message;
+            }
+
+            return returnsList;
+        }
+
+        // دالة لجلب تفاصيل مرتجع معين
+        public static List<ReturnDetailItemModel> GetReturnDetails(int returnId, out string error)
+        {
+            error = string.Empty;
+            var detailsList = new List<ReturnDetailItemModel>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = @"
+                    SELECT 
+                        p.ProductName,
+                        rd.ProductPrice,
+                        rd.Quantity,
+                        rd.Total
+                    FROM ReturnsDetails rd
+                    INNER JOIN Products p ON rd.ProductID = p.ID
+                    WHERE rd.ReturnsID = @ReturnID";
+
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@ReturnID", returnId);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                detailsList.Add(new ReturnDetailItemModel
+                                {
+                                    ProductName = reader["ProductName"].ToString(),
+                                    Price = Convert.ToDecimal(reader["ProductPrice"]),
+                                    Quantity = Convert.ToInt32(reader["Quantity"]),
+                                    Total = Convert.ToDecimal(reader["Total"])
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                error = ex.Message;
+            }
+
+            return detailsList;
+        }
     }
 }

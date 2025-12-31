@@ -25,5 +25,16 @@ namespace BL
         {
              return cls_dal_returns.SaveNewReturn(invoiceId, returnDetails, out error);
         }
+
+        public static List<ReturnHistoryModel> GetReturnsHistory(string returnType, out string error)
+        {
+                       return cls_dal_returns.GetReturnsHistory(returnType, out error);
+        }
+
+        public static List<ReturnDetailItemModel> GetReturnDetails(int returnId, out string error)
+        {
+             return cls_dal_returns.GetReturnDetails(returnId, out error);
+        }
+
     }
 }
