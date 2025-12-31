@@ -30,15 +30,15 @@
         {
             this.panel5 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
-            this.panel7 = new System.Windows.Forms.Panel();
             this.btn_add_returns = new DevExpress.XtraEditors.SimpleButton();
+            this.panel7 = new System.Windows.Forms.Panel();
             this.panel5.SuspendLayout();
             this.panel6.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel5
             // 
-            this.panel5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(115)))), ((int)(((byte)(221)))));
+            this.panel5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(91)))), ((int)(((byte)(135)))));
             this.panel5.Controls.Add(this.panel6);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel5.Location = new System.Drawing.Point(0, 0);
@@ -55,14 +55,6 @@
             this.panel6.Size = new System.Drawing.Size(172, 69);
             this.panel6.TabIndex = 1;
             // 
-            // panel7
-            // 
-            this.panel7.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel7.Location = new System.Drawing.Point(0, 69);
-            this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(881, 68);
-            this.panel7.TabIndex = 1;
-            // 
             // btn_add_returns
             // 
             this.btn_add_returns.Location = new System.Drawing.Point(15, 8);
@@ -71,6 +63,14 @@
             this.btn_add_returns.TabIndex = 0;
             this.btn_add_returns.Text = "simpleButton1";
             this.btn_add_returns.Click += new System.EventHandler(this.btn_add_returns_Click);
+            // 
+            // panel7
+            // 
+            this.panel7.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel7.Location = new System.Drawing.Point(0, 69);
+            this.panel7.Name = "panel7";
+            this.panel7.Size = new System.Drawing.Size(881, 68);
+            this.panel7.TabIndex = 1;
             // 
             // frm_returns
             // 

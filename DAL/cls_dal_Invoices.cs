@@ -198,11 +198,11 @@ namespace DAL
 
 
         public static List<cls_vm_InvoiceList> GetInvoicesForUI(
-    string keyword,
-    string invoiceType,   // "بيع" أو "شراء"
-    DateTime? dateFrom,
-    DateTime? dateTo,
-    out string error)
+string keyword,
+string invoiceType,   // "بيع" أو "شراء"
+DateTime? dateFrom,
+DateTime? dateTo,
+out string error)
         {
             error = string.Empty;
             List<cls_vm_InvoiceList> list = new List<cls_vm_InvoiceList>();
@@ -315,6 +315,7 @@ ORDER BY i.Date DESC;
 
             return list;
         }
+
 
 
 

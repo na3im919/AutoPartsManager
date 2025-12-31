@@ -15,6 +15,8 @@ namespace AutoPartsManager.Forms.Returns
     {
         string invoiceType = "Sale";
         string keyword = "";
+        DateTime? dateFrom = null;
+        DateTime? dateTo = null;
         public frm_add_returns()
         {
             InitializeComponent();
@@ -71,14 +73,28 @@ namespace AutoPartsManager.Forms.Returns
         }
 
 
+        private void ApplyDateFilter()
+        {
+            dateFrom = dtp_startDate.Value.Date;
+            dateTo = dtp_endDate.Value.Date.AddDays(1);
+
+            LoadInvoicesToDGV(
+                keyword,
+                invoiceType,
+                dateFrom,
+                dateTo,
+                dgv_invoices
+            );
+        }
+
         private void frm_add_returns_Load(object sender, EventArgs e)
         {
             rad_sales.Checked = true;
             LoadInvoicesToDGV(
                 "",
                 invoiceType,
-                null,
-                null,
+                dateFrom,
+                dateTo,
                 dgv_invoices
             );
         }
@@ -89,8 +105,8 @@ namespace AutoPartsManager.Forms.Returns
             LoadInvoicesToDGV(
                 keyword,
                 invoiceType,
-                null,
-                null,
+                dateFrom,
+                dateTo,
                 dgv_invoices
             );
         }
@@ -100,10 +116,32 @@ namespace AutoPartsManager.Forms.Returns
             keyword = textBox1.Text.Trim();
             LoadInvoicesToDGV(keyword,
                 invoiceType,
-                null,
-                null,
+                dateFrom,
+                dateTo,
                 dgv_invoices
             );
+        }
+
+        private void dtp_startDate_ValueChanged(object sender, EventArgs e)
+        {
+            ApplyDateFilter();
+        }
+
+        private void dtp_startDate_Enter(object sender, EventArgs e)
+        {
+            ApplyDateFilter();
+        }
+
+        private void dtp_endDate_ValueChanged(object sender, EventArgs e)
+        {
+            ApplyDateFilter();
+
+        }
+
+        private void dtp_endDate_Enter(object sender, EventArgs e)
+        {
+            ApplyDateFilter();
+
         }
     }
 }
