@@ -30,15 +30,20 @@ namespace AutoPartsManager.Forms.Returns
             DataGridViewImageColumn detailsColumn = new DataGridViewImageColumn
             {
                 Name = "Details",
-                HeaderText = "التفاصيل",
+                HeaderText = "",
                 Image = Properties.Resources.file, // يجب أن تضيف أيقونة لمشروعك
-                Width = 50
+                Width = 50,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
             };
             dgv_returns.Columns.Add(detailsColumn);
 
             // إخفاء الأعمدة غير المرغوب فيها
             if (dgv_returns.Columns["ReturnID"] != null)
                 dgv_returns.Columns["ReturnID"].Visible = false;
+            if (dgv_returns.Columns["InvoiceID"] != null)
+                dgv_returns.Columns["InvoiceID"].Visible = false;
+            if (dgv_returns.Columns["ReturnType"] != null)
+                dgv_returns.Columns["ReturnType"].Visible = false;
 
             // تنسيق الأعمدة
             if (dgv_returns.Columns["Date"] != null)
@@ -59,6 +64,7 @@ namespace AutoPartsManager.Forms.Returns
 
             if (dgv_returns.Columns["Status"] != null)
                 dgv_returns.Columns["Status"].HeaderText = "الحالة";
+            
 
             dgv_returns.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgv_returns.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -103,7 +109,7 @@ namespace AutoPartsManager.Forms.Returns
                 int returnId = Convert.ToInt32(dgv_returns.Rows[e.RowIndex].Cells["ReturnID"].Value);
 
                 // افتح نافذة التفاصيل
-                using (var detailsForm = new frm_return_history_detail(returnId))
+                using (var detailsForm = new frm_return_details(returnId))
                 {
                     detailsForm.ShowDialog();
                 }

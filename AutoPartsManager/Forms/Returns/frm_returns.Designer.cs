@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_returns));
             this.panel5 = new System.Windows.Forms.Panel();
             this.panel8 = new System.Windows.Forms.Panel();
             this.rad_sale = new System.Windows.Forms.RadioButton();
@@ -102,11 +103,13 @@
             // 
             // btn_add_returns
             // 
+            this.btn_add_returns.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_add_returns.ImageOptions.Image")));
+            this.btn_add_returns.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.btn_add_returns.Location = new System.Drawing.Point(15, 8);
             this.btn_add_returns.Name = "btn_add_returns";
+            this.btn_add_returns.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
             this.btn_add_returns.Size = new System.Drawing.Size(145, 55);
             this.btn_add_returns.TabIndex = 0;
-            this.btn_add_returns.Text = "simpleButton1";
             this.btn_add_returns.Click += new System.EventHandler(this.btn_add_returns_Click);
             // 
             // panel7
@@ -123,7 +126,9 @@
             this.dgv_returns.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_returns.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_returns.Location = new System.Drawing.Point(0, 137);
+            this.dgv_returns.MultiSelect = false;
             this.dgv_returns.Name = "dgv_returns";
+            this.dgv_returns.RowHeadersVisible = false;
             this.dgv_returns.RowHeadersWidth = 62;
             this.dgv_returns.RowTemplate.Height = 28;
             this.dgv_returns.Size = new System.Drawing.Size(881, 313);

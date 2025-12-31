@@ -32,8 +32,8 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.dgv_products = new System.Windows.Forms.DataGridView();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.btn_submit = new DevExpress.XtraEditors.SimpleButton();
             this.btn_cancel = new DevExpress.XtraEditors.SimpleButton();
+            this.btn_submit = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_products)).BeginInit();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -53,12 +53,12 @@
             this.dgv_products.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_products.Location = new System.Drawing.Point(0, 86);
             this.dgv_products.Name = "dgv_products";
+            this.dgv_products.RowHeadersVisible = false;
             this.dgv_products.RowHeadersWidth = 62;
             this.dgv_products.RowTemplate.Height = 28;
             this.dgv_products.Size = new System.Drawing.Size(800, 364);
             this.dgv_products.TabIndex = 1;
             this.dgv_products.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dgv_products_CellBeginEdit);
-            this.dgv_products.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dgv_products_CellValidating);
             this.dgv_products.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_products_CellValueChanged);
             // 
             // panel2
@@ -71,20 +71,9 @@
             this.panel2.Size = new System.Drawing.Size(800, 114);
             this.panel2.TabIndex = 2;
             // 
-            // btn_submit
-            // 
-            this.btn_submit.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton1.ImageOptions.Image")));
-            this.btn_submit.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.btn_submit.Location = new System.Drawing.Point(33, 10);
-            this.btn_submit.Name = "btn_submit";
-            this.btn_submit.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
-            this.btn_submit.Size = new System.Drawing.Size(119, 61);
-            this.btn_submit.TabIndex = 0;
-            this.btn_submit.Click += new System.EventHandler(this.btn_submit_Click);
-            // 
             // btn_cancel
             // 
-            this.btn_cancel.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton2.ImageOptions.Image")));
+            this.btn_cancel.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_cancel.ImageOptions.Image")));
             this.btn_cancel.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.btn_cancel.Location = new System.Drawing.Point(167, 10);
             this.btn_cancel.Name = "btn_cancel";
@@ -93,7 +82,18 @@
             this.btn_cancel.TabIndex = 1;
             this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
             // 
-            // frm_return_details
+            // btn_submit
+            // 
+            this.btn_submit.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_submit.ImageOptions.Image")));
+            this.btn_submit.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
+            this.btn_submit.Location = new System.Drawing.Point(33, 10);
+            this.btn_submit.Name = "btn_submit";
+            this.btn_submit.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
+            this.btn_submit.Size = new System.Drawing.Size(119, 61);
+            this.btn_submit.TabIndex = 0;
+            this.btn_submit.Click += new System.EventHandler(this.btn_submit_Click);
+            // 
+            // frm_return_history_detail
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -101,8 +101,9 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.dgv_products);
             this.Controls.Add(this.panel1);
-            this.Name = "frm_return_details";
+            this.Name = "frm_return_history_detail";
             this.Text = "frm_return_details";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.frm_return_details_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_products)).EndInit();
             this.panel2.ResumeLayout(false);
