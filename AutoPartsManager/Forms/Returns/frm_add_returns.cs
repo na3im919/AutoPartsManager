@@ -20,8 +20,11 @@ namespace AutoPartsManager.Forms.Returns
         public frm_add_returns()
         {
             InitializeComponent();
-        }
 
+            // === إصلاح الخطأ ===
+            // تأكد من أن وضع التحديد يسمح بالفرز التلقائي للأعمدة
+            dgv_invoices.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+        }
 
         public void LoadInvoicesToDGV(
       string keyword,
@@ -75,10 +78,8 @@ namespace AutoPartsManager.Forms.Returns
 
         private void ApplyDateFilter()
         {
-            // Pass the dates directly. The DAL will handle the logic.
-            // We use .Value.Date to ensure the time part is 00:00:00 for consistency.
             dateFrom = dtp_startDate.Value.Date;
-            dateTo = dtp_endDate.Value.Date; // <-- FIX: Removed .AddDays(1)
+            dateTo = dtp_endDate.Value.Date;
 
             LoadInvoicesToDGV(
                 keyword,
@@ -101,7 +102,7 @@ namespace AutoPartsManager.Forms.Returns
             else
             {
                 dateFrom = dtp_startDate.Value.Date;
-                dateTo = dtp_endDate.Value.Date; // <-- FIX: Removed .AddDays(1)
+                dateTo = dtp_endDate.Value.Date;
                 dtp_startDate.Enabled = true;
                 dtp_endDate.Enabled = true;
             }
@@ -162,18 +163,43 @@ namespace AutoPartsManager.Forms.Returns
         private void dtp_endDate_ValueChanged(object sender, EventArgs e)
         {
             ApplyDateFilter();
-
         }
 
         private void dtp_endDate_Enter(object sender, EventArgs e)
         {
             ApplyDateFilter();
-
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             RestDateFilter();
+        }
+
+        // لا تنسَ إضافة معالج النقر المزدوج الذي ناقشناه سابقًا
+        private void dgv_invoices_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow selectedRow = dgv_invoices.Rows[e.RowIndex];
+                object invoiceIdValue = selectedRow.Cells["InvoiceID"].Value;
+
+                if (invoiceIdValue != null && int.TryParse(invoiceIdValue.ToString(), out int invoiceId))
+                {
+                    using (var returnDetailsForm = new frm_return_details(invoiceId))
+                    {
+                        if (returnDetailsForm.ShowDialog() == DialogResult.OK)
+                        {
+                            LoadInvoicesToDGV(
+                                keyword,
+                                invoiceType,
+                                dateFrom,
+                                dateTo,
+                                dgv_invoices
+                            );
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -211,6 +211,9 @@
     <EmbeddedResource Include="Forms\Returns\frm_returns.resx">
       <DependentUpon>frm_returns.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Returns\frm_return_details.resx">
+      <DependentUpon>frm_return_details.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Sales\frm_add_invoice.resx">
       <DependentUpon>frm_add_invoice.cs</DependentUpon>
     </EmbeddedResource>

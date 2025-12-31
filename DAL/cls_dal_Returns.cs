@@ -119,8 +119,9 @@ namespace DAL
                                     Price = Convert.ToDecimal(reader["Price"]),
                                     InvoiceQuantity = Convert.ToInt32(reader["InvoiceQuantity"]),
                                     ReturnedQuantity = Convert.ToInt32(reader["ReturnedQuantity"]),
-                                    ReturnQuantity = 0, // قيمة ابتدائية
-                                    IsSelected = false // قيمة ابتدائية
+                                    ReturnQuantity = 0,
+                                    IsSelected = false,
+                                    InvoiceDetailID = Convert.ToInt32(reader["InvoiceDetailID"]) // <-- أضف هذا السطر
                                 });
                             }
                         }
