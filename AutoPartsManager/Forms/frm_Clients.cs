@@ -140,5 +140,11 @@ namespace AutoPartsManager.Forms
             isActive = !chk_non_active_clients.Checked;
             LoadClientsGrid();
         }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            kw = txtSearch.Text.Trim();
+            LoadClientsGrid();
+        }
     }
 }
