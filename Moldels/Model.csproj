@@ -44,6 +44,7 @@
     <Compile Include="cls_ml_BestSellingProduct.cs" />
     <Compile Include="cls_ml_Clients.cs" />
     <Compile Include="cls_ml_Invoices.cs" />
+    <Compile Include="cls_ml_MostReturnedProduct.cs" />
     <Compile Include="cls_ml_Products.cs" />
     <Compile Include="cls_ml_InvoiceDetail.cs" />
     <Compile Include="cls_ml_ProfitData.cs" />

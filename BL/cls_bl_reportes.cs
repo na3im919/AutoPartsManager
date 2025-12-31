@@ -27,5 +27,14 @@ namespace BL
         {
             return cls_dal_reportes.GetTop10BestSellingProducts(startDate, endDate, out error);
         }
+
+
+        public static List<cls_ml_MostReturnedProduct> GetTop10MostReturnedProducts(
+   DateTime startDate,
+   DateTime endDate,
+   out string error)
+        {
+            return cls_dal_reportes.GetTop10MostReturnedProducts(startDate, endDate, out error);
+        }
     }
 }

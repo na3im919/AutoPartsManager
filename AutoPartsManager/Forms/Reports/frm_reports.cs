@@ -288,11 +288,77 @@ namespace AutoPartsManager.Forms.frm_reports
             }
 
             pnl_reports.Controls.Add(dgv);
+
+
             lbl_main_title.Visible = false;
             lbl_sub_title.Visible = false;
             lbl_main_content.Visible = false;
             lbl_sub_content.Visible = false;
         }
+
+
+        private void LoadTop10MostReturnedProducts(DateTime startDate, DateTime endDate)
+        {
+            string error;
+            var data = cls_bl_reportes.GetTop10MostReturnedProducts(startDate, endDate, out error);
+
+            pnl_reports.Controls.Clear();
+            pnl_main_lbl.Visible = true;
+            pnl_sub_lbl.Visible = true;
+
+            if (!string.IsNullOrEmpty(error))
+            {
+                MessageBox.Show(error, "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            DataGridView dgv = new DataGridView();
+
+            dgv.Dock = DockStyle.Fill;
+            dgv.ReadOnly = true;
+            dgv.AllowUserToAddRows = false;
+            dgv.RowHeadersVisible = false;
+            dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgv.BackgroundColor = Color.White;
+            dgv.BorderStyle = BorderStyle.None;
+
+            dgv.EnableHeadersVisualStyles = false;
+            dgv.ColumnHeadersHeight = 40;
+            dgv.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(45, 45, 48);
+            dgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgv.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+
+            dgv.DefaultCellStyle.Font = new Font("Segoe UI", 10);
+            dgv.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(245, 245, 245);
+
+            // ===== Columns =====
+            dgv.Columns.Add("Rank", "#");
+            dgv.Columns.Add("Product", "اسم المنتج");
+            dgv.Columns.Add("Quantity", "الكمية المرتجعة");
+            dgv.Columns.Add("Revenue", "إجمالي المرتجعات");
+            dgv.Columns.Add("Cost", "التكلفة");
+
+            int rank = 1;
+            foreach (var item in data)
+            {
+                dgv.Rows.Add(
+                    rank++,
+                    item.ProductName,
+                    item.TotalReturnedQuantity.ToString("N0"),
+                    item.TotalReturnedRevenue.ToString("N2"),
+                    item.TotalReturnedCost.ToString("N2")
+                );
+            }
+
+            pnl_reports.Controls.Add(dgv);
+
+            lbl_main_title.Visible = false;
+            lbl_sub_title.Visible = false;
+            lbl_main_content.Visible = false;
+            lbl_sub_content.Visible = false;
+        }
+
 
         private void chk_reportes_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -335,6 +401,9 @@ namespace AutoPartsManager.Forms.frm_reports
                     break;
                 case "المنتجات الأكثر مبيعا":
                     LoadTop10BestSellingProducts(startDate, endDate);
+                    break;
+                case "المنتجات الأكثر إرجاعا":
+                    LoadTop10MostReturnedProducts(startDate, endDate);
                     break;
             }
         }

@@ -197,6 +197,66 @@ namespace DAL
         }
 
 
+        public static List<cls_ml_MostReturnedProduct> GetTop10MostReturnedProducts(
+    DateTime startDate,
+    DateTime endDate,
+    out string error)
+        {
+            error = "";
+            var list = new List<cls_ml_MostReturnedProduct>();
+
+            string query = @"
+    SELECT TOP 10
+        p.ID AS ProductID,
+        p.ProductName,
+        SUM(rd.Quantity) AS TotalReturnedQuantity,
+        SUM(rd.Total) AS TotalReturnedRevenue,
+        SUM(rd.Quantity * p.Cost) AS TotalReturnedCost
+    FROM Returns r
+    INNER JOIN ReturnsDetails rd ON r.ID = rd.ReturnsID
+    INNER JOIN Products p ON rd.ProductID = p.ID
+    WHERE r.ReturnType = N'SALE'
+      AND r.Status = N'COMPLETED'
+      AND r.Date BETWEEN @StartDate AND @EndDate
+    GROUP BY p.ID, p.ProductName
+    ORDER BY SUM(rd.Quantity) DESC;
+    ";
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@StartDate", startDate);
+                    cmd.Parameters.AddWithValue("@EndDate", endDate);
+
+                    con.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            list.Add(new cls_ml_MostReturnedProduct
+                            {
+                                ProductID = Convert.ToInt32(dr["ProductID"]),
+                                ProductName = dr["ProductName"].ToString(),
+                                TotalReturnedQuantity = Convert.ToInt32(dr["TotalReturnedQuantity"]),
+                                TotalReturnedRevenue = Convert.ToDecimal(dr["TotalReturnedRevenue"]),
+                                TotalReturnedCost = Convert.ToDecimal(dr["TotalReturnedCost"])
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                error = "فشل تحميل Top 10 المنتجات الأكثر إرجاعًا: " + ex.Message;
+            }
+
+            return list;
+        }
+
+
+
 
     }
 }
