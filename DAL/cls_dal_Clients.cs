@@ -145,6 +145,77 @@ namespace DAL
             return isSuccess;
         }
 
+        public static bool UpdateClient(cls_ml_Clients client, out string error_message)
+        {
+            error_message = string.Empty;
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlCommand command = new SqlCommand(
+                    @"UPDATE Clients
+              SET Name = @Name,
+                  Phone = @Phone,
+                  Address = @Address
+              WHERE ID = @ID", connection))
+                {
+                    command.Parameters.AddWithValue("@Name", client.Name);
+                    command.Parameters.AddWithValue("@Phone", client.Phone);
+                    command.Parameters.AddWithValue("@Address", client.Address);
+                    command.Parameters.AddWithValue("@ID", client.ID);
+
+                    connection.Open();
+                    int rows = command.ExecuteNonQuery();
+                    return rows > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                error_message = ex.Message;
+                return false;
+            }
+        }
+
+        public static cls_ml_Clients GetClientByID(int clientID, out string error_message)
+        {
+            error_message = string.Empty;
+            cls_ml_Clients client = null;
+
+            string query = @"
+        SELECT ID, Name, Phone, Address
+        FROM Clients
+        WHERE ID = @ID";
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@ID", clientID);
+                    connection.Open();
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            client = new cls_ml_Clients
+                            {
+                                ID = Convert.ToInt32(reader["ID"]),
+                                Name = reader["Name"].ToString(),
+                                Phone = reader["Phone"].ToString(),
+                                Address = reader["Address"].ToString()
+                            };
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                error_message = ex.Message;
+            }
+
+            return client;
+        }
+
         public static bool DeleteClient(int clientId, out string error_message)
         {
             error_message = string.Empty;

@@ -167,6 +167,7 @@
             this.Controls.Add(this.panel1);
             this.Name = "frm_Clients";
             this.Text = "frm_Clients";
+            this.Load += new System.EventHandler(this.frm_Clients_Load);
             this.panel1.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();

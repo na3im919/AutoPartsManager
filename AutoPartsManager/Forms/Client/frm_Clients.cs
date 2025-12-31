@@ -107,7 +107,6 @@ namespace AutoPartsManager.Forms
             }
 
             // ===== Handle Cell Clicks =====
-            dgv_clients.CellClick += Dgv_clients_CellClick;
         }
 
         private void Dgv_clients_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -125,9 +124,10 @@ namespace AutoPartsManager.Forms
             // ===== Edit =====
             if (dgv_clients.Columns[e.ColumnIndex].Name == "Edit")
             {
-                //frm_edit_client editForm = new frm_edit_client(clientId);
-                //editForm.ShowDialog();
-                LoadClientsGrid();
+                frm_add_update_clients frm_Add_Update_Clients = new frm_add_update_clients(clientId);
+                frm_Add_Update_Clients.ShowDialog();
+                if(frm_Add_Update_Clients.IsConfirmed)
+                    LoadClientsGrid();
             }
             // ===== Delete =====
             else if (dgv_clients.Columns[e.ColumnIndex].Name == "Delete")
@@ -184,6 +184,12 @@ namespace AutoPartsManager.Forms
             frm_add_update_clients frm_Add_Update_Clients = new frm_add_update_clients();
             frm_Add_Update_Clients.ShowDialog();
             LoadClientsGrid();
+        }
+
+        private void frm_Clients_Load(object sender, EventArgs e)
+        {
+            dgv_clients.CellClick += Dgv_clients_CellClick;
+
         }
     }
 }

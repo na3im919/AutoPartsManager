@@ -15,7 +15,8 @@ namespace AutoPartsManager.Forms.Client
 {
     public partial class frm_add_update_clients : XtraForm
     {
-        int _clintID = -1;
+        int _clientID = -1;
+        public bool IsConfirmed = false;
         enum frmMode
         {
             Add,
@@ -31,7 +32,8 @@ namespace AutoPartsManager.Forms.Client
 
         public frm_add_update_clients(int clintID)
         {
-            _clintID = clintID;
+            InitializeComponent();
+            _clientID = clintID;
             this.Text = "تعديل بيانات العميل";
             currentMode = frmMode.Update;
         }
@@ -58,28 +60,69 @@ namespace AutoPartsManager.Forms.Client
             }
 
             // ===== Create client object =====
-            cls_ml_Clients newClient = new cls_ml_Clients
+            cls_ml_Clients client = new cls_ml_Clients
             {
+                ID = _clientID, // للـ Update، سيبقى -1 في حالة Add ولن يستخدم
                 Name = name,
                 Phone = phone,
                 Address = address,
                 IsActive = true
             };
 
-            // ===== Add client via BL =====
             string error;
-            bool success = cls_bl_Clients.AddClient(newClient, out error);
+            bool success;
+
+            if (currentMode == frmMode.Add)
+            {
+                success = cls_bl_Clients.AddClient(client, out error);
+                if (success)
+                    XtraMessageBox.Show("تمت إضافة العميل بنجاح!", "نجاح", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
+                    XtraMessageBox.Show("فشل إضافة العميل: " + error, "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else // Update
+            {
+                success = cls_bl_Clients.UpdateClient(client, out error);
+                if (success)
+                    XtraMessageBox.Show("تم تحديث بيانات العميل بنجاح!", "نجاح", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
+                    XtraMessageBox.Show("فشل تحديث بيانات العميل: " + error, "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
             if (success)
             {
-
-                MessageBox.Show("تمت إضافة العميل بنجاح!", "نجاح", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                IsConfirmed = true;
+                this.Close(); // اغلق الفورم بعد النجاح
+            }
                 
-            }
-            else
+        }
+
+        private void frm_add_update_clients_Load(object sender, EventArgs e)
+        {
+            if(currentMode == frmMode.Update)
             {
-                MessageBox.Show("فشل إضافة العميل: " + error, "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                string error;
+                var client = cls_bl_Clients.GetClientByID(_clientID, out error);
+
+                if (!string.IsNullOrEmpty(error))
+                {
+                    MessageBox.Show(error, "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (client != null)
+                {
+                    txt_client_name.Text = client.Name;
+                    txt_phone.Text = client.Phone;
+                    txt_address.Text = client.Address;
+                }
             }
+        }
+
+        private void btn_close_Click(object sender, EventArgs e)
+        {
+            IsConfirmed = false;
+            this.Close();
         }
     }
 }
