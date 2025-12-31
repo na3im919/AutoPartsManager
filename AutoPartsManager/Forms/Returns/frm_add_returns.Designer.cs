@@ -43,6 +43,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_invoices)).BeginInit();
             this.panel2.SuspendLayout();
@@ -58,7 +59,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Right;
             this.groupBox1.Location = new System.Drawing.Point(877, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(370, 85);
+            this.groupBox1.Size = new System.Drawing.Size(370, 117);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             // 
@@ -95,14 +96,14 @@
             this.dgv_invoices.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.dgv_invoices.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_invoices.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv_invoices.Location = new System.Drawing.Point(0, 85);
+            this.dgv_invoices.Location = new System.Drawing.Point(0, 117);
             this.dgv_invoices.MultiSelect = false;
             this.dgv_invoices.Name = "dgv_invoices";
             this.dgv_invoices.ReadOnly = true;
             this.dgv_invoices.RowHeadersVisible = false;
             this.dgv_invoices.RowHeadersWidth = 62;
             this.dgv_invoices.RowTemplate.Height = 28;
-            this.dgv_invoices.Size = new System.Drawing.Size(1247, 319);
+            this.dgv_invoices.Size = new System.Drawing.Size(1247, 287);
             this.dgv_invoices.TabIndex = 7;
             // 
             // panel2
@@ -114,7 +115,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1247, 85);
+            this.panel2.Size = new System.Drawing.Size(1247, 117);
             this.panel2.TabIndex = 5;
             // 
             // panel3
@@ -124,13 +125,13 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel3.Location = new System.Drawing.Point(0, 0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(353, 85);
+            this.panel3.Size = new System.Drawing.Size(486, 117);
             this.panel3.TabIndex = 2;
             // 
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(0, 22);
+            this.pictureBox1.Location = new System.Drawing.Point(0, 52);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(49, 41);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -139,10 +140,10 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(56, 25);
+            this.textBox1.Location = new System.Drawing.Point(56, 55);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(294, 38);
+            this.textBox1.Size = new System.Drawing.Size(427, 38);
             this.textBox1.TabIndex = 0;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
@@ -157,8 +158,9 @@
             // 
             // dtp_startDate
             // 
+            this.dtp_startDate.Enabled = false;
             this.dtp_startDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtp_startDate.Location = new System.Drawing.Point(101, 8);
+            this.dtp_startDate.Location = new System.Drawing.Point(100, 41);
             this.dtp_startDate.Name = "dtp_startDate";
             this.dtp_startDate.Size = new System.Drawing.Size(173, 27);
             this.dtp_startDate.TabIndex = 4;
@@ -167,8 +169,9 @@
             // 
             // dtp_endDate
             // 
+            this.dtp_endDate.Enabled = false;
             this.dtp_endDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtp_endDate.Location = new System.Drawing.Point(101, 54);
+            this.dtp_endDate.Location = new System.Drawing.Point(100, 87);
             this.dtp_endDate.Name = "dtp_endDate";
             this.dtp_endDate.Size = new System.Drawing.Size(173, 27);
             this.dtp_endDate.TabIndex = 3;
@@ -177,6 +180,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.checkBox1);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.dtp_startDate);
@@ -184,14 +188,14 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel1.Location = new System.Drawing.Point(586, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(291, 85);
+            this.panel1.Size = new System.Drawing.Size(291, 117);
             this.panel1.TabIndex = 5;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(25, 6);
+            this.label1.Location = new System.Drawing.Point(24, 39);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(39, 24);
             this.label1.TabIndex = 5;
@@ -201,11 +205,24 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(25, 54);
+            this.label2.Location = new System.Drawing.Point(24, 87);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(45, 24);
             this.label2.TabIndex = 6;
             this.label2.Text = "إلى";
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox1.Location = new System.Drawing.Point(138, 8);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.checkBox1.Size = new System.Drawing.Size(135, 28);
+            this.checkBox1.TabIndex = 7;
+            this.checkBox1.Text = "فلترة بتواريخ";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // frm_add_returns
             // 
@@ -217,6 +234,7 @@
             this.Controls.Add(this.panel4);
             this.Name = "frm_add_returns";
             this.Text = "frm_add_returns";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.frm_add_returns_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -246,5 +264,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DateTimePicker dtp_startDate;
         private System.Windows.Forms.DateTimePicker dtp_endDate;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }

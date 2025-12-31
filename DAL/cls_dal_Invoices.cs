@@ -198,11 +198,11 @@ namespace DAL
 
 
         public static List<cls_vm_InvoiceList> GetInvoicesForUI(
-string keyword,
-string invoiceType,   // "بيع" أو "شراء"
-DateTime? dateFrom,
-DateTime? dateTo,
-out string error)
+     string keyword,
+     string invoiceType,   // "بيع" أو "شراء"
+     DateTime? dateFrom,
+     DateTime? dateTo,
+     out string error)
         {
             error = string.Empty;
             List<cls_vm_InvoiceList> list = new List<cls_vm_InvoiceList>();
@@ -252,7 +252,7 @@ GROUP BY d.InvoiceID;
                         }
                     }
 
-                    // الاستعلام الرئيسي مع LEFT JOIN على تفاصيل الفاتورة والمنتجات
+                    // الاستعلام الرئيسي
                     string query = $@"
 SELECT 
     i.ID,
@@ -278,8 +278,11 @@ ORDER BY i.Date DESC;
                         cmd.Parameters.AddWithValue("@InvoiceType", invoiceType);
                         if (dateFrom.HasValue)
                             cmd.Parameters.AddWithValue("@DateFrom", dateFrom.Value.Date);
+
+                        // *** THIS IS THE CRITICAL FIX ***
                         if (dateTo.HasValue)
-                            cmd.Parameters.AddWithValue("@DateTo", dateTo.Value.Date);
+                            // Set the time to the very end of the day (23:59:59.999...)
+                            cmd.Parameters.AddWithValue("@DateTo", dateTo.Value.Date.AddDays(1).AddTicks(-1));
 
                         cmd.Parameters.AddWithValue("@Keyword", string.IsNullOrWhiteSpace(keyword) ? "" : keyword);
 
@@ -315,7 +318,6 @@ ORDER BY i.Date DESC;
 
             return list;
         }
-
 
 
 

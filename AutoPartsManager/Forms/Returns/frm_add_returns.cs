@@ -75,9 +75,36 @@ namespace AutoPartsManager.Forms.Returns
 
         private void ApplyDateFilter()
         {
+            // Pass the dates directly. The DAL will handle the logic.
+            // We use .Value.Date to ensure the time part is 00:00:00 for consistency.
             dateFrom = dtp_startDate.Value.Date;
-            dateTo = dtp_endDate.Value.Date.AddDays(1);
+            dateTo = dtp_endDate.Value.Date; // <-- FIX: Removed .AddDays(1)
 
+            LoadInvoicesToDGV(
+                keyword,
+                invoiceType,
+                dateFrom,
+                dateTo,
+                dgv_invoices
+            );
+        }
+
+        private void RestDateFilter()
+        {
+            if (!checkBox1.Checked)
+            {
+                dateFrom = null;
+                dateTo = null;
+                dtp_startDate.Enabled = false;
+                dtp_endDate.Enabled = false;
+            }
+            else
+            {
+                dateFrom = dtp_startDate.Value.Date;
+                dateTo = dtp_endDate.Value.Date; // <-- FIX: Removed .AddDays(1)
+                dtp_startDate.Enabled = true;
+                dtp_endDate.Enabled = true;
+            }
             LoadInvoicesToDGV(
                 keyword,
                 invoiceType,
@@ -142,6 +169,11 @@ namespace AutoPartsManager.Forms.Returns
         {
             ApplyDateFilter();
 
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            RestDateFilter();
         }
     }
 }
