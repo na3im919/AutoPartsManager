@@ -1,5 +1,4 @@
-﻿using Moldels;
-using Moldels.Returns;
+﻿using Moldels.ML_Returns;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -9,179 +8,43 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class cls_dal_Returns
+    public class cls_dal_returns
     {
         static string connectionString = cls_dal_Connections.connectionString;
 
-
-        public static int AddReturn(
-    cls_ml_Returns model,
-    SqlConnection con,
-    SqlTransaction tran)
+        // دالة لجلب بيانات الفاتورة (النوع والعميل/المورد)
+        public static Tuple<string, string> GetInvoiceInfo(int invoiceId, out string error)
         {
-            string query = @"
-        INSERT INTO Returns
-        (InvoiceID, ReturnType, Status, ClientID, SupplierID, Date, TotalAmount)
-        VALUES
-        (@InvoiceID, @ReturnType, @Status, @ClientID, @SupplierID, @Date, @TotalAmount);
-        SELECT SCOPE_IDENTITY();";
-
-            using (SqlCommand cmd = new SqlCommand(query, con, tran))
-            {
-                cmd.Parameters.AddWithValue("@InvoiceID", model.InvoiceID);
-                cmd.Parameters.AddWithValue("@ReturnType", model.ReturnType);
-                cmd.Parameters.AddWithValue("@Status", model.Status);
-                cmd.Parameters.AddWithValue("@ClientID", (object)model.ClientID ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@SupplierID", (object)model.SupplierID ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@Date", model.Date);
-                cmd.Parameters.AddWithValue("@TotalAmount", model.TotalAmount);
-
-                return Convert.ToInt32(cmd.ExecuteScalar());
-            }
-        }
-
-
-        public static void AddReturnDetail(
-    cls_ml_ReturnDetails model,
-    SqlConnection con,
-    SqlTransaction tran)
-        {
-            string query = @"
-        INSERT INTO ReturnsDetails
-        (ReturnsID, InvoiceDetailID, ProductID, ProductPrice, Quantity, Notes)
-        VALUES
-        (@ReturnsID, @InvoiceDetailID, @ProductID, @ProductPrice, @Quantity, @Notes)";
-
-            using (SqlCommand cmd = new SqlCommand(query, con, tran))
-            {
-                cmd.Parameters.AddWithValue("@ReturnsID", model.ReturnsID);
-                cmd.Parameters.AddWithValue("@InvoiceDetailID", model.InvoiceDetailID);
-                cmd.Parameters.AddWithValue("@ProductID", model.ProductID);
-                cmd.Parameters.AddWithValue("@ProductPrice", model.ProductPrice);
-                cmd.Parameters.AddWithValue("@Quantity", model.Quantity);
-                cmd.Parameters.AddWithValue("@Notes", model.Notes ?? "");
-
-                cmd.ExecuteNonQuery();
-            }
-        }
-
-
-        public static void UpdateProductQuantityForReturn(
-    int productId,
-    int qty,
-    string returnType,
-    SqlConnection con,
-    SqlTransaction tran)
-        {
-            string query = returnType == "بيع"
-                ? "UPDATE Products SET Quantity = Quantity + @Qty WHERE ID = @ID"
-                : "UPDATE Products SET Quantity = Quantity - @Qty WHERE ID = @ID";
-
-            using (SqlCommand cmd = new SqlCommand(query, con, tran))
-            {
-                cmd.Parameters.AddWithValue("@Qty", qty);
-                cmd.Parameters.AddWithValue("@ID", productId);
-                cmd.ExecuteNonQuery();
-            }
-        }
-
-        public static bool AddReturn(
-    cls_ml_Returns header,
-    List<cls_ml_ReturnDetails> details,
-    out string error)
-        {
-            error = "";
-
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                con.Open();
-                SqlTransaction tran = con.BeginTransaction();
-
-                try
-                {
-                    int returnId = AddReturn(header, con, tran);
-
-                    foreach (var item in details)
-                    {
-                        item.ReturnsID = returnId;
-                        AddReturnDetail(item, con, tran);
-
-                        UpdateProductQuantityForReturn(
-                            item.ProductID,
-                            item.Quantity,
-                            header.ReturnType,
-                            con,
-                            tran);
-                    }
-
-                    tran.Commit();
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    tran.Rollback();
-                    error = ex.Message;
-                    return false;
-                }
-            }
-        }
-
-        public static List<cls_ml_ReturnsDisplay> GetAllReturns(out string error)
-        {
-            error = "";
-            List<cls_ml_ReturnsDisplay> list = new List<cls_ml_ReturnsDisplay>();
-
-            string query = @"
-        SELECT 
-            r.ID,
-            r.InvoiceID,
-            r.Date,
-            r.ClientID,
-            c.Name AS ClientName,
-            r.SupplierID,
-            s.Name AS SupplierName,
-            r.Status,
-            r.TotalAmount
-        FROM Returns r
-        LEFT JOIN Clients c ON r.ClientID = c.ID
-        LEFT JOIN Suppliers s ON r.SupplierID = s.ID
-        ORDER BY r.Date DESC";
+            error = string.Empty;
+            string invoiceType = "";
+            string clientSupplierName = "";
 
             try
             {
-                using (SqlConnection con = new SqlConnection(cls_dal_Connections.connectionString))
+                using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    con.Open();
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    conn.Open();
+                    string query = @"
+                    SELECT i.InvoiceType, ISNULL(c.Name, s.Name) AS ClientSupplierName
+                    FROM Invoices i
+                    LEFT JOIN Clients c ON i.ClientID = c.ID
+                    LEFT JOIN Suppliers s ON i.SupplierID = s.ID
+                    WHERE i.ID = @InvoiceID";
+
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
-                        while (dr.Read())
+                        cmd.Parameters.AddWithValue("@InvoiceID", invoiceId);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            list.Add(new cls_ml_ReturnsDisplay
+                            if (reader.Read())
                             {
-                                ID = Convert.ToInt32(dr["ID"]),
-                                InvoiceID = Convert.ToInt32(dr["InvoiceID"]),
-                                Date = Convert.ToDateTime(dr["Date"]),
-
-                                ClientID = dr["ClientID"] != DBNull.Value
-                                    ? Convert.ToInt32(dr["ClientID"])
-                                    : (int?)null,
-
-                                ClientName = dr["ClientName"] != DBNull.Value
-                                    ? dr["ClientName"].ToString()
-                                    : "",
-
-                                SupplierID = dr["SupplierID"] != DBNull.Value
-                                    ? Convert.ToInt32(dr["SupplierID"])
-                                    : (int?)null,
-
-                                SupplierName = dr["SupplierName"] != DBNull.Value
-                                    ? dr["SupplierName"].ToString()
-                                    : "",
-
-                                Status = dr["Status"].ToString(),
-                                TotalAmount = Convert.ToDecimal(dr["TotalAmount"])
-                            });
+                                invoiceType = reader["InvoiceType"].ToString();
+                                clientSupplierName = reader["ClientSupplierName"].ToString();
+                            }
+                            else
+                            {
+                                error = "الفاتورة المحددة غير موجودة.";
+                            }
                         }
                     }
                 }
@@ -191,42 +54,73 @@ namespace DAL
                 error = ex.Message;
             }
 
-            return list;
+            return string.IsNullOrEmpty(error) ? Tuple.Create(invoiceType, clientSupplierName) : null;
         }
 
-
-        public static List<cls_ml_ReturnDetails> GetReturnDetailsByInvoice(int invoiceID, out string error)
+        // دالة لجلب كل المنتجات القابلة للإرجاع من فاتورة معينة
+        public static List<ReturnProductModel> GetInvoiceProductsForReturn(int invoiceId, out string error)
         {
-            error = "";
-            List<cls_ml_ReturnDetails> details = new List<cls_ml_ReturnDetails>();
+            error = string.Empty;
+            var productsList = new List<ReturnProductModel>();
 
             try
             {
-                using (SqlConnection con = new SqlConnection(cls_dal_Connections.connectionString))
+                using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    con.Open();
-                    string query = @"
-                SELECT rd.ID, rd.ReturnsID, rd.InvoiceDetailID, rd.ProductID, rd.ProductPrice, rd.Quantity, rd.Notes
-                FROM ReturnsDetails rd
-                INNER JOIN Returns r ON r.ID = rd.ReturnsID
-                WHERE r.InvoiceID = @InvoiceID";
+                    conn.Open();
 
-                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    // 1. جلب نوع الفاتورة أولاً
+                    string invoiceTypeQuery = "SELECT InvoiceType FROM Invoices WHERE ID = @InvoiceID";
+                    string invoiceType = "";
+                    using (var cmd = new SqlCommand(invoiceTypeQuery, conn))
                     {
-                        cmd.Parameters.AddWithValue("@InvoiceID", invoiceID);
-                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        cmd.Parameters.AddWithValue("@InvoiceID", invoiceId);
+                        invoiceType = cmd.ExecuteScalar()?.ToString() ?? "";
+                    }
+
+                    if (string.IsNullOrEmpty(invoiceType))
+                    {
+                        error = "لم يتم العثور على الفاتورة المحددة.";
+                        return productsList;
+                    }
+
+                    // 2. بناء الاستعلام بناءً على نوع الفاتورة
+                    string detailsTable = invoiceType == "شراء" ? "PurchasesInvoicesDetails" : "InvoicesDetails";
+                    string priceColumn = invoiceType == "شراء" ? "pid.Cost" : "pid.ProductPrice";
+
+                    string query = $@"
+                    SELECT 
+                        p.ID AS ProductID,
+                        p.ProductName,
+                        {priceColumn} AS Price,
+                        pid.Quantity AS InvoiceQuantity,
+                        ISNULL(SUM(rd.Quantity), 0) AS ReturnedQuantity,
+                        pid.ID AS InvoiceDetailID
+                    FROM {detailsTable} pid
+                    INNER JOIN Products p ON p.ID = pid.ProductID
+                    LEFT JOIN Returns r ON r.InvoiceID = pid.InvoiceID
+                    LEFT JOIN ReturnsDetails rd ON rd.ReturnsID = r.ID AND rd.ProductID = p.ID
+                    WHERE pid.InvoiceID = @InvoiceID
+                    GROUP BY p.ID, p.ProductName, {priceColumn}, pid.Quantity, pid.ID
+                    ORDER BY p.ProductName";
+
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@InvoiceID", invoiceId);
+
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            while (dr.Read())
+                            while (reader.Read())
                             {
-                                details.Add(new cls_ml_ReturnDetails
+                                productsList.Add(new ReturnProductModel
                                 {
-                                    ID = Convert.ToInt32(dr["ID"]),
-                                    ReturnsID = Convert.ToInt32(dr["ReturnsID"]),
-                                    InvoiceDetailID = Convert.ToInt32(dr["InvoiceDetailID"]),
-                                    ProductID = Convert.ToInt32(dr["ProductID"]),
-                                    ProductPrice = Convert.ToDecimal(dr["ProductPrice"]),
-                                    Quantity = Convert.ToInt32(dr["Quantity"]),
-                                    Notes = dr["Notes"].ToString()
+                                    ProductID = Convert.ToInt32(reader["ProductID"]),
+                                    ProductName = reader["ProductName"].ToString(),
+                                    Price = Convert.ToDecimal(reader["Price"]),
+                                    InvoiceQuantity = Convert.ToInt32(reader["InvoiceQuantity"]),
+                                    ReturnedQuantity = Convert.ToInt32(reader["ReturnedQuantity"]),
+                                    ReturnQuantity = 0, // قيمة ابتدائية
+                                    IsSelected = false // قيمة ابتدائية
                                 });
                             }
                         }
@@ -236,54 +130,108 @@ namespace DAL
             catch (Exception ex)
             {
                 error = ex.Message;
-                return null;
             }
 
-            return details;
+            return productsList;
         }
 
-        public static List<cls_ml_ReturnDetails>  GetReturnsDeatailBy(int ReturnsID, out string error_message)
+        // الدالة الرئيسية لحفظ المرتجع بالكامل (تستخدم معاملة transaction)
+        public static bool SaveNewReturn(int invoiceId, List<ReturnDetailToSave> returnDetails, out string error)
         {
-            List<cls_ml_ReturnDetails> details = new List<cls_ml_ReturnDetails>();
-            error_message = string.Empty;
+            error = string.Empty;
+            int returnId = 0;
 
-            using(SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                try
+                using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    string query = @"SELECT p.ProductName, p.Price, rs.Quantity, rs.Notes, rs.Total FROM Products AS p INNER JOIN ReturnsDetails AS rs ON rs.ProductID = p.ID WHERE rs.ReturnsID = @ReturnsID";
-                    connection.Open();
-                    using(SqlCommand command = new SqlCommand(query, connection))
+                    conn.Open();
+                    using (SqlTransaction transaction = conn.BeginTransaction())
                     {
-                        command.Parameters.AddWithValue("@ReturnsID", ReturnsID);
-                        using(SqlDataReader reader = command.ExecuteReader())
+                        try
                         {
-                            while(reader.Read())
+                            // 1. إنشاء سجل المرتجع الرئيسي
+                            string returnQuery = @"
+                            INSERT INTO Returns (InvoiceID, Date, TotalAmount, ReturnType, Status, ClientID, SupplierID)
+                            OUTPUT INSERTED.ID
+                            VALUES (@InvoiceID, GETDATE(), 0, @ReturnType, 'COMPLETED', 
+                                    (SELECT ClientID FROM Invoices WHERE ID = @InvoiceID), 
+                                    (SELECT SupplierID FROM Invoices WHERE ID = @InvoiceID))";
+
+                            using (SqlCommand cmd = new SqlCommand(returnQuery, conn, transaction))
                             {
-                                string Notes = reader["Notes"] == DBNull.Value ? "" : reader["Notes"].ToString();
-                                cls_ml_ReturnDetails detail = new cls_ml_ReturnDetails()
-                                {
-                                    ProductName = reader["ProductName"].ToString(),
-                                    ProductPrice = Convert.ToDecimal(reader["Price"]),
-                                    Quantity = Convert.ToInt32(reader["Quantity"]),
-                                    Notes = Notes,
-                                   Total = Convert.ToDecimal(reader["Total"])
-                                };
-                                details.Add(detail);
+                                cmd.Parameters.AddWithValue("@InvoiceID", invoiceId);
+                                cmd.Parameters.AddWithValue("@ReturnType", "SALE"); // يمكنك تمرير النوع كمعامل إذا لزم الأمر
+                                returnId = (int)cmd.ExecuteScalar();
                             }
+
+                            // 2. إضافة تفاصيل المرتجعات وتحديث المخزون
+                            foreach (var detail in returnDetails)
+                            {
+                                // إضافة تفاصيل المنتج المرتجع
+                                string detailQuery = @"
+                                INSERT INTO ReturnsDetails (ReturnsID, ProductID, ProductPrice, Quantity, InvoiceDetailID)
+                                VALUES (@ReturnsID, @ProductID, @ProductPrice, @Quantity, @InvoiceDetailID)";
+
+                                using (SqlCommand cmd = new SqlCommand(detailQuery, conn, transaction))
+                                {
+                                    cmd.Parameters.AddWithValue("@ReturnsID", returnId);
+                                    cmd.Parameters.AddWithValue("@ProductID", detail.ProductID);
+                                    cmd.Parameters.AddWithValue("@ProductPrice", detail.ProductPrice);
+                                    cmd.Parameters.AddWithValue("@Quantity", detail.Quantity);
+                                    cmd.Parameters.AddWithValue("@InvoiceDetailID", detail.InvoiceDetailID);
+                                    cmd.ExecuteNonQuery();
+                                }
+
+                                // تحديث كمية المنتج في المخزون
+                                string updateProductQuery = @"
+                                UPDATE Products 
+                                SET Quantity = Quantity + @Quantity 
+                                WHERE ID = @ProductID";
+
+                                using (SqlCommand cmd = new SqlCommand(updateProductQuery, conn, transaction))
+                                {
+                                    cmd.Parameters.AddWithValue("@Quantity", detail.Quantity);
+                                    cmd.Parameters.AddWithValue("@ProductID", detail.ProductID);
+                                    cmd.ExecuteNonQuery();
+                                }
+                            }
+
+                            // 3. تحديث المبلغ الإجمالي للمرتجع
+                            string updateTotalQuery = @"
+                            UPDATE Returns 
+                            SET TotalAmount = (
+                                SELECT SUM(rd.Quantity * rd.ProductPrice) 
+                                FROM ReturnsDetails rd 
+                                WHERE rd.ReturnsID = @ReturnID
+                            )
+                            WHERE ID = @ReturnID";
+
+                            using (SqlCommand cmd = new SqlCommand(updateTotalQuery, conn, transaction))
+                            {
+                                cmd.Parameters.AddWithValue("@ReturnID", returnId);
+                                cmd.ExecuteNonQuery();
+                            }
+
+                            // 4. تأكيد المعاملة
+                            transaction.Commit();
+                            return true;
+                        }
+                        catch (Exception ex)
+                        {
+                            // 5. التراجع عن المعاملة في حال حدوث أي خطأ
+                            transaction.Rollback();
+                            error = "فشل حفظ المرتجع: " + ex.Message;
+                            return false;
                         }
                     }
-
-                }
-                catch(Exception ex)
-                {
-                    error_message = ex.Message;
                 }
             }
-
-
-            return details;
+            catch (Exception ex)
+            {
+                error = "خطأ في الاتصال بقاعدة البيانات: " + ex.Message;
+                return false;
+            }
         }
-
     }
-} 
+}
