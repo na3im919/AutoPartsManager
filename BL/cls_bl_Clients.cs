@@ -29,5 +29,9 @@ namespace BL
             return cls_dal_Clients.GetClients(keyword, isActive, out error_message);
         }
 
+        public static bool RestoreClient(int clientId, out string error_message)
+        {
+            return cls_dal_Clients.RestoreClient(clientId, out error_message);
+        }
     }
 }

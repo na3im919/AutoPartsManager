@@ -15,9 +15,25 @@ namespace AutoPartsManager.Forms.Client
 {
     public partial class frm_add_update_clients : XtraForm
     {
+        int _clintID = -1;
+        enum frmMode
+        {
+            Add,
+            Update
+        }
+        frmMode currentMode;
         public frm_add_update_clients()
         {
             InitializeComponent();
+            this.Text = "إضافة عميل جديد";
+            currentMode = frmMode.Add;
+        }
+
+        public frm_add_update_clients(int clintID)
+        {
+            _clintID = clintID;
+            this.Text = "تعديل بيانات العميل";
+            currentMode = frmMode.Update;
         }
 
         private void btn_add_update_client_Click(object sender, EventArgs e)

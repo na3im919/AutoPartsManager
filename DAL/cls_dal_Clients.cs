@@ -176,6 +176,34 @@ namespace DAL
 
             return success;
         }
-    } 
+
+        public static bool RestoreClient(int clientId, out string error_message)
+        {
+            error_message = string.Empty;
+            bool isSuccess = false;
+
+            string query = "UPDATE Clients SET isActive = 1 WHERE ID = @ClientID";
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@ClientID", clientId);
+
+                    connection.Open();
+                    int rows = command.ExecuteNonQuery();
+                    isSuccess = rows > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                error_message = ex.Message;
+            }
+
+            return isSuccess;
+        }
+
+    }
 }
 

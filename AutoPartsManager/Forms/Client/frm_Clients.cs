@@ -112,27 +112,57 @@ namespace AutoPartsManager.Forms
 
         private void Dgv_clients_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0) return;
+            // تأكد أن النقر ليس على رأس الأعمدة أو الصفوف
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                return;
 
-            // Edit Column Clicked
+            // تحقق أن الصف موجود بالفعل
+            if (e.RowIndex >= dgv_clients.Rows.Count)
+                return;
+
+            int clientId = Convert.ToInt32(dgv_clients.Rows[e.RowIndex].Cells["ID"].Value);
+
+            // ===== Edit =====
             if (dgv_clients.Columns[e.ColumnIndex].Name == "Edit")
             {
-                int clientId = Convert.ToInt32(dgv_clients.Rows[e.RowIndex].Cells["ID"].Value);
-                // افتح نموذج التعديل هنا مع clientId
-                MessageBox.Show($"تعديل العميل: {clientId}");
+                //frm_edit_client editForm = new frm_edit_client(clientId);
+                //editForm.ShowDialog();
+                LoadClientsGrid();
             }
-
-            // Delete Column Clicked
-            if (dgv_clients.Columns[e.ColumnIndex].Name == "Delete")
+            // ===== Delete =====
+            else if (dgv_clients.Columns[e.ColumnIndex].Name == "Delete")
             {
-                int clientId = Convert.ToInt32(dgv_clients.Rows[e.RowIndex].Cells["ID"].Value);
-                // تنفيذ الحذف هنا بعد تأكيد
-                DialogResult result = MessageBox.Show("هل أنت متأكد من حذف العميل؟", "تأكيد الحذف", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                var result = MessageBox.Show("هل أنت متأكد من حذف هذا العميل؟", "تأكيد", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
-                    string error = string.Empty;
-                    bool deleted = cls_bl_Clients.DeleteClient(clientId, out error);
-                    LoadClientsGrid();
+                    string error;
+                    if (cls_bl_Clients.DeleteClient(clientId, out error))
+                    {
+                        MessageBox.Show("تم حذف العميل بنجاح.", "نجاح", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadClientsGrid();
+                    }
+                    else
+                    {
+                        MessageBox.Show("فشل الحذف: " + error, "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            // ===== Restore =====
+            else if (dgv_clients.Columns[e.ColumnIndex].Name == "Restore")
+            {
+                var result = MessageBox.Show("هل تريد استعادة هذا العميل؟", "تأكيد", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    string error;
+                    if (cls_bl_Clients.RestoreClient(clientId, out error))
+                    {
+                        MessageBox.Show("تم استعادة العميل بنجاح.", "نجاح", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadClientsGrid();
+                    }
+                    else
+                    {
+                        MessageBox.Show("فشل الاستعادة: " + error, "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
         }
