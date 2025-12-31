@@ -151,6 +151,7 @@
             this.accordionControlElement5.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("accordionControlElement5.ImageOptions.Image")));
             this.accordionControlElement5.Name = "accordionControlElement5";
             this.accordionControlElement5.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
+            this.accordionControlElement5.Tag = "frm_Clients";
             this.accordionControlElement5.Text = "إدارة الزبائن";
             // 
             // accordionControlElement6
