@@ -41,10 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="cls_ml_BestSellingProduct.cs" />
     <Compile Include="cls_ml_Clients.cs" />
     <Compile Include="cls_ml_Invoices.cs" />
     <Compile Include="cls_ml_Products.cs" />
     <Compile Include="cls_ml_InvoiceDetail.cs" />
+    <Compile Include="cls_ml_ProfitData.cs" />
     <Compile Include="cls_ml_Suppliers.cs" />
     <Compile Include="cls_vm_InvoiceList.cs" />
     <Compile Include="ML_Returns\ReturnDetailItemModel.cs" />

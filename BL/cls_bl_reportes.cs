@@ -14,5 +14,18 @@ namespace BL
         {
             return cls_dal_reportes.GetSalesReport(startDate, endDate, out error_message);
         }
+
+        public static List<cls_ml_ProfitData> GetProfitReportData(DateTime startDate, DateTime endDate, out string error)
+        {
+            return cls_dal_reportes.GetProfitReportData(startDate, endDate, out error);
+        }
+
+        public static List<cls_ml_BestSellingProduct> GetTop10BestSellingProducts(
+            DateTime startDate,
+            DateTime endDate,
+            out string error)
+        {
+            return cls_dal_reportes.GetTop10BestSellingProducts(startDate, endDate, out error);
+        }
     }
 }
