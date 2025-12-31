@@ -10,13 +10,13 @@ using System.Windows.Forms;
 
 namespace AutoPartsManager.Forms.Returns
 {
-    public partial class frm_return_details : XtraForm
+    public partial class frm_return_history_detail : XtraForm
     {
         private readonly int _invoiceId;
         private string _invoiceType;
         private List<ReturnProductModel> _products;
 
-        public frm_return_details(int invoiceId)
+        public frm_return_history_detail(int invoiceId)
         {
             InitializeComponent();
             _invoiceId = invoiceId;

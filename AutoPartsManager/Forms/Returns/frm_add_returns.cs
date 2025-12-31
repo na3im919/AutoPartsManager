@@ -185,7 +185,7 @@ namespace AutoPartsManager.Forms.Returns
 
                 if (invoiceIdValue != null && int.TryParse(invoiceIdValue.ToString(), out int invoiceId))
                 {
-                    using (var returnDetailsForm = new frm_return_details(invoiceId))
+                    using (var returnDetailsForm = new frm_return_history_detail(invoiceId))
                     {
                         if (returnDetailsForm.ShowDialog() == DialogResult.OK)
                         {

@@ -1,6 +1,6 @@
 ﻿namespace AutoPartsManager.Forms.Returns
 {
-    partial class frm_return_details
+    partial class frm_return_history_detail
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_return_details));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_return_history_detail));
             this.panel1 = new System.Windows.Forms.Panel();
             this.dgv_products = new System.Windows.Forms.DataGridView();
             this.panel2 = new System.Windows.Forms.Panel();
