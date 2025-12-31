@@ -15,5 +15,22 @@ namespace BL
         {
             return DAL.cls_dal_Invoices.AddInvoice(invoice, details, out errorMessage);
         }
+
+
+        public static List<cls_vm_InvoiceList> GetInvoicesForUI(
+    string keyword,
+    string invoiceType,   // "Sale" أو "Purchase"
+    DateTime? dateFrom,
+    DateTime? dateTo,
+    out string error)
+        {
+            return DAL.cls_dal_Invoices.GetInvoicesForUI(
+                keyword,
+                invoiceType,
+                dateFrom,
+                dateTo,
+                out error);
+        }
+
     }
 }

@@ -48,12 +48,25 @@ namespace AutoPartsManager.Forms
 
         protected virtual cls_ml_Invoices PrepareInvoice(int Client_SupplierID, string PaymentMethod, decimal discount)
         {
+            int clientID = -1;
+            int supplierID = -1;
+
+            if(InvoiceType == "بيع")
+            {
+                clientID = Client_SupplierID;
+            }
+            else
+            {
+                supplierID = Client_SupplierID;
+            }
+
             return new cls_ml_Invoices
             {
                 Date = DateTime.Now,
                 TotalAmount = GetCurrentGrandTotal(),
                 DiscountAmount = discount,
-                ClientID = Client_SupplierID,
+                ClientID = clientID,
+                SupplierID = supplierID,
                 InvoiceType = InvoiceType,
                 PaymentMethod = PaymentMethod
             };

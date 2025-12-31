@@ -140,6 +140,18 @@
     <Compile Include="Forms\Reports\frm_reports.Designer.cs">
       <DependentUpon>frm_reports.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Returns\frm_add_returns.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Returns\frm_add_returns.Designer.cs">
+      <DependentUpon>frm_add_returns.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Returns\frm_returns.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Returns\frm_returns.Designer.cs">
+      <DependentUpon>frm_returns.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Sales\frm_add_invoice.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -186,6 +198,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Reports\frm_reports.resx">
       <DependentUpon>frm_reports.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Returns\frm_add_returns.resx">
+      <DependentUpon>frm_add_returns.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Returns\frm_returns.resx">
+      <DependentUpon>frm_returns.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Sales\frm_add_invoice.resx">
       <DependentUpon>frm_add_invoice.cs</DependentUpon>

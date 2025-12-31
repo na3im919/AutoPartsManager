@@ -135,6 +135,7 @@
             this.accordionControlElement4.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("accordionControlElement4.ImageOptions.Image")));
             this.accordionControlElement4.Name = "accordionControlElement4";
             this.accordionControlElement4.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
+            this.accordionControlElement4.Tag = "frm_returns";
             this.accordionControlElement4.Text = "المرتجعات";
             // 
             // accordionControlElement5

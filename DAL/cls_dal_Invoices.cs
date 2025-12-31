@@ -197,6 +197,129 @@ namespace DAL
         }
 
 
+        public static List<cls_vm_InvoiceList> GetInvoicesForUI(
+    string keyword,
+    string invoiceType,   // "بيع" أو "شراء"
+    DateTime? dateFrom,
+    DateTime? dateTo,
+    out string error)
+        {
+            error = string.Empty;
+            List<cls_vm_InvoiceList> list = new List<cls_vm_InvoiceList>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(cls_dal_Connections.connectionString))
+                {
+                    conn.Open();
+
+                    // جدول التفاصيل حسب نوع الفاتورة
+                    string detailsTable = invoiceType == "شراء" ? "PurchasesInvoicesDetails" : "InvoicesDetails";
+
+                    // الانضمام للعميل أو المورد
+                    string clientSupplierJoin = invoiceType == "شراء"
+                        ? "LEFT JOIN Suppliers s ON s.ID = i.SupplierID"
+                        : "INNER JOIN Clients c ON c.ID = i.ClientID";
+
+                    string clientSupplierName = invoiceType == "شراء" ? "s.Name" : "c.Name";
+
+                    // أول 3 منتجات لكل فاتورة
+                    var productsDict = new Dictionary<int, string>();
+                    string productQuery = $@"
+SELECT 
+    d.InvoiceID,
+    STUFF((
+        SELECT TOP 3 ', ' + p.ProductName
+        FROM {detailsTable} d2
+        LEFT JOIN Products p ON p.ID = d2.ProductID
+        WHERE d2.InvoiceID = d.InvoiceID
+        ORDER BY d2.ID
+        FOR XML PATH(''), TYPE
+    ).value('.', 'NVARCHAR(MAX)'), 1, 2, '') AS Products
+FROM {detailsTable} d
+GROUP BY d.InvoiceID;
+";
+
+                    using (SqlCommand cmdProd = new SqlCommand(productQuery, conn))
+                    using (SqlDataReader readerProd = cmdProd.ExecuteReader())
+                    {
+                        while (readerProd.Read())
+                        {
+                            productsDict.Add(
+                                Convert.ToInt32(readerProd["InvoiceID"]),
+                                readerProd["Products"].ToString()
+                            );
+                        }
+                    }
+
+                    // الاستعلام الرئيسي مع LEFT JOIN على تفاصيل الفاتورة والمنتجات
+                    string query = $@"
+SELECT 
+    i.ID,
+    {clientSupplierName} AS ClientSupplier,
+    i.Date,
+    i.TotalAmount,
+    i.DiscountAmount,
+    i.PaymentMethode
+FROM Invoices i
+{clientSupplierJoin}
+LEFT JOIN {detailsTable} d ON d.InvoiceID = i.ID
+LEFT JOIN Products p ON p.ID = d.ProductID
+WHERE i.InvoiceType = @InvoiceType
+  {(dateFrom.HasValue ? "AND i.Date >= @DateFrom" : "")}
+  {(dateTo.HasValue ? "AND i.Date <= @DateTo" : "")}
+  AND (@Keyword = '' OR p.ProductName LIKE '%' + @Keyword + '%')
+GROUP BY i.ID, {clientSupplierName}, i.Date, i.TotalAmount, i.DiscountAmount, i.PaymentMethode
+ORDER BY i.Date DESC;
+";
+
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@InvoiceType", invoiceType);
+                        if (dateFrom.HasValue)
+                            cmd.Parameters.AddWithValue("@DateFrom", dateFrom.Value.Date);
+                        if (dateTo.HasValue)
+                            cmd.Parameters.AddWithValue("@DateTo", dateTo.Value.Date);
+
+                        cmd.Parameters.AddWithValue("@Keyword", string.IsNullOrWhiteSpace(keyword) ? "" : keyword);
+
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                int invoiceId = Convert.ToInt32(reader["ID"]);
+
+                                list.Add(new cls_vm_InvoiceList
+                                {
+                                    InvoiceID = invoiceId,
+                                    ClientOrSupplier = reader["ClientSupplier"] != DBNull.Value
+                                        ? reader["ClientSupplier"].ToString()
+                                        : string.Empty,
+                                    Date = reader["Date"] != DBNull.Value
+                                        ? (DateTime?)Convert.ToDateTime(reader["Date"])
+                                        : null,
+                                    TotalAmount = Convert.ToDecimal(reader["TotalAmount"]),
+                                    DiscountAmount = Convert.ToDecimal(reader["DiscountAmount"]),
+                                    NetAmount = Convert.ToDecimal(reader["TotalAmount"]) - Convert.ToDecimal(reader["DiscountAmount"]),
+                                    Products = productsDict.ContainsKey(invoiceId) ? productsDict[invoiceId] : string.Empty
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                error = ex.Message;
+            }
+
+            return list;
+        }
+
+
+
+
+
 
 
 
