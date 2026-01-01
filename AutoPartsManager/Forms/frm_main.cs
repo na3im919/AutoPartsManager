@@ -1,5 +1,6 @@
 ﻿using AutoPartsManager.Forms;
 using AutoPartsManager.Forms.Inventory;
+using BL;
 using DevExpress.XtraBars;
 using DevExpress.XtraEditors;
 using System;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -18,6 +20,8 @@ namespace AutoPartsManager
     public partial class frm_main : DevExpress.XtraBars.FluentDesignSystem.FluentDesignForm
     {
         private Timer lowQuantityTimer;
+        private Timer backupTimer;
+
 
         public frm_main()
         {
@@ -109,13 +113,46 @@ namespace AutoPartsManager
             }
         }
 
+        private void StartAutoBackup()
+        {
+            backupTimer = new Timer();
+            backupTimer.Interval = 15 * 60 * 1000; // 15 دقيقة
+            backupTimer.Tick += BackupTimer_Tick;
+            backupTimer.Start();
+        }
+
+        private void BackupTimer_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                string backupFolder = @"C:\AutoPartsManager\Backups";
+
+                if (!Directory.Exists(backupFolder))
+                    Directory.CreateDirectory(backupFolder);
+
+                string backupPath = Path.Combine(
+                    backupFolder,
+                    $"AutoPartsManager_AutoBackup_{DateTime.Now:yyyyMMdd_HHmmss}.bak"
+                );
+
+                string error;
+                cls_bl_DB.BackupDatabase(backupPath, out error);
+                // ❌ لا نعرض MessageBox حتى لا نزعج المستخدم
+            }
+            catch
+            {
+                // يمكن لاحقًا تسجيل الخطأ في ملف log
+            }
+        }
+
+
         private void frm_main_Load(object sender, EventArgs e)
         {
             lowQuantityTimer = new Timer();
             lowQuantityTimer.Interval = 2 * 60 * 60 * 1000; // ساعتان
             lowQuantityTimer.Tick += LowQuantityTimer_Tick;
             lowQuantityTimer.Start();
-
+            StartAutoBackup();
             LowQuantitiesChecker.NotifyOfLowQuantities();
             OpenFormsFrom("frm_sales");
         }
