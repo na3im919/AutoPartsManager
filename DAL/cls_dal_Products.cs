@@ -480,7 +480,7 @@ namespace DAL
                                     ID = reader.GetInt32(reader.GetOrdinal("ID")),
                                     ProductName = reader.GetString(reader.GetOrdinal("ProductName")),
                                     Reference = reader.GetString(reader.GetOrdinal("Reference")),
-                                    ProductBrand = reader.GetString(reader.GetOrdinal("ProductBrand")),
+                                    ProductBrand = reader.IsDBNull(reader.GetOrdinal("ProductBrand")) ? "" : reader.GetString(reader.GetOrdinal("ProductBrand")),
                                     Quantity = reader.GetInt32(reader.GetOrdinal("Quantity")),
                                     min_quantity = reader.GetInt32(reader.GetOrdinal("MinimumQuantity"))
                                 };

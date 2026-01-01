@@ -194,6 +194,7 @@
             this.accordionControlElement8.Name = "accordionControlElement8";
             this.accordionControlElement8.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
             this.accordionControlElement8.Text = "الإعدادات";
+            this.accordionControlElement8.Click += new System.EventHandler(this.accordionControlElement8_Click);
             // 
             // accordionControlElement9
             // 

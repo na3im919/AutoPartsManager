@@ -30,23 +30,23 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_add_update_suppliers));
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btn_close = new DevExpress.XtraEditors.SimpleButton();
-            this.btn_add_update_supplier = new DevExpress.XtraEditors.SimpleButton();
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
+            this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
             this.txt_supplier_name = new DevExpress.XtraEditors.TextEdit();
             this.txt_phone = new DevExpress.XtraEditors.TextEdit();
             this.txt_address = new DevExpress.XtraEditors.TextEdit();
-            this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.btn_close = new DevExpress.XtraEditors.SimpleButton();
+            this.btn_add_update_supplier = new DevExpress.XtraEditors.SimpleButton();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Root)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_supplier_name.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_phone.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_address.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Root)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
@@ -62,28 +62,6 @@
             this.panel1.Size = new System.Drawing.Size(800, 113);
             this.panel1.TabIndex = 2;
             // 
-            // btn_close
-            // 
-            this.btn_close.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_close.ImageOptions.Image")));
-            this.btn_close.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.btn_close.Location = new System.Drawing.Point(190, 18);
-            this.btn_close.Name = "btn_close";
-            this.btn_close.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
-            this.btn_close.Size = new System.Drawing.Size(133, 67);
-            this.btn_close.TabIndex = 1;
-            this.btn_close.Click += new System.EventHandler(this.btn_close_Click);
-            // 
-            // btn_add_update_supplier
-            // 
-            this.btn_add_update_supplier.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_add_update_supplier.ImageOptions.Image")));
-            this.btn_add_update_supplier.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.btn_add_update_supplier.Location = new System.Drawing.Point(37, 18);
-            this.btn_add_update_supplier.Name = "btn_add_update_supplier";
-            this.btn_add_update_supplier.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
-            this.btn_add_update_supplier.Size = new System.Drawing.Size(133, 67);
-            this.btn_add_update_supplier.TabIndex = 0;
-            this.btn_add_update_supplier.Click += new System.EventHandler(this.btn_add_update_supplier_Click);
-            // 
             // layoutControl1
             // 
             this.layoutControl1.Controls.Add(this.txt_supplier_name);
@@ -98,6 +76,18 @@
             this.layoutControl1.Size = new System.Drawing.Size(800, 173);
             this.layoutControl1.TabIndex = 3;
             this.layoutControl1.Text = "layoutControl1";
+            // 
+            // Root
+            // 
+            this.Root.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
+            this.Root.GroupBordersVisible = false;
+            this.Root.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
+            this.layoutControlItem1,
+            this.layoutControlItem2,
+            this.layoutControlItem3});
+            this.Root.Name = "Root";
+            this.Root.Size = new System.Drawing.Size(800, 173);
+            this.Root.TextVisible = false;
             // 
             // txt_supplier_name
             // 
@@ -128,18 +118,6 @@
             this.txt_address.Size = new System.Drawing.Size(637, 36);
             this.txt_address.StyleController = this.layoutControl1;
             this.txt_address.TabIndex = 6;
-            // 
-            // Root
-            // 
-            this.Root.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
-            this.Root.GroupBordersVisible = false;
-            this.Root.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
-            this.layoutControlItem1,
-            this.layoutControlItem2,
-            this.layoutControlItem3});
-            this.Root.Name = "Root";
-            this.Root.Size = new System.Drawing.Size(800, 173);
-            this.Root.TextVisible = false;
             // 
             // layoutControlItem1
             // 
@@ -180,6 +158,28 @@
             this.layoutControlItem3.Text = "العنوان";
             this.layoutControlItem3.TextSize = new System.Drawing.Size(127, 29);
             // 
+            // btn_close
+            // 
+            this.btn_close.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_close.ImageOptions.Image")));
+            this.btn_close.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
+            this.btn_close.Location = new System.Drawing.Point(190, 18);
+            this.btn_close.Name = "btn_close";
+            this.btn_close.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
+            this.btn_close.Size = new System.Drawing.Size(133, 67);
+            this.btn_close.TabIndex = 1;
+            this.btn_close.Click += new System.EventHandler(this.btn_close_Click);
+            // 
+            // btn_add_update_supplier
+            // 
+            this.btn_add_update_supplier.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btn_add_update_supplier.ImageOptions.Image")));
+            this.btn_add_update_supplier.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
+            this.btn_add_update_supplier.Location = new System.Drawing.Point(37, 18);
+            this.btn_add_update_supplier.Name = "btn_add_update_supplier";
+            this.btn_add_update_supplier.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
+            this.btn_add_update_supplier.Size = new System.Drawing.Size(133, 67);
+            this.btn_add_update_supplier.TabIndex = 0;
+            this.btn_add_update_supplier.Click += new System.EventHandler(this.btn_add_update_supplier_Click);
+            // 
             // frm_add_update_suppliers
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
@@ -193,10 +193,10 @@
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.Root)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_supplier_name.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_phone.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_address.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Root)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();

@@ -1,4 +1,5 @@
-﻿using AutoPartsManager.Forms.Inventory;
+﻿using AutoPartsManager.Forms;
+using AutoPartsManager.Forms.Inventory;
 using DevExpress.XtraBars;
 using DevExpress.XtraEditors;
 using System;
@@ -132,7 +133,10 @@ namespace AutoPartsManager
                 : null;
         }
 
-
-
+        private void accordionControlElement8_Click(object sender, EventArgs e)
+        {
+            frm_DBManagement frm_DBManagement = new frm_DBManagement();
+            frm_DBManagement.ShowDialog();
+        }
     }
 }
