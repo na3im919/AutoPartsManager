@@ -230,6 +230,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\HardwareLicense.cs" />
     <EmbeddedResource Include="Forms\Client\frm_add_update_clients.resx">
       <DependentUpon>frm_add_update_clients.cs</DependentUpon>
     </EmbeddedResource>
@@ -379,5 +380,6 @@
   <ItemGroup>
     <None Include="Resources\file.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -48,6 +48,7 @@
     <Compile Include="cls_bl_recomendations.cs" />
     <Compile Include="cls_bl_reportes.cs" />
     <Compile Include="cls_bl_Returns.cs" />
+    <Compile Include="cls_bl_security.cs" />
     <Compile Include="cls_bl_Suppliers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
