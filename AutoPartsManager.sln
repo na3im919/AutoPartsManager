@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BL", "BL\BL.csproj", "{F72A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Moldels\Model.csproj", "{221B03C0-1A0D-4268-936A-4AEA20CB3892}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "AutoPartsManager.Setup", "AutoPartsManager.Setup\AutoPartsManager.Setup.vdproj", "{1F1BD716-291C-2CF4-81D2-71E613FA3DA9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,8 @@ Global
 		{221B03C0-1A0D-4268-936A-4AEA20CB3892}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{221B03C0-1A0D-4268-936A-4AEA20CB3892}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{221B03C0-1A0D-4268-936A-4AEA20CB3892}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F1BD716-291C-2CF4-81D2-71E613FA3DA9}.Debug|Any CPU.ActiveCfg = Debug
+		{1F1BD716-291C-2CF4-81D2-71E613FA3DA9}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

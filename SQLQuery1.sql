@@ -1,0 +1,5 @@
+﻿CREATE TABLE AppLicense
+(
+    ID INT IDENTITY PRIMARY KEY,
+    HardwareHash NVARCHAR(64) NOT NULL
+)

@@ -50,6 +50,7 @@
     <Compile Include="cls_bl_Returns.cs" />
     <Compile Include="cls_bl_security.cs" />
     <Compile Include="cls_bl_Suppliers.cs" />
+    <Compile Include="cls_bl_Initialize.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

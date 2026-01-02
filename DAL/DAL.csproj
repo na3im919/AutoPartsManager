@@ -51,6 +51,7 @@
     <Compile Include="cls_dal_Returns.cs" />
     <Compile Include="cls_dal_security.cs" />
     <Compile Include="cls_dal_Suppliers.cs" />
+    <Compile Include="DatabaseManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
