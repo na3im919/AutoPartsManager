@@ -6,6 +6,7 @@ using Moldels;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -215,6 +216,10 @@ namespace AutoPartsManager.Forms
 
             lbl_total.Text = grandTotal.ToString("N2") + " DZD";
             lbl_discount.Text = totalDiscount.ToString("N2") + " DZD";
+
+            CultureInfo usCulture = new CultureInfo("en-US");
+            lbl_discount.Text = totalDiscount.ToString("C", usCulture);
+            lbl_total.Text = grandTotal.ToString("C", usCulture);
         }
 
         private void CancelDiscount()
@@ -320,17 +325,28 @@ namespace AutoPartsManager.Forms
         {
             if (dgv_invoice_list.Rows.Count <= 0) return;
 
-            frm_add_invoice invoiceForm = new frm_add_invoice(GetCurrentGrandTotal(), decimal.Parse(lbl_discount.Text.Split(' ')[0]), InvoiceType);
+            CultureInfo usCulture = new CultureInfo("en-US");
+
+            decimal discountValue;
+
+            decimal.TryParse(
+                lbl_discount.Text,
+                NumberStyles.Currency,
+                usCulture,
+                out discountValue
+            );
+
+            frm_add_invoice invoiceForm = new frm_add_invoice(GetCurrentGrandTotal(), discountValue, InvoiceType);
             invoiceForm.ShowDialog();
             if (!invoiceForm.IsApproved) return;
             cls_ml_Invoices invoice = new cls_ml_Invoices();
             if (InvoiceType == "بيع" )
             {
-                invoice = PrepareInvoice(invoiceForm.ClientID, invoiceForm.PaymentMethod, decimal.Parse(lbl_discount.Text.Split(' ')[0]));
+                invoice = PrepareInvoice(invoiceForm.ClientID, invoiceForm.PaymentMethod, discountValue);
             }
             else
             {
-               invoice = PrepareInvoice(invoiceForm.SupplierID, invoiceForm.PaymentMethod, decimal.Parse(lbl_discount.Text.Split(' ')[0]));
+               invoice = PrepareInvoice(invoiceForm.SupplierID, invoiceForm.PaymentMethod, discountValue);
 
             }
                 List<cls_ml_InvoiceDetail> details = PrepareInvoicesDetails();
