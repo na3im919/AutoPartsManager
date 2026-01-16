@@ -28,7 +28,6 @@ namespace AutoPartsManager.Forms.Purchases
            btn_discount.Click -= btn_discount_Click;
             btn_discount.Click += BtnDiscountForSuppliers_Click;
             SetupDgvContextMenu();
-            ConfigureFormForType();
 
         }
 
@@ -59,7 +58,17 @@ namespace AutoPartsManager.Forms.Purchases
 
             if(dgv_invoice_list.Columns.Contains("ProductBrand"))
                 dgv_invoice_list.Columns["ProductBrand"].Visible = true;
+
         }
+
+        protected override void SetupDataGridView()
+        {
+            base.SetupDataGridView();
+
+            if (dgv_invoice_list.Columns.Contains("Discount"))
+                dgv_invoice_list.Columns["Discount"].Visible = false;
+        }
+
 
         protected override void AddSelectedProductToInvoice()
         {
@@ -88,7 +97,7 @@ namespace AutoPartsManager.Forms.Purchases
             }
 
             // إضافة المنتج جديد في القائمة
-            dgv_invoice_list.Rows.Add(productId, productReference, productName, productBrand, 1, cost, cost);
+            dgv_invoice_list.Rows.Add(productId, productReference, productName, productBrand, 1, "", cost, cost);
             txtSearch.Clear();
             dgv_suggest.Visible = false;
             ApplyDiscountAndCalculateTotal();
@@ -223,6 +232,9 @@ namespace AutoPartsManager.Forms.Purchases
         }
         private void frm_purchases_Load(object sender, EventArgs e)
         {
+            ConfigureFormForType();
+            SetupDataGridView();
+
         }
 
     }

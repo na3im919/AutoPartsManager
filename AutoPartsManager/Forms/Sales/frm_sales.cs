@@ -149,7 +149,8 @@ namespace AutoPartsManager.Forms
             dgv_suggest.Visible = false;
         }
 
-        private void SetupDataGridView()
+        protected virtual void SetupDataGridView()
+
         {
             dgv_invoice_list.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dgv_invoice_list.RowHeadersVisible = false;
@@ -219,7 +220,7 @@ namespace AutoPartsManager.Forms
                 int qty = Convert.ToInt32(row.Cells["Quantity"].Value);
                 decimal discount = Convert.ToDecimal(row.Cells["Discount"].Value ?? 0);
 
-                lineTotal = (unitPrice * qty) - discount;
+                lineTotal = (unitPrice * qty);
                 total += lineTotal;
             }
             return total;
@@ -257,7 +258,11 @@ namespace AutoPartsManager.Forms
                 if (Convert.ToInt32(invoiceRow.Cells["ID"].Value) == productId)
                 {
                     int currentQty = Convert.ToInt32(invoiceRow.Cells["Quantity"].Value);
-                    if (currentQty >= availableQty) { MessageBox.Show($"وصلت إلى الحد الأقصى: {availableQty}"); return; }
+                    if (currentQty >= availableQty) 
+                    {   
+                        MessageBox.Show($"وصلت إلى الحد الأقصى: {availableQty}"); 
+                        return; 
+                    }
                     invoiceRow.Cells["Quantity"].Value = currentQty + 1;
                     invoiceRow.Cells["Total"].Value = (currentQty + 1) * price;
                     ApplyDiscountAndCalculateTotal();
@@ -269,7 +274,7 @@ namespace AutoPartsManager.Forms
 
             if (availableQty <= 0) { MessageBox.Show("لا توجد كمية متاحة!"); return; }
 
-            dgv_invoice_list.Rows.Add(productId, "",  productName, "", 1, price, price);
+            dgv_invoice_list.Rows.Add(productId, "",  productName, "", 1, "", price, price);
             txtSearch.Clear();
             dgv_suggest.Visible = false;
             ApplyDiscountAndCalculateTotal();
@@ -643,7 +648,7 @@ namespace AutoPartsManager.Forms
         {
             txtSearch.Focus();
             ApplyDiscountAndCalculateTotal();
-            lbl_discount.Text = lbl_discount.Text + " DZD";
+            lbl_discount.Text = lbl_discount.Text;
             ConfigureFormForType();
   
 
