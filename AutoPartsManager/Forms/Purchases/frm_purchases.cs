@@ -105,44 +105,92 @@ namespace AutoPartsManager.Forms.Purchases
 
         private void ImportProductsFromExcel(string filePath)
         {
-            using (var workbook = new XLWorkbook(filePath))
+            try
             {
-                var ws = workbook.Worksheet(1);
-                var rows = ws.RowsUsed().Skip(1);
-
-                dgv_invoice_list.Rows.Clear();
-
-                foreach (var row in rows)
+                // محاولة فتح الملف
+                using (var workbook = new XLWorkbook(filePath))
                 {
-                    string reference = row.Cell(1).GetValue<string>().Trim();
-                    string name = row.Cell(2).GetValue<string>();
-                    string brand = row.Cell(3).GetValue<string>();
-                    int quantity = row.Cell(4).GetValue<int>();
-                    decimal price = row.Cell(5).GetValue<decimal>();
-                    decimal total = quantity * price;
+                    var ws = workbook.Worksheet(1);
+                    var rows = ws.RowsUsed().Skip(1);
 
-                    int productId = cls_bl_Products.GetProductIdByReference(reference);
+                    // تحقق من الأعمدة أولًا
+                    var headerRow = ws.Row(1);
+                    if (headerRow.Cell(1).GetString().Trim() != "Reference" ||
+                        headerRow.Cell(2).GetString().Trim() != "Name" ||
+                        headerRow.Cell(3).GetString().Trim() != "Brand" ||
+                        headerRow.Cell(4).GetString().Trim() != "Quantity" ||
+                        headerRow.Cell(5).GetString().Trim() != "Price")
+                    {
+                        MessageBox.Show(
+                            "عذرًا، الأعمدة في ملف Excel لا تتطابق مع الترتيب المتوقع.\n" +
+                            "تأكد من أن الأعمدة هي: Reference, Name, Brand, Quantity, Price",
+                            "خطأ في الأعمدة",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning
+                        );
+                        return; // الخروج بدون محاولة استيراد
+                    }
 
-                    int rowIndex = dgv_invoice_list.Rows.Add();
+                    dgv_invoice_list.Rows.Clear();
 
-                    var dgvRow = dgv_invoice_list.Rows[rowIndex];
+                    foreach (var row in rows)
+                    {
+                        try
+                        {
+                            string reference = row.Cell(1).GetValue<string>().Trim();
+                            string name = row.Cell(2).GetValue<string>();
+                            string brand = row.Cell(3).GetValue<string>();
+                            int quantity = row.Cell(4).GetValue<int>();
+                            decimal price = row.Cell(5).GetValue<decimal>();
+                            decimal total = quantity * price;
 
-                    dgvRow.Cells["ID"].Value = productId == -1 ? -1 : productId;
-                    dgvRow.Cells["Reference"].Value = reference;
-                    dgvRow.Cells["ProductName"].Value = name;
-                    dgvRow.Cells["ProductBrand"].Value = brand;
-                    dgvRow.Cells["Quantity"].Value = quantity;
-                    dgvRow.Cells["Price"].Value = price;
-                    dgvRow.Cells["Total"].Value = total;
+                            int productId = cls_bl_Products.GetProductIdByReference(reference);
 
-                    dgvRow.Cells["IsNew"].Value = productId == -1;
+                            int rowIndex = dgv_invoice_list.Rows.Add();
+                            var dgvRow = dgv_invoice_list.Rows[rowIndex];
+                            dgvRow.Cells["ID"].Value = productId == -1 ? -1 : productId;
+                            dgvRow.Cells["Reference"].Value = reference;
+                            dgvRow.Cells["ProductName"].Value = name;
+                            dgvRow.Cells["ProductBrand"].Value = brand;
+                            dgvRow.Cells["Quantity"].Value = quantity;
+                            dgvRow.Cells["Price"].Value = price;
+                            dgvRow.Cells["Total"].Value = total;
 
-                    // تمييز بصري (اختياري)
-                    if (productId == -1)
-                        dgvRow.DefaultCellStyle.BackColor = Color.LightYellow;
+                            dgvRow.Cells["IsNew"].Value = productId == -1;
+
+                            // تمييز بصري (اختياري)
+                            if (productId == -1)
+                                dgvRow.DefaultCellStyle.BackColor = Color.LightYellow;
+                        }
+                        catch (Exception exRow)
+                        {
+                            MessageBox.Show($"خطأ في سطر البيانات: {row.RowNumber()}\n{exRow.Message}",
+                                            "خطأ في البيانات",
+                                            MessageBoxButtons.OK,
+                                            MessageBoxIcon.Warning);
+                        }
+                    }
+
+                    ApplyDiscountAndCalculateTotal();
                 }
-
-                ApplyDiscountAndCalculateTotal();
+            }
+            catch (IOException)
+            {
+                MessageBox.Show(
+                    "لا يمكن فتح ملف Excel، قد يكون الملف مفتوحًا بالفعل. أغلق الملف وحاول مرة أخرى.",
+                    "ملف مفتوح",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "حدث خطأ أثناء استيراد ملف Excel:\n" + ex.Message,
+                    "خطأ",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
 
@@ -237,5 +285,6 @@ namespace AutoPartsManager.Forms.Purchases
 
         }
 
+      
     }
 }
