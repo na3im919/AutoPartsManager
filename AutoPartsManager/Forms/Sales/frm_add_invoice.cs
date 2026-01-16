@@ -175,7 +175,7 @@ namespace AutoPartsManager.Forms.Sales
         private void frm_add_invoice_KeyDown(object sender, KeyEventArgs e)
         {
             // ==== Add Invoice Enter ==== //
-            if(e.KeyCode == Keys.Enter)
+            if (e.KeyCode == Keys.Enter)
             {
                 btn_add_invoice_Click(null, null);
                 e.Handled = true;
@@ -188,7 +188,7 @@ namespace AutoPartsManager.Forms.Sales
             {
                 btn_cancel_Click(null, null);
                 e.Handled = true;
-                e.SuppressKeyPress= true;
+                e.SuppressKeyPress = true;
                 return;
 
             }

@@ -75,29 +75,45 @@ namespace AutoPartsManager.Forms
         private List<cls_ml_InvoiceDetail> PrepareInvoicesDetails()
         {
             List<cls_ml_InvoiceDetail> list = new List<cls_ml_InvoiceDetail>();
+            NewProductsNumber = 0;
 
             foreach (DataGridViewRow row in dgv_invoice_list.Rows)
             {
                 if (row.IsNewRow) continue;
 
-                decimal unitPrice = Convert.ToDecimal(row.Cells["Price"].Value);
-                decimal cost = Convert.ToDecimal(row.Cells["Cost"].Value);
-                int quantity = Convert.ToInt32(row.Cells["Quantity"].Value);
+                // Price
+                decimal unitPrice = 0;
+                if (row.Cells["Price"].Value != null)
+                    decimal.TryParse(row.Cells["Price"].Value.ToString(), out unitPrice);
 
-                // قراءة الخصم لكل سطر
+                // Cost
+                decimal cost = 0;
+                if (row.Cells["Cost"].Value != null)
+                    decimal.TryParse(row.Cells["Cost"].Value.ToString(), out cost);
+
+                // Quantity
+                int quantity = 0;
+                if (row.Cells["Quantity"].Value != null)
+                    int.TryParse(row.Cells["Quantity"].Value.ToString(), out quantity);
+
+                // Discount
                 decimal discountAmount = 0;
                 if (row.Cells["Discount"].Value != null)
                     decimal.TryParse(row.Cells["Discount"].Value.ToString(), out discountAmount);
 
-                bool isNew = Convert.ToBoolean(row.Cells["IsNew"].Value);
+                // IsNew
+                bool isNew = false;
+                if (row.Cells["IsNew"].Value != null)
+                    bool.TryParse(row.Cells["IsNew"].Value.ToString(), out isNew);
+
                 if (isNew) NewProductsNumber++;
 
                 list.Add(new cls_ml_InvoiceDetail
                 {
                     ProductID = Convert.ToInt32(row.Cells["ID"].Value),
-                    ProductName = row.Cells["ProductName"].Value.ToString(),
+                    ProductName = row.Cells["ProductName"].Value?.ToString(),
                     Reference = row.Cells["Reference"].Value?.ToString(),
-                    ProductBrand = row.Cells["ProductBrand"].Value.ToString(),
+                    ProductBrand = row.Cells["ProductBrand"].Value?.ToString(),
                     Quantity = quantity,
                     UnitPrice = unitPrice,
                     Cost = cost,
