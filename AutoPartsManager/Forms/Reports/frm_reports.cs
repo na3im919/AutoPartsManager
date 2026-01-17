@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,8 @@ namespace AutoPartsManager.Forms.frm_reports
         string report_type = "";
         DateTime startDate = DateTime.Now;
         DateTime endDate = DateTime.Now;
+        CultureInfo usCulture = new CultureInfo("en-US");
+
         public frm_reports()
         {
             InitializeComponent();
@@ -121,8 +124,8 @@ namespace AutoPartsManager.Forms.frm_reports
             lbl_main_title.Text = "إجمالي المبيعات";
             lbl_sub_title.Text = "الصافي الإجمالي";
 
-            lbl_main_content.Text = total.ToString("N2") + " دج";
-            lbl_sub_content.Text = Net.ToString("N2") + " دج";
+            lbl_main_content.Text = total.ToString("C", usCulture);
+            lbl_sub_content.Text = Net.ToString("C", usCulture);
 
         }
 
@@ -230,8 +233,8 @@ namespace AutoPartsManager.Forms.frm_reports
             // ===== Top Labels =====
             lbl_main_title.Text = "إجمالي الإيرادات";
             lbl_sub_title.Text = "إجمالي الفائدة";
-            lbl_main_content.Text = totalRevenue.ToString("N2") + " دج";
-            lbl_sub_content.Text = totalProfit.ToString("N2") + " دج";
+            lbl_main_content.Text = totalRevenue.ToString("C", usCulture);
+            lbl_sub_content.Text = totalProfit.ToString("C", usCulture);
         }
 
         private void LoadTop10BestSellingProducts(DateTime startDate, DateTime endDate)

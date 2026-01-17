@@ -193,6 +193,26 @@ namespace AutoPartsManager.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap purchaser {
+            get {
+                object obj = ResourceManager.GetObject("purchaser", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap purchaser__1_ {
+            get {
+                object obj = ResourceManager.GetObject("purchaser__1_", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap purchasing__1_ {
             get {
                 object obj = ResourceManager.GetObject("purchasing__1_", resourceCulture);

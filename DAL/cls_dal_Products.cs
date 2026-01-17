@@ -241,6 +241,39 @@ namespace DAL
             }
         }
 
+        public static bool IncreaseProductQuantity(int productId, int addedQuantity, out string errorMessage)
+        {
+            errorMessage = string.Empty;
+            int rowsAffected = 0;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    string query = @"UPDATE Products
+                             SET Quantity = Quantity + @AddedQuantity
+                             WHERE ID = @ID";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@ID", productId);
+                        command.Parameters.AddWithValue("@AddedQuantity", addedQuantity);
+
+                        rowsAffected = command.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    errorMessage = ex.Message;
+                }
+            }
+
+            return rowsAffected > 0;
+        }
+
+
 
 
         public static void IncreaseProductQuantity(

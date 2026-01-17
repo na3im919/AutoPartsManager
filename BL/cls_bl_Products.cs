@@ -64,8 +64,12 @@ namespace BL
             return cls_dal_Products.GetDepletedProducts(out error_message);
         }
 
+        public static bool IncreaseProductQuantity(int productId, int addedQuantity, out string errorMessage)
+        {
+            return cls_dal_Products.IncreaseProductQuantity(productId, addedQuantity, out errorMessage);
+        }
 
-       
+
 
     }
 }

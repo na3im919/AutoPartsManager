@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -110,56 +111,126 @@ namespace AutoPartsManager.Forms.Inventory
 
         private void ImportProductsFromExcel(string filePath)
         {
+            int addedCount = 0;
+            int updatedCount = 0;
             string error_msg = string.Empty;
-            int counter = 0;
-            using (var workbook = new XLWorkbook(filePath))
+
+            try
             {
-                var ws = workbook.Worksheet(1);
-                var rows = ws.RowsUsed().Skip(1);
-
-                dgv_inventory.Rows.Clear();
-
-                foreach (var row in rows)
+                using (var workbook = new XLWorkbook(filePath))
                 {
-                    string reference = row.Cell(1).GetValue<string>().Trim();
-                    string name = row.Cell(2).GetValue<string>();
-                    string brand = row.Cell(3).GetValue<string>();
-                    int quantity = row.Cell(4).GetValue<int>();
-                    decimal cost = row.Cell(5).GetValue<decimal>();
+                    var ws = workbook.Worksheet(1);
+                    string error = string.Empty;
 
-                    int productId = cls_bl_Products.GetProductIdByReference(reference);
-
-                    if (productId == -1)
+                    // ✅ التحقق من الأعمدة (مطابق للقالب)
+                    var headerRow = ws.Row(1);
+                    if (headerRow.Cell(1).GetString().Trim() != "كود المنتج" ||
+                        headerRow.Cell(2).GetString().Trim() != "إسم المنتج" ||
+                        headerRow.Cell(3).GetString().Trim() != "العلامة التجارية" ||
+                        headerRow.Cell(4).GetString().Trim() != "الكمية" ||
+                        headerRow.Cell(5).GetString().Trim() != "السعر")
                     {
-                        cls_ml_Products products = new cls_ml_Products()
-                        {
-                            Reference = reference,
-                            ProductName = name,
-                            ProductBrand = brand,
-                            Quantity = quantity,
-                            Cost = cost,
-                            Price = 0,
-                            min_quantity = 0,
-                            
-                        };
-                        if (cls_bl_Products.AddProductStock(products, out error_msg))
-                            counter++;
-
+                        XtraMessageBox.Show(
+                            "تنسيق ملف Excel غير صحيح.\nيرجى استخدام ملف القالب المعتمد.",
+                            "خطأ في التنسيق",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning
+                        );
+                        return;
                     }
 
+                    var rows = ws.RowsUsed().Skip(1);
+
+                    foreach (var row in rows)
+                    {
+                        try
+                        {
+                            string reference = row.Cell(1).GetValue<string>().Trim();
+                            string name = row.Cell(2).GetValue<string>();
+                            string brand = row.Cell(3).GetValue<string>();
+                            int quantity = row.Cell(4).GetValue<int>();
+                            decimal cost = row.Cell(5).GetValue<decimal>();
+
+                            int productId = cls_bl_Products.GetProductIdByReference(reference);
+
+                            // 🔁 المنتج موجود → تحديث الكمية
+                            if (productId != -1)
+                            {
+                                cls_bl_Products.IncreaseProductQuantity(productId, quantity, out error);
+                                if (!string.IsNullOrEmpty(error))
+                                    XtraMessageBox.Show(error);
+                                updatedCount++;
+                            }
+                            // ➕ منتج جديد → إضافة
+                            else
+                            {
+                                cls_ml_Products product = new cls_ml_Products()
+                                {
+                                    Reference = reference,
+                                    ProductName = name,
+                                    ProductBrand = brand,
+                                    Quantity = quantity,
+                                    Cost = cost,
+                                    Price = 0,
+                                    min_quantity = 0
+                                };
+
+                                if (cls_bl_Products.AddProductStock(product, out error_msg))
+                                    addedCount++;
+                            }
+                        }
+                        catch (Exception rowEx)
+                        {
+                            XtraMessageBox.Show(
+                                $"خطأ في الصف رقم {row.RowNumber()}:\n{rowEx.Message}",
+                                "خطأ في البيانات",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning
+                            );
+                        }
+                    }
                 }
-                XtraMessageBox.Show($"تم إضافة {counter} منتج جديد بنجاح");
+
+                XtraMessageBox.Show(
+                    $"✅ تم استيراد الملف بنجاح\n\n" +
+                    $"➕ منتجات جديدة: {addedCount}\n" +
+                    $"🔁 منتجات تم تحديث كميتها: {updatedCount}",
+                    "نجاح العملية",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+
                 LoadInventoryList();
                 GetTotalQuantity();
                 GetTotalCost();
                 GetTotalPrice();
             }
+            catch (IOException)
+            {
+                XtraMessageBox.Show(
+                    "ملف Excel مفتوح حاليًا.\nيرجى إغلاقه ثم المحاولة مرة أخرى.",
+                    "ملف مفتوح",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show(
+                    "حدث خطأ أثناء الاستيراد:\n" + ex.Message,
+                    "خطأ",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
         }
 
 
-        private string FormatDZD(decimal amount, bool withDecimals = false)
+        private string FormatUSD(decimal amount)
         {
-            return "دج " + amount.ToString(withDecimals ? "N2" : "N0");
+            CultureInfo usCulture = new CultureInfo("en-US");
+
+            return amount.ToString( "C", usCulture);
         }
 
         private void GetTotalPrice()
@@ -187,7 +258,7 @@ namespace AutoPartsManager.Forms.Inventory
             //CultureInfo dzCulture = new CultureInfo("fr-DZ");
             //dzCulture.NumberFormat.CurrencySymbol = "دج";
 
-            lbl_total_price.Text = FormatDZD(total_price);
+            lbl_total_price.Text = FormatUSD(total_price);
         }
 
         private void GetTotalCost()
@@ -215,7 +286,7 @@ namespace AutoPartsManager.Forms.Inventory
             //CultureInfo dzCulture = new CultureInfo("fr-DZ");
             //dzCulture.NumberFormat.CurrencySymbol = "دج";
 
-            lbl_total_cost.Text = FormatDZD(total_cost);
+            lbl_total_cost.Text = FormatUSD(total_cost);
         }
 
 
@@ -334,7 +405,7 @@ namespace AutoPartsManager.Forms.Inventory
         }
 
 
-            cls_ml_Products PrepareRecommendedProduct(DataGridViewCellEventArgs e, DataGridView dgvProducts)
+        cls_ml_Products PrepareRecommendedProduct(DataGridViewCellEventArgs e, DataGridView dgvProducts)
             {
                 cls_ml_Products recommendedProduct = new cls_ml_Products
                 {

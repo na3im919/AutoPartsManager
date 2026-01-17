@@ -49,7 +49,7 @@ namespace AutoPartsManager.Forms.Purchases
 
             label1.Text = "إدارة المشتريات";
             label1.Location = new Point(5, 115);
-            pictureBox1.Image = Properties.Resources.purchasing__1_;
+            pictureBox1.Image = Properties.Resources.purchaser;
             label2.Visible = false;
             lbl_discount.Visible = false;
 
